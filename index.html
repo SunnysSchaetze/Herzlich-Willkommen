@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herzlich Willkommen</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center; /* horizontal zentrieren */
+    align-items: center;     /* vertikal zentrieren */
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(3rem, 11.5vw, 5.8em);
+    line-height: 1.2;
+    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 700% 700%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    animation: rainbowFlow 20s linear infinite;
+}
+
+.emoji {
+    display: inline-block;
+    text-shadow:
+        0 0 8px rgba(255,255,255,0.5),
+        0 0 15px rgba(255,255,255,0.3);
+}
+
+.line {
+    display: block;
+    margin: 0.4em 0;
+}
+
+@keyframes rainbowFlow {
+    0%   { background-position: 0% 0%; }
+    14%  { background-position: 14% 14%; }
+    28%  { background-position: 28% 28%; }
+    42%  { background-position: 42% 42%; }
+    57%  { background-position: 57% 57%; }
+    71%  { background-position: 71% 71%; }
+    85%  { background-position: 85% 85%; }
+    100% { background-position: 100% 100%; }
+}
+
+@media (max-width: 400px) {
+    h1 { font-size: 10.5vw; }
+}
+</style>
+</head>
+<body>
+<h1>
+    <span class="emoji">🧡</span>Herzlich<span class="emoji">🧡</span>
+    <span class="line"></span>
+    <span class="emoji">⭐</span>Willkommen<span class="emoji">⭐</span>
+</h1>
+</body>
+</html>
