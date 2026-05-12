@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herzlich Willkommen</title>
+
+<title>Feiertage</title>
+
 <style>
 html, body {
     margin: 0;
@@ -15,28 +17,51 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000;
+    background: #000;
+    overflow: hidden;
     font-family: Arial, sans-serif;
     text-align: center;
 }
 
 h1 {
-    font-size: clamp(3rem, 11.5vw, 5.8em);
+    font-size: clamp(3rem, 11vw, 6rem);
     line-height: 1.2;
-    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+
+    background: linear-gradient(
+        135deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        indigo,
+        violet
+    );
+
     background-size: 700% 700%;
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
     background-clip: text;
     color: transparent;
-    animation: rainbowFlow 20s linear infinite;
+
+    animation:
+        rainbowFlow 18s linear infinite,
+        glowPulse 4s ease-in-out infinite;
 }
 
 .emoji {
     display: inline-block;
+
+    animation:
+        floatEmoji 3s ease-in-out infinite;
+
     text-shadow:
-        0 0 8px rgba(255,255,255,0.5),
-        0 0 15px rgba(255,255,255,0.3);
+        0 0 10px rgba(255,255,255,0.7),
+        0 0 20px rgba(255,255,255,0.5),
+        0 0 40px rgba(255,255,255,0.3);
 }
 
 .line {
@@ -45,26 +70,223 @@ h1 {
 }
 
 @keyframes rainbowFlow {
-    0%   { background-position: 0% 0%; }
-    14%  { background-position: 14% 14%; }
-    28%  { background-position: 28% 28%; }
-    42%  { background-position: 42% 42%; }
-    57%  { background-position: 57% 57%; }
-    71%  { background-position: 71% 71%; }
-    85%  { background-position: 85% 85%; }
-    100% { background-position: 100% 100%; }
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
-@media (max-width: 400px) {
-    h1 { font-size: 10.5vw; }
+@keyframes glowPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px rgba(255,255,255,0.5));
+    }
+}
+
+@keyframes floatEmoji {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.08);
+    }
+}
+
+canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 12vw;
+    }
 }
 </style>
 </head>
+
 <body>
-<h1>
-    <span class="emoji">🧡</span>Herzlich<span class="emoji">🧡</span>
-    <span class="line"></span>
-    <span class="emoji">⭐</span>Willkommen<span class="emoji">⭐</span>
-</h1>
+
+<canvas id="snow"></canvas>
+
+<h1 id="welcome"></h1>
+
+<script>
+const element = document.getElementById("welcome");
+
+const jetzt = new Date();
+
+const tag = jetzt.getDate();
+const monat = jetzt.getMonth() + 1;
+const stunde = jetzt.getHours();
+
+let html = "";
+let bg = "#000";
+
+if (stunde >= 5 && stunde < 12) {
+
+    html = `
+        <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
+        <span class="line"></span>
+        <span class="emoji">🌅</span>Morgen<span class="emoji">🌅</span>
+    `;
+}
+
+else if (stunde >= 12 && stunde < 18) {
+
+    html = `
+        <span class="emoji">🌞</span>Schönen<span class="emoji">🌞</span>
+        <span class="line"></span>
+        <span class="emoji">✨</span>Tag<span class="emoji">✨</span>
+    `;
+}
+
+else {
+
+    html = `
+        <span class="emoji">🌙</span>Guten<span class="emoji">🌙</span>
+        <span class="line"></span>
+        <span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>
+    `;
+}
+
+if (monat === 10 && tag === 31) {
+
+    html = `
+        <span class="emoji">🎃</span>Happy<span class="emoji">🎃</span>
+        <span class="line"></span>
+        <span class="emoji">👻</span>Halloween<span class="emoji">👻</span>
+    `;
+
+    bg = "#120300";
+}
+
+else if (monat === 12 && tag >= 24 && tag <= 26) {
+
+    html = `
+        <span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span>
+        <span class="line"></span>
+        <span class="emoji">✨</span>Weihnachten<span class="emoji">✨</span>
+    `;
+
+    bg = "#001108";
+}
+
+else if (monat === 12 && tag === 31) {
+
+    html = `
+        <span class="emoji">🎆</span>Guten<span class="emoji">🎆</span>
+        <span class="line"></span>
+        <span class="emoji">🥂</span>Rutsch<span class="emoji">🥂</span>
+    `;
+
+    bg = "#060018";
+}
+
+else if (monat === 1 && tag === 1) {
+
+    html = `
+        <span class="emoji">🥳</span>Frohes<span class="emoji">🥳</span>
+        <span class="line"></span>
+        <span class="emoji">✨</span>Neues Jahr<span class="emoji">✨</span>
+    `;
+
+    bg = "#001320";
+}
+
+else if (monat === 4 && tag >= 18 && tag <= 21) {
+
+    html = `
+        <span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span>
+        <span class="line"></span>
+        <span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span>
+    `;
+
+    bg = "#101400";
+}
+
+document.body.style.background = bg;
+
+element.innerHTML = html;
+
+const canvas = document.getElementById("snow");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const flakes = [];
+
+for (let i = 0; i < 120; i++) {
+
+    flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 4 + 1,
+        d: Math.random() * 1
+    });
+}
+
+function drawSnow() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(255,255,255,0.8)";
+
+    ctx.beginPath();
+
+    for (let i = 0; i < flakes.length; i++) {
+
+        const f = flakes[i];
+
+        ctx.moveTo(f.x, f.y);
+
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+    }
+
+    ctx.fill();
+
+    moveSnow();
+}
+
+let angle = 0;
+
+function moveSnow() {
+
+    angle += 0.01;
+
+    for (let i = 0; i < flakes.length; i++) {
+
+        const f = flakes[i];
+
+        f.y += Math.cos(angle + f.d) + 1 + f.r / 2;
+        f.x += Math.sin(angle) * 2;
+
+        if (f.x > canvas.width + 5 ||
+            f.x < -5 ||
+            f.y > canvas.height) {
+
+            flakes[i] = {
+                x: Math.random() * canvas.width,
+                y: -10,
+                r: f.r,
+                d: f.d
+            };
+        }
+    }
+}
+
+setInterval(drawSnow, 33);
+
+window.addEventListener("resize", () => {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
 </body>
 </html>
