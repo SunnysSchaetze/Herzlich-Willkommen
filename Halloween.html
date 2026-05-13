@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Halloween</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+}
+
+/* MOND */
+
+.moon{
+    position:absolute;
+    top:6vh;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:clamp(110px,18vw,180px);
+    height:clamp(110px,18vw,180px);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            #d8d8ff 60%,
+            #9999cc 100%
+        );
+
+    box-shadow:
+        0 0 40px #ffffff,
+        0 0 100px #9999ff,
+        0 0 180px rgba(255,255,255,0.5);
+
+    animation:
+        moonGlow 4s ease-in-out infinite alternate;
+
+    z-index:0;
+}
+
+@keyframes moonGlow{
+    0%{
+        transform:
+            translateX(-50%)
+            scale(1);
+
+        filter:brightness(1);
+    }
+
+    100%{
+        transform:
+            translateX(-50%)
+            scale(1.05);
+
+        filter:brightness(1.2);
+    }
+}
+
+/* WOLKEN */
+
+.cloud{
+    position:absolute;
+    background:rgba(255,255,255,0.08);
+    border-radius:999px;
+    filter:blur(2px);
+    z-index:1;
+}
+
+.cloud::before,
+.cloud::after{
+    content:"";
+    position:absolute;
+    background:inherit;
+    border-radius:inherit;
+}
+
+.cloud1{
+    width:min(45vw,220px);
+    height:min(14vw,70px);
+
+    top:12vh;
+    left:-320px;
+
+    animation:
+        cloudMove 35s linear infinite;
+}
+
+.cloud1::before{
+    width:40%;
+    height:140%;
+    top:-40%;
+    left:15%;
+}
+
+.cloud1::after{
+    width:50%;
+    height:160%;
+    top:-50%;
+    right:10%;
+}
+
+.cloud2{
+    width:min(55vw,280px);
+    height:min(16vw,85px);
+
+    top:22vh;
+    left:-420px;
+
+    opacity:0.5;
+
+    animation:
+        cloudMove 50s linear infinite;
+}
+
+.cloud2::before{
+    width:42%;
+    height:150%;
+    top:-50%;
+    left:15%;
+}
+
+.cloud2::after{
+    width:50%;
+    height:170%;
+    top:-60%;
+    right:10%;
+}
+
+@keyframes cloudMove{
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(calc(100vw + 700px));
+    }
+}
+
+/* FLASH */
+
+.flash{
+    position:fixed;
+    inset:0;
+
+    background:white;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:50;
+}
+
+/* TEXT */
+
+h1{
+    font-size:clamp(2rem,8vw,5rem);
+    line-height:1.2;
+
+    background:
+        linear-gradient(
+            135deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            indigo,
+            violet
+        );
+
+    background-size:700% 700%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        rainbowFlow 20s linear infinite;
+
+    position:relative;
+
+    z-index:10;
+
+    padding:0 20px;
+}
+
+.emoji{
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5);
+}
+
+.line{
+    display:block;
+    margin:0.4em 0;
+}
+
+@keyframes rainbowFlow{
+    0%{
+        background-position:0% 0%;
+    }
+
+    100%{
+        background-position:100% 100%;
+    }
+}
+
+/* GEISTER */
+
+.ghost{
+    position:absolute;
+
+    width:clamp(35px,6vw,50px);
+    height:clamp(45px,8vw,60px);
+
+    background:
+        rgba(255,255,255,0.18);
+
+    border-radius:
+        50% 50% 20% 20%;
+
+    backdrop-filter:blur(2px);
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,0.8),
+        0 0 35px rgba(180,220,255,0.6);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    color:white;
+
+    z-index:5;
+
+    animation:
+        ghostFloat 3s ease-in-out infinite alternate;
+}
+
+.ghost span{
+    display:block;
+    font-size:clamp(0.7rem,2vw,1rem);
+}
+
+@keyframes ghostFloat{
+    0%{
+        transform:translateY(0);
+    }
+
+    100%{
+        transform:translateY(-20px);
+    }
+}
+
+/* BLITZE */
+
+.lightning{
+    position:absolute;
+
+    width:4px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            white,
+            #9cf,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px white,
+        0 0 35px #9cf;
+
+    transform:skewX(-20deg);
+
+    opacity:0;
+
+    z-index:40;
+}
+
+/* FRIEDHOF */
+
+.graveyard{
+    position:absolute;
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:28vh;
+
+    pointer-events:none;
+
+    z-index:2;
+}
+
+.grave{
+    position:absolute;
+    bottom:0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #444,
+            #111
+        );
+
+    border-radius:
+        40px 40px 10px 10px;
+
+    border:2px solid #555;
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,0.08);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:#999;
+
+    opacity:0.8;
+
+    font-size:clamp(0.8rem,2vw,1.2rem);
+}
+
+/* REGEN */
+
+.rain{
+    position:absolute;
+
+    width:2px;
+    height:25px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,0,0,0),
+            #ff0000
+        );
+
+    opacity:0.7;
+
+    animation:
+        rainFall linear forwards;
+
+    z-index:1;
+}
+
+@keyframes rainFall{
+    0%{
+        transform:translateY(-100px);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+
+@media (max-width:600px){
+
+    .graveyard{
+        height:22vh;
+    }
+
+    h1{
+        margin-top:10vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon"></div>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="flash" id="flash"></div>
+
+<div class="graveyard" id="graveyard"></div>
+
+<h1>
+    <span class="emoji">💀</span>Happy<span class="emoji">💀</span>
+    <span class="line"></span>
+    <span class="emoji">👻</span>Halloween<span class="emoji">👻</span>
+</h1>
+
+<script>
+const graveyard =
+    document.getElementById("graveyard");
+
+for(let i = 0; i < 14; i++){
+
+    const grave =
+        document.createElement("div");
+
+    grave.className = "grave";
+
+    grave.innerText = "RIP";
+
+    grave.style.left =
+        (i * 7) + Math.random() * 3 + "%";
+
+    grave.style.height =
+        (60 + Math.random() * 60) + "px";
+
+    grave.style.width =
+        (45 + Math.random() * 25) + "px";
+
+    grave.style.opacity =
+        0.4 + Math.random() * 0.5;
+
+    graveyard.appendChild(grave);
+}
+
+function spawnGhost(){
+
+    const ghost =
+        document.createElement("div");
+
+    ghost.className = "ghost";
+
+    ghost.innerHTML = `
+        <span>◉ ◉</span>
+        <span>︶</span>
+    `;
+
+    ghost.style.left =
+        Math.random() * (window.innerWidth - 60) + "px";
+
+    ghost.style.top =
+        Math.random() * (window.innerHeight - 120) + "px";
+
+    ghost.style.transform =
+        `scale(${0.8 + Math.random()})`;
+
+    document.body.appendChild(ghost);
+
+    const speed =
+        1 + Math.random() * 2;
+
+    let dirX =
+        (Math.random() - 0.5) * speed;
+
+    let dirY =
+        (Math.random() - 0.5) * speed;
+
+    const move =
+        setInterval(() => {
+
+        let x =
+            parseFloat(ghost.style.left);
+
+        let y =
+            parseFloat(ghost.style.top);
+
+        x += dirX;
+        y += dirY;
+
+        if(x < 0 || x > window.innerWidth - 60){
+            dirX *= -1;
+        }
+
+        if(y < 0 || y > window.innerHeight - 80){
+            dirY *= -1;
+        }
+
+        ghost.style.left = x + "px";
+        ghost.style.top = y + "px";
+
+    },30);
+
+    setTimeout(() => {
+
+        clearInterval(move);
+
+        ghost.remove();
+
+    },9000);
+}
+
+setInterval(spawnGhost,2200);
+
+const flash =
+    document.getElementById("flash");
+
+function createLightning(){
+
+    const bolt =
+        document.createElement("div");
+
+    bolt.className = "lightning";
+
+    bolt.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    bolt.style.top =
+        Math.random() * 200 + "px";
+
+    bolt.style.height =
+        (150 + Math.random() * 220) + "px";
+
+    document.body.appendChild(bolt);
+
+    bolt.animate(
+        [
+            { opacity:0 },
+            { opacity:1 },
+            { opacity:0.3 },
+            { opacity:1 },
+            { opacity:0 }
+        ],
+        {
+            duration:300,
+            easing:"ease-out"
+        }
+    );
+
+    flash.animate(
+        [
+            { opacity:0 },
+            { opacity:0.3 },
+            { opacity:0 }
+        ],
+        {
+            duration:250
+        }
+    );
+
+    setTimeout(() => {
+
+        bolt.remove();
+
+    },300);
+}
+
+setInterval(() => {
+
+    createLightning();
+
+},4000 + Math.random() * 5000);
+
+function createRain(){
+
+    const rain =
+        document.createElement("div");
+
+    rain.className = "rain";
+
+    rain.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    rain.style.animationDuration =
+        (0.5 + Math.random() * 0.7) + "s";
+
+    rain.style.opacity =
+        0.3 + Math.random() * 0.7;
+
+    document.body.appendChild(rain);
+
+    setTimeout(() => {
+
+        rain.remove();
+
+    },1500);
+}
+
+setInterval(createRain,35);
+</script>
+
+</body>
+</html>

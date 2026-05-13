@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guten Abend</title>
+
+<style>
+:root{
+    --moon-size: clamp(120px, 18vw, 220px);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    position:relative;
+}
+
+/* STERNE */
+
+#stars-canvas,
+#shooting-stars{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+#stars-canvas{
+    z-index:0;
+}
+
+#shooting-stars{
+    z-index:1;
+}
+
+/* UFO CONTAINER */
+
+.ufo-zone{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    z-index:6;
+    pointer-events:none;
+}
+
+/* TEXT */
+
+h1{
+    font-size:clamp(2.2rem,7vw,5rem);
+    line-height:1.2;
+    position:relative;
+    z-index:10;
+
+    padding:0 20px;
+
+    background:linear-gradient(
+        135deg,
+        red,
+        orange,
+        yellow,
+        green,
+        blue,
+        indigo,
+        violet
+    );
+
+    background-size:700% 700%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:rainbowFlow 20s linear infinite;
+}
+
+.emoji{
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5),
+        0 0 20px rgba(255,255,255,0.3);
+}
+
+.line{
+    display:block;
+    margin:0.4em 0;
+}
+
+/* MOND */
+
+.moon{
+    position:absolute;
+
+    width:var(--moon-size);
+    height:var(--moon-size);
+
+    bottom:calc(var(--moon-size) / -2);
+    left:calc(var(--moon-size) / -2);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #d8f7ff 0%,
+            #8be8ff 45%,
+            #53d9ff 100%
+        );
+
+    box-shadow:
+        0 0 40px #7fe7ff,
+        0 0 80px #55dfff,
+        0 0 120px #33ccff;
+
+    animation:
+        floatMoon 12s ease-in-out forwards;
+
+    z-index:2;
+}
+
+/* UFO */
+
+.ufo{
+    position:absolute;
+
+    font-size:clamp(2.5rem,5vw,4rem);
+
+    z-index:6;
+
+    filter:
+        drop-shadow(0 0 10px cyan)
+        drop-shadow(0 0 25px white);
+
+    animation:
+        ufoFly 28s linear infinite,
+        ufoFloat 2s ease-in-out infinite;
+}
+
+/* REGENBOGEN */
+
+@keyframes rainbowFlow{
+
+    0%{
+        background-position:0% 0%;
+    }
+
+    100%{
+        background-position:100% 100%;
+    }
+}
+
+/* MOND */
+
+@keyframes floatMoon{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    100%{
+        transform:translate(
+            calc(100vw - var(--moon-size) * 0.6),
+            calc(-100vh + var(--moon-size) * 0.6)
+        );
+    }
+}
+
+/* UFO FLUG */
+
+@keyframes ufoFly{
+
+    0%{
+        left:-15%;
+        top:80%;
+        transform:rotate(0deg);
+    }
+
+    10%{
+        left:15%;
+        top:20%;
+        transform:rotate(10deg);
+    }
+
+    20%{
+        left:40%;
+        top:35%;
+        transform:rotate(-8deg);
+    }
+
+    30%{
+        left:70%;
+        top:15%;
+        transform:rotate(8deg);
+    }
+
+    40%{
+        left:85%;
+        top:50%;
+        transform:rotate(-12deg);
+    }
+
+    50%{
+        left:60%;
+        top:75%;
+        transform:rotate(10deg);
+    }
+
+    60%{
+        left:25%;
+        top:60%;
+        transform:rotate(-6deg);
+    }
+
+    70%{
+        left:10%;
+        top:30%;
+        transform:rotate(12deg);
+    }
+
+    80%{
+        left:50%;
+        top:10%;
+        transform:rotate(-10deg);
+    }
+
+    90%{
+        left:90%;
+        top:25%;
+        transform:rotate(8deg);
+    }
+
+    100%{
+        left:-15%;
+        top:80%;
+        transform:rotate(0deg);
+    }
+}
+
+@keyframes ufoFloat{
+
+    0%,100%{
+        margin-top:0;
+    }
+
+    50%{
+        margin-top:-15px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+    h1{
+        font-size:clamp(2rem,10vw,3.5rem);
+    }
+
+    .moon{
+        opacity:0.9;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<canvas id="shooting-stars"></canvas>
+
+<div class="moon"></div>
+
+<!-- UFO -->
+<div class="ufo-zone">
+    <div class="ufo">🛸</div>
+</div>
+
+<h1>
+    <span class="emoji">🌙</span>Guten<span class="emoji">🌙</span>
+    <span class="line"></span>
+    <span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>
+</h1>
+
+<script>
+const starCanvas =
+    document.getElementById("stars-canvas");
+
+const starCtx =
+    starCanvas.getContext("2d");
+
+const shootCanvas =
+    document.getElementById("shooting-stars");
+
+const shootCtx =
+    shootCanvas.getContext("2d");
+
+let stars = [];
+let shootingStars = [];
+
+/* RESPONSIVE */
+
+function getStarCount(){
+
+    if(window.innerWidth < 600){
+        return 40;
+    }
+
+    if(window.innerWidth < 1200){
+        return 70;
+    }
+
+    return 110;
+}
+
+function getShootCount(){
+
+    if(window.innerWidth < 600){
+        return 2;
+    }
+
+    if(window.innerWidth < 1200){
+        return 4;
+    }
+
+    return 6;
+}
+
+function resizeCanvas(){
+
+    starCanvas.width =
+        shootCanvas.width =
+        window.innerWidth;
+
+    starCanvas.height =
+        shootCanvas.height =
+        window.innerHeight;
+
+    createStars();
+    createShootingStars();
+}
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+/* STERNE */
+
+function createStars(){
+
+    stars = [];
+
+    const STAR_COUNT =
+        getStarCount();
+
+    for(let i = 0; i < STAR_COUNT; i++){
+
+        stars.push({
+
+            x:
+                Math.random() *
+                starCanvas.width,
+
+            y:
+                Math.random() *
+                starCanvas.height,
+
+            size:
+                Math.random() * 2.5 + 0.5,
+
+            phase:
+                Math.random() *
+                Math.PI * 2
+        });
+    }
+}
+
+function drawStars(){
+
+    starCtx.clearRect(
+        0,
+        0,
+        starCanvas.width,
+        starCanvas.height
+    );
+
+    stars.forEach(s => {
+
+        const alpha =
+            0.25 +
+            Math.abs(
+                Math.sin(
+                    s.phase +
+                    performance.now() / 1500
+                )
+            ) * 0.75;
+
+        starCtx.beginPath();
+
+        starCtx.fillStyle =
+            `rgba(255,255,255,${alpha})`;
+
+        starCtx.shadowColor =
+            `rgba(255,255,255,${alpha})`;
+
+        starCtx.shadowBlur = 10;
+
+        starCtx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI * 2
+        );
+
+        starCtx.fill();
+
+        s.phase += 0.01;
+    });
+
+    requestAnimationFrame(drawStars);
+}
+
+/* STERNSCHNUPPEN */
+
+class ShootingStar{
+
+    constructor(){
+        this.reset();
+    }
+
+    reset(){
+
+        this.x =
+            Math.random() *
+            shootCanvas.width;
+
+        this.y =
+            Math.random() *
+            -shootCanvas.height;
+
+        this.len =
+            80 +
+            Math.random() * 120;
+
+        this.speed =
+            2 +
+            Math.random() * 2;
+
+        this.angle =
+            Math.PI / 4;
+
+        this.size =
+            1 +
+            Math.random() * 1.5;
+    }
+
+    update(){
+
+        this.x -=
+            Math.cos(this.angle) *
+            this.speed;
+
+        this.y +=
+            Math.sin(this.angle) *
+            this.speed;
+
+        if(
+            this.x < -this.len ||
+            this.y >
+            shootCanvas.height + this.len
+        ){
+            this.reset();
+        }
+    }
+
+    draw(){
+
+        const endX = this.x;
+        const endY = this.y;
+
+        const startX =
+            endX +
+            Math.cos(this.angle) *
+            this.len;
+
+        const startY =
+            endY -
+            Math.sin(this.angle) *
+            this.len;
+
+        const grad =
+            shootCtx.createLinearGradient(
+                startX,
+                startY,
+                endX,
+                endY
+            );
+
+        grad.addColorStop(
+            0,
+            "rgba(255,255,255,0)"
+        );
+
+        grad.addColorStop(
+            0.5,
+            "rgba(255,255,255,0.5)"
+        );
+
+        grad.addColorStop(
+            1,
+            "rgba(255,255,255,1)"
+        );
+
+        shootCtx.beginPath();
+
+        shootCtx.moveTo(
+            startX,
+            startY
+        );
+
+        shootCtx.lineTo(
+            endX,
+            endY
+        );
+
+        shootCtx.strokeStyle = grad;
+
+        shootCtx.lineWidth =
+            this.size;
+
+        shootCtx.lineCap =
+            "round";
+
+        shootCtx.shadowColor =
+            "white";
+
+        shootCtx.shadowBlur = 15;
+
+        shootCtx.stroke();
+    }
+}
+
+function createShootingStars(){
+
+    shootingStars = [];
+
+    const maxShoot =
+        getShootCount();
+
+    for(let i = 0; i < maxShoot; i++){
+
+        shootingStars.push(
+            new ShootingStar()
+        );
+    }
+}
+
+function animateShooting(){
+
+    shootCtx.clearRect(
+        0,
+        0,
+        shootCanvas.width,
+        shootCanvas.height
+    );
+
+    shootingStars.forEach(s => {
+
+        s.update();
+        s.draw();
+    });
+
+    requestAnimationFrame(
+        animateShooting
+    );
+}
+
+/* START */
+
+resizeCanvas();
+
+drawStars();
+
+animateShooting();
+</script>
+
+</body>
+</html>

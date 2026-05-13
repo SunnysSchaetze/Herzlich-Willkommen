@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guten Tag</title>
+
+<style>
+
+:root{
+    --sun-size: clamp(110px, 16vw, 220px);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    position:relative;
+}
+
+/* HIMMEL */
+
+.sky{
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #000000 0%,
+            #050505 40%,
+            #10283d 75%,
+            #1d5f87 100%
+        );
+
+    z-index:0;
+}
+
+/* SONNE */
+
+.sun{
+    position:absolute;
+
+    width:var(--sun-size);
+    height:var(--sun-size);
+
+    top:clamp(10px,4vw,40px);
+    right:clamp(10px,4vw,40px);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff176 0%,
+            #ffeb3b 35%,
+            #ff9800 70%,
+            rgba(255,140,0,0.1) 100%
+        );
+
+    box-shadow:
+        0 0 40px #ffeb3b,
+        0 0 80px #ff9800,
+        0 0 140px rgba(255,180,0,0.8);
+
+    animation:
+        sunPulse 4s ease-in-out infinite,
+        sunFloat 8s ease-in-out infinite;
+
+    z-index:1;
+}
+
+/* SONNENSTRAHLEN */
+
+.sun-rays{
+    position:absolute;
+    inset:clamp(-25px,-4vw,-40px);
+
+    border-radius:50%;
+
+    animation:
+        rotateRays 20s linear infinite;
+}
+
+.sun-rays span{
+    position:absolute;
+
+    width:clamp(4px,0.7vw,8px);
+    height:clamp(40px,6vw,60px);
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(255,140,0,0),
+            #ffeb3b
+        );
+
+    left:50%;
+    top:50%;
+
+    margin-left:calc(clamp(4px,0.7vw,8px) / -2);
+    margin-top:clamp(-90px,-12vw,-120px);
+
+    border-radius:999px;
+
+    transform-origin:center clamp(90px,12vw,120px);
+
+    box-shadow:
+        0 0 12px #ffeb3b;
+}
+
+/* WOLKEN */
+
+.cloud{
+    position:absolute;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border-radius:999px;
+
+    filter:blur(2px);
+}
+
+.cloud::before,
+.cloud::after{
+    content:"";
+
+    position:absolute;
+
+    background:inherit;
+
+    border-radius:inherit;
+}
+
+.cloud1{
+    width:clamp(100px,16vw,140px);
+    height:clamp(35px,5vw,45px);
+
+    top:12%;
+    left:-220px;
+
+    animation:
+        cloudMove 70s linear infinite;
+}
+
+.cloud1::before{
+    width:50%;
+    height:160%;
+
+    top:-70%;
+    left:12%;
+}
+
+.cloud1::after{
+    width:60%;
+    height:190%;
+
+    top:-90%;
+    right:10%;
+}
+
+.cloud2{
+    width:clamp(130px,22vw,180px);
+    height:clamp(45px,6vw,55px);
+
+    top:32%;
+    left:-280px;
+
+    opacity:0.5;
+
+    animation:
+        cloudMove 95s linear infinite;
+}
+
+.cloud2::before{
+    width:50%;
+    height:170%;
+
+    top:-75%;
+    left:12%;
+}
+
+.cloud2::after{
+    width:60%;
+    height:200%;
+
+    top:-95%;
+    right:10%;
+}
+
+/* FALLENDE BLÄTTER */
+
+.leaf{
+    position:absolute;
+
+    top:-60px;
+
+    font-size:clamp(1rem,2vw,1.8rem);
+
+    z-index:3;
+
+    opacity:0.75;
+
+    animation:
+        leafFall linear infinite,
+        leafSpin 4s ease-in-out infinite;
+}
+
+.l1{
+    left:10%;
+    animation-duration:14s;
+}
+
+.l2{
+    left:28%;
+    animation-duration:18s;
+    animation-delay:3s;
+}
+
+.l3{
+    left:50%;
+    animation-duration:16s;
+    animation-delay:1s;
+}
+
+.l4{
+    left:70%;
+    animation-duration:20s;
+    animation-delay:5s;
+}
+
+.l5{
+    left:88%;
+    animation-duration:15s;
+    animation-delay:2s;
+}
+
+/* GLÜHWÜRMCHEN */
+
+.firefly{
+    position:absolute;
+
+    width:clamp(4px,0.7vw,6px);
+    height:clamp(4px,0.7vw,6px);
+
+    border-radius:50%;
+
+    background:#ffe66d;
+
+    box-shadow:
+        0 0 8px #fff176,
+        0 0 16px #ffee58,
+        0 0 28px #ffeb3b;
+
+    z-index:4;
+
+    animation:
+        fireflyFloat linear infinite,
+        fireflyGlow 2s ease-in-out infinite;
+}
+
+.f1{
+    left:15%;
+    bottom:20vh;
+    animation-duration:14s;
+}
+
+.f2{
+    left:35%;
+    bottom:25vh;
+    animation-duration:11s;
+    animation-delay:2s;
+}
+
+.f3{
+    left:55%;
+    bottom:18vh;
+    animation-duration:16s;
+    animation-delay:1s;
+}
+
+.f4{
+    left:75%;
+    bottom:23vh;
+    animation-duration:13s;
+    animation-delay:4s;
+}
+
+.f5{
+    left:88%;
+    bottom:19vh;
+    animation-duration:15s;
+    animation-delay:3s;
+}
+
+/* BUBBLES */
+
+.bubble{
+    position:absolute;
+
+    bottom:-120px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(2px);
+
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.12),
+        inset 0 0 10px rgba(255,255,255,0.08);
+
+    animation:
+        bubbleFloat linear infinite;
+}
+
+.b1{
+    width:18px;
+    height:18px;
+    left:10%;
+    animation-duration:18s;
+}
+
+.b2{
+    width:28px;
+    height:28px;
+    left:22%;
+    animation-duration:22s;
+    animation-delay:4s;
+}
+
+.b3{
+    width:14px;
+    height:14px;
+    left:38%;
+    animation-duration:16s;
+    animation-delay:2s;
+}
+
+.b4{
+    width:35px;
+    height:35px;
+    left:55%;
+    animation-duration:24s;
+    animation-delay:6s;
+}
+
+.b5{
+    width:20px;
+    height:20px;
+    left:70%;
+    animation-duration:19s;
+    animation-delay:1s;
+}
+
+.b6{
+    width:12px;
+    height:12px;
+    left:85%;
+    animation-duration:14s;
+    animation-delay:5s;
+}
+
+/* GRAS */
+
+.grass{
+    position:absolute;
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:clamp(120px,22vh,220px);
+
+    display:flex;
+    align-items:flex-end;
+
+    z-index:2;
+}
+
+.blade{
+    flex:1;
+
+    background:
+        linear-gradient(
+            to top,
+            #0a5f16,
+            #20b437
+        );
+
+    clip-path:polygon(
+        50% 0%,
+        0% 100%,
+        100% 100%
+    );
+
+    transform-origin:bottom;
+
+    animation:
+        growGrass 2s ease-out forwards,
+        sway 3s ease-in-out infinite alternate;
+
+    opacity:0;
+}
+
+/* TEXT */
+
+h1{
+    font-size:clamp(2rem,7vw,5rem);
+    line-height:1.2;
+
+    position:relative;
+    z-index:10;
+
+    padding:0 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            indigo,
+            violet
+        );
+
+    background-size:700% 700%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        rainbowFlow 20s linear infinite;
+}
+
+.emoji{
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.5),
+        0 0 20px rgba(255,255,255,0.2);
+}
+
+.line{
+    display:block;
+    margin:0.4em 0;
+}
+
+/* ANIMATIONEN */
+
+@keyframes rainbowFlow{
+
+    0%{
+        background-position:0% 0%;
+    }
+
+    100%{
+        background-position:100% 100%;
+    }
+}
+
+@keyframes cloudMove{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(calc(100vw + 500px));
+    }
+}
+
+@keyframes bubbleFloat{
+
+    0%{
+        transform:
+            translateY(0)
+            translateX(0)
+            scale(0.7);
+
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    50%{
+        transform:
+            translateY(-50vh)
+            translateX(20px)
+            scale(1);
+    }
+
+    100%{
+        transform:
+            translateY(-120vh)
+            translateX(-20px)
+            scale(1.2);
+
+        opacity:0;
+    }
+}
+
+@keyframes fireflyFloat{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    25%{
+        transform:translate(20px,-40px);
+    }
+
+    50%{
+        transform:translate(-10px,-80px);
+    }
+
+    75%{
+        transform:translate(25px,-40px);
+    }
+
+    100%{
+        transform:translate(0,0);
+    }
+}
+
+@keyframes fireflyGlow{
+
+    0%,100%{
+        opacity:0.4;
+        scale:0.8;
+    }
+
+    50%{
+        opacity:1;
+        scale:1.4;
+    }
+}
+
+@keyframes leafFall{
+
+    0%{
+        transform:
+            translateY(-80px)
+            translateX(0);
+    }
+
+    100%{
+        transform:
+            translateY(120vh)
+            translateX(80px);
+    }
+}
+
+@keyframes leafSpin{
+
+    0%{
+        rotate:0deg;
+    }
+
+    100%{
+        rotate:360deg;
+    }
+}
+
+@keyframes sunPulse{
+
+    0%,100%{
+        scale:1;
+    }
+
+    50%{
+        scale:1.08;
+    }
+}
+
+@keyframes sunFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+@keyframes rotateRays{
+
+    0%{
+        rotate:0deg;
+    }
+
+    100%{
+        rotate:360deg;
+    }
+}
+
+@keyframes growGrass{
+
+    0%{
+        transform:scaleY(0);
+        opacity:0;
+    }
+
+    100%{
+        transform:scaleY(1);
+        opacity:1;
+    }
+}
+
+@keyframes sway{
+
+    0%{
+        transform:rotate(-2deg);
+    }
+
+    100%{
+        transform:rotate(2deg);
+    }
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px){
+
+    h1{
+        padding:0 14px;
+    }
+
+    .grass{
+        height:20vh;
+    }
+}
+
+@media (max-width:480px){
+
+    .sun{
+        top:12px;
+        right:12px;
+    }
+
+    h1{
+        font-size:clamp(1.8rem,9vw,3rem);
+    }
+
+    .grass{
+        height:18vh;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sky"></div>
+
+<div class="sun">
+
+    <div class="sun-rays">
+        <span style="transform:rotate(0deg);"></span>
+        <span style="transform:rotate(30deg);"></span>
+        <span style="transform:rotate(60deg);"></span>
+        <span style="transform:rotate(90deg);"></span>
+        <span style="transform:rotate(120deg);"></span>
+        <span style="transform:rotate(150deg);"></span>
+        <span style="transform:rotate(180deg);"></span>
+        <span style="transform:rotate(210deg);"></span>
+        <span style="transform:rotate(240deg);"></span>
+        <span style="transform:rotate(270deg);"></span>
+        <span style="transform:rotate(300deg);"></span>
+        <span style="transform:rotate(330deg);"></span>
+    </div>
+
+</div>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="leaf l1">🍃</div>
+<div class="leaf l2">🌸</div>
+<div class="leaf l3">🍂</div>
+<div class="leaf l4">🌺</div>
+<div class="leaf l5">🍃</div>
+
+<div class="firefly f1"></div>
+<div class="firefly f2"></div>
+<div class="firefly f3"></div>
+<div class="firefly f4"></div>
+<div class="firefly f5"></div>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+<div class="bubble b5"></div>
+<div class="bubble b6"></div>
+
+<div class="grass" id="grass"></div>
+
+<h1>
+    <span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span>
+    <span class="line"></span>
+    <span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span>
+</h1>
+
+<script>
+
+const grass = document.getElementById("grass");
+
+const bladeCount =
+    window.innerWidth < 600 ? 80 : 140;
+
+for(let i = 0; i < bladeCount; i++){
+
+    const blade =
+        document.createElement("div");
+
+    blade.className = "blade";
+
+    blade.style.animationDelay =
+        Math.random() * 1.5 + "s";
+
+    blade.style.height =
+        (40 + Math.random() * 120) + "px";
+
+    grass.appendChild(blade);
+}
+
+</script>
+
+</body>
+</html>
