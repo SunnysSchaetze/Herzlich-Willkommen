@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+<title>Silvester Countdown</title>
+
+<style>
+:root{
+    --title-size: clamp(2rem, 7vw, 5rem);
+    --count-size: clamp(1.4rem, 5vw, 3.2rem);
+}
+
+*{ box-sizing:border-box; }
+
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#000;
+}
+
+body{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+}
+
+/* Hintergrund */
+.bg{
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at top,#202040 0%,#090912 40%,#000 100%);
+    z-index:0;
+}
+
+/* Sterne */
+.star{
+    position:absolute;
+    border-radius:50%;
+    background:#fff;
+    opacity:0.8;
+    z-index:1;
+    animation: twinkle ease-in-out infinite alternate;
+}
+
+/* Content */
+.content{
+    position:relative;
+    z-index:10;
+    width:min(92vw,900px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+/* Titel */
+h1{
+    margin:0;
+    font-size:var(--title-size);
+    line-height:1.1;
+    background: linear-gradient(135deg, red, orange, yellow, lime, cyan, blue, violet);
+    background-size:700% 700%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: rainbowFlow 18s linear infinite;
+}
+
+.line{ display:block; margin:0.22em 0; }
+
+.emoji{
+    display:inline-block;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+/* Countdown */
+#countdown{
+    margin-top: clamp(14px,2vw,26px);
+    width: min(92vw,460px);
+    min-height: clamp(70px,12vw,120px);
+    padding: clamp(12px,2vw,20px);
+    border-radius: clamp(14px,2vw,24px);
+    background: #000; /* Schwarz */
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size:var(--count-size);
+    font-weight:bold;
+    line-height:1.1;
+    letter-spacing:0.08em;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8),0 0 20px rgba(255,255,255,0.3);
+    transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Letzte 10 Sekunden */
+.danger{
+    color:#ff3b3b;
+    text-shadow: 0 0 10px red,0 0 20px red,0 0 40px crimson;
+    animation: countdownPulse 0.8s infinite;
+}
+
+/* Neues Jahr */
+.newyear{
+    font-size: clamp(1rem,4vw,3rem);
+    color: orange;
+    letter-spacing: clamp(1px,0.3vw,4px);
+    white-space: nowrap;
+    animation: newYearGlow 2s ease-in-out infinite alternate;
+}
+
+/* Feuerwerk */
+.firework{
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:30;
+    animation: explodeParticle 1.5s ease-out forwards;
+}
+
+/* Animationen */
+@keyframes rainbowFlow{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+@keyframes twinkle{0%{opacity:0.2; transform:scale(0.8);}100%{opacity:1; transform:scale(1.5);}}
+@keyframes countdownPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+@keyframes explodeParticle{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}}
+@keyframes newYearGlow{0%{text-shadow:0 0 10px #fff,0 0 20px #ff9900,0 0 40px orange;}100%{text-shadow:0 0 20px #fff,0 0 35px #ff9900,0 0 60px orange;}}
+
+/* Mobile */
+@media (max-width:600px){
+    h1{line-height:1.02;}
+    #countdown{letter-spacing:0.04em;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<!-- Sterne -->
+<div class="star" style="top:10%;left:15%;width:2px;height:2px;animation-duration:2s;"></div>
+<div class="star" style="top:18%;left:70%;width:3px;height:3px;animation-duration:3s;"></div>
+<div class="star" style="top:32%;left:28%;width:2px;height:2px;animation-duration:4s;"></div>
+<div class="star" style="top:15%;left:88%;width:4px;height:4px;animation-duration:2.5s;"></div>
+<div class="star" style="top:60%;left:12%;width:3px;height:3px;animation-duration:3.5s;"></div>
+<div class="star" style="top:72%;left:78%;width:2px;height:2px;animation-duration:2s;"></div>
+<div class="star" style="top:80%;left:40%;width:4px;height:4px;animation-duration:4s;"></div>
+
+<!-- Content -->
+<div class="content">
+
+<h1>
+    <span class="emoji">🍀</span> Guten <span class="emoji">🍀</span>
+    <span class="line"></span>
+    <span class="emoji">🥂</span> Rutsch <span class="emoji">🥂</span>
+</h1>
+
+<div id="countdown">00:00:00</div>
+
+</div>
+
+<script>
+const countdown = document.getElementById("countdown");
+
+function updateCountdown(){
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24,0,0,0); // Mitternacht heute
+    const diff = Math.max(0, Math.floor((midnight - now) / 1000)); // Sekunden bis Mitternacht
+
+    if(diff > 0){
+        const hours = String(Math.floor(diff / 3600)).padStart(2,"0");
+        const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2,"0");
+        const seconds = String(diff % 60).padStart(2,"0");
+        countdown.textContent = `${hours}:${minutes}:${seconds}`;
+
+        if(diff <= 10){
+            countdown.classList.add("danger");
+        } else {
+            countdown.classList.remove("danger");
+        }
+
+    } else {
+        countdown.innerHTML = '<span class="newyear">🐉 FROHES NEUES JAHR 🐉</span>';
+        countdown.classList.remove("danger");
+        createMegaExplosion();
+    }
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* Feuerwerk */
+function createExplosion(x,y){
+    const amount = window.innerWidth < 600 ? 35 : 60;
+    for(let i=0;i<amount;i++){
+        const p = document.createElement("div");
+        p.className="firework";
+        const angle = Math.random()*Math.PI*2;
+        const distance = Math.random()*180 + 50;
+        const hue = Math.random()*360;
+        p.style.left = x+"px";
+        p.style.top = y+"px";
+        p.style.background = `hsl(${hue},100%,60%)`;
+        p.style.boxShadow = `0 0 14px hsl(${hue},100%,60%)`;
+        p.style.setProperty("--x",Math.cos(angle)*distance + "px");
+        p.style.setProperty("--y",Math.sin(angle)*distance + "px");
+        document.body.appendChild(p);
+        setTimeout(()=>{p.remove();},1500);
+    }
+}
+
+function createMegaExplosion(){
+    for(let i=0;i<12;i++){
+        setTimeout(()=>{
+            createExplosion(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.7);
+        },i*250);
+    }
+}
+</script>
+
+</body>
+</html>
