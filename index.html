@@ -3,250 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Begrüßung</title>
-
+<title>Tageszeit-Animation</title>
 <style>
-/* ========================== MORGEN STYLES ========================== */
-.morning :root{
-    --sun-size: clamp(120px, 20vw, 260px);
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;position:relative;text-align:center;display:flex;justify-content:center;align-items:center;}
 
-.morning *, .morning *::before, .morning *::after{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+/* ---- Container für jede Tageszeit ---- */
+.timeAnimation{display:none;width:100%;height:100%;position:absolute;inset:0;}
 
-.morning html, .morning body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    text-align:center;
-    position:relative;
-    background:#000;
-}
-
-.morning .sky{
-    position:absolute;
-    inset:0;
-    background: linear-gradient(to bottom,#000000 0%,#000000 45%,#08263d 70%,#145b82 100%);
-    z-index:0;
-}
-
-.morning .sea{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:clamp(180px,35vh,380px);
-    background: linear-gradient(to bottom, rgba(0,180,255,0.15) 0%, rgba(0,120,210,0.4) 30%, rgba(0,70,160,0.9) 100%);
-    z-index:1;
-}
-
-.morning .sun{
-    position:absolute;
-    width:var(--sun-size);
-    height:var(--sun-size);
-    bottom:calc(var(--sun-size)/-2);
-    left:calc(var(--sun-size)/-2);
-    z-index:2;
-}
-
-.morning .sun-core{
-    position:absolute;
-    inset:0;
-    background: radial-gradient(circle,#ffff66,#ffcc00);
-    border-radius:50%;
-    box-shadow: 0 0 30px yellow,0 0 60px orange,0 0 100px gold;
-}
-
-.morning .rays span{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:var(--ray-width);
-    height:var(--ray-height);
-    margin-left:calc(var(--ray-width)/-2);
-    margin-top:calc(var(--ray-height)*-1);
-    background: linear-gradient(to top,orange,yellow);
-    border-radius:999px;
-    transform-origin:center var(--ray-height);
-}
-
-.morning .beach{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:clamp(40px,8vh,80px);
-    background: linear-gradient(to bottom,#f6d28d,#d5a96a);
-    z-index:4;
-}
-
-.morning h1{
-    font-size:clamp(2rem,8vw,5rem);
-    line-height:1.2;
-    position:relative;
-    z-index:10;
-    padding:0 20px;
-    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
-    background-size:700% 700%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation: rainbowFlow 20s linear infinite;
-}
-
-.morning .emoji{
-    display:inline-block;
-    text-shadow:0 0 10px rgba(255,255,255,0.5);
-}
-
-.morning .line{
-    display:block;
-    margin:0.4em 0;
-}
-
-/* ========================== TAG STYLES ========================== */
-.day :root{
-    --sun-size: clamp(110px, 16vw, 220px);
-}
-
-.day *, .day *::before, .day *::after{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-.day html, .day body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    text-align:center;
-    position:relative;
-    background:#000;
-}
-
-.day .sky{
-    position:absolute;
-    inset:0;
-    background: linear-gradient(to bottom, #000000 0%, #050505 40%, #10283d 75%, #1d5f87 100%);
-    z-index:0;
-}
-
-.day .sun{
-    position:absolute;
-    width:var(--sun-size);
-    height:var(--sun-size);
-    top:clamp(10px,4vw,40px);
-    right:clamp(10px,4vw,40px);
-    border-radius:50%;
-    background: radial-gradient(circle, #fff176 0%, #ffeb3b 35%, #ff9800 70%, rgba(255,140,0,0.1) 100%);
-    box-shadow:0 0 40px #ffeb3b,0 0 80px #ff9800,0 0 140px rgba(255,180,0,0.8);
-    animation: sunPulse 4s ease-in-out infinite, sunFloat 8s ease-in-out infinite;
-    z-index:1;
-}
-
-.day .sun-rays span{
-    position:absolute;
-    width:clamp(4px,0.7vw,8px);
-    height:clamp(40px,6vw,60px);
-    background: linear-gradient(to top, rgba(255,140,0,0), #ffeb3b);
-    left:50%;
-    top:50%;
-    margin-left:calc(clamp(4px,0.7vw,8px)/-2);
-    margin-top:clamp(-90px,-12vw,-120px);
-    border-radius:999px;
-    transform-origin:center clamp(90px,12vw,120px);
-    box-shadow:0 0 12px #ffeb3b;
-}
-
-.day .leaf, .day .cloud, .day .firefly, .day .bubble, .day .grass, .day .blade { /* alle Tagesanimationen bleiben hier */ }
-
-/* ========================== ANIMATIONEN ========================== */
+/* ---- GEMEINSAME KEYFRAMES ---- */
 @keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
-@keyframes sunPulse{0%,100%{scale:1;}50%{scale:1.08;}}
-@keyframes sunFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
+@keyframes rotateRays{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes pulseRays{0%{scale:1;}50%{scale:1.05;}100%{scale:1;}}
+@keyframes rayFloat{0%{height:var(--ray-height);}50%{height:calc(var(--ray-height) + 18px);}100%{height:var(--ray-height);}}
+@keyframes rise{0%{transform:translate(0,0);}100%{transform:translate(calc(100vw - var(--sun-size) * 0.6), calc(-100vh + var(--sun-size) * 0.7));}}
+@keyframes waveMove{0%{transform:translateX(0);}100%{transform:translateX(20%);}}
+@keyframes waveMoveReverse{0%{transform:translateX(0);}100%{transform:translateX(-20%);}}
+@keyframes reflectionMove{0%,100%{transform:translateX(-50%) scaleX(1);}50%{transform:translateX(-50%) scaleX(1.15);}}
+@keyframes sparkleMove{0%,100%{opacity:0.2;transform:scaleY(0.7);}50%{opacity:1;transform:scaleY(1.3);}}
+@keyframes dolphinFlip{0%{transform:translateY(0) rotate(0deg) scale(0.8);opacity:0;}10%{opacity:1;}25%{transform:translateY(-80px) rotate(120deg) scale(1);}50%{transform:translateY(-150px) rotate(260deg) scale(1.1);}75%{transform:translateY(-70px) rotate(420deg) scale(1);}100%{transform:translateY(20px) rotate(540deg) scale(0.7);opacity:0;}}
+
+/* ---- MORGEN (5-12) ---- */
+#morgen{--sun-size:clamp(120px,20vw,260px);}
+#morgen .sky{position:absolute;inset:0;background:linear-gradient(to bottom,#000000 0%,#000000 45%,#08263d 70%,#145b82 100%);z-index:0;}
+#morgen .sea{position:absolute;bottom:0;width:100%;height:clamp(180px,35vh,380px);background:linear-gradient(to bottom,rgba(0,180,255,0.15) 0%,rgba(0,120,210,0.4) 30%,rgba(0,70,160,0.9) 100%);z-index:1;overflow:hidden;}
+#morgen .sun-reflection{position:absolute;top:0;left:50%;transform:translateX(-50%);width:var(--sun-size);height:100%;background:linear-gradient(to bottom,rgba(255,255,255,0.5),rgba(255,220,120,0.25),transparent);filter:blur(10px);opacity:0.7;animation:reflectionMove 5s ease-in-out infinite;z-index:2;}
+#morgen .wave{position:absolute;width:250%;left:-70%;border-radius:45%;opacity:0.45;}
+#morgen .wave1{height:180px;bottom:-70px;background:rgba(0,180,255,0.22);animation:waveMove 8s linear infinite;}
+#morgen .wave2{height:220px;bottom:-110px;background:rgba(255,255,255,0.08);animation:waveMoveReverse 13s linear infinite;}
+#morgen .wave3{height:250px;bottom:-150px;background:rgba(0,120,255,0.18);animation:waveMove 18s linear infinite;}
+#morgen .wave4{height:150px;bottom:-40px;background:rgba(255,255,255,0.05);animation:waveMoveReverse 7s linear infinite;}
+#morgen .sparkle{position:absolute;width:3px;height:clamp(20px,4vw,35px);background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,0));border-radius:999px;opacity:0.5;animation:sparkleMove 3s ease-in-out infinite;}
+#morgen .s1{left:20%;top:20%;} #morgen .s2{left:35%;top:45%;animation-delay:1s;} #morgen .s3{left:55%;top:30%;animation-delay:2s;} #morgen .s4{left:75%;top:50%;animation-delay:0.5s;} #morgen .s5{left:88%;top:25%;animation-delay:1.5s;}
+#morgen .beach{position:absolute;bottom:0;width:100%;height:clamp(40px,8vh,80px);background:linear-gradient(to bottom,#f6d28d,#d5a96a);z-index:4;box-shadow:0 -8px 20px rgba(255,255,255,0.06);}
+#morgen .sun{position:absolute;width:var(--sun-size);height:var(--sun-size);bottom:calc(var(--sun-size)/-2);left:calc(var(--sun-size)/-2);animation:rise 10s ease-in-out forwards;z-index:2;}
+#morgen .sun-core{position:absolute;inset:0;background:radial-gradient(circle,#ffff66,#ffcc00);border-radius:50%;box-shadow:0 0 30px yellow,0 0 60px orange,0 0 100px gold;}
+#morgen .rays{position:absolute;inset:0;animation:rotateRays 10s linear infinite,pulseRays 2.5s ease-in-out infinite;}
+#morgen .rays span{position:absolute;top:50%;left:50%;width:var(--ray-width);height:var(--ray-height);margin-left:calc(var(--ray-width)/-2);margin-top:calc(var(--ray-height)*-1);background:linear-gradient(to top,orange,yellow);border-radius:999px;transform-origin:center var(--ray-height);box-shadow:0 0 20px yellow,0 0 40px orange;animation:rayFloat 2s ease-in-out infinite;}
+#morgen h1{font-size:clamp(2rem,8vw,5rem);line-height:1.2;position:relative;z-index:10;padding:0 20px;background:linear-gradient(135deg,red,orange,yellow,green,blue,indigo,violet);background-size:700% 700%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowFlow 20s linear infinite;}
+
+/* ---- TAG (12-18) ---- */
+#tag{--sun-size:clamp(110px,16vw,220px);}
+#tag .sky{position:absolute;inset:0;background:linear-gradient(to bottom,#000000 0%,#050505 40%,#10283d 75%,#1d5f87 100%);z-index:0;}
+#tag .sun{position:absolute;width:var(--sun-size);height:var(--sun-size);top:clamp(10px,4vw,40px);right:clamp(10px,4vw,40px);border-radius:50%;background:radial-gradient(circle,#fff176 0%,#ffeb3b 35%,#ff9800 70%,rgba(255,140,0,0.1) 100%);box-shadow:0 0 40px #ffeb3b,0 0 80px #ff9800,0 0 140px rgba(255,180,0,0.8);animation:sunPulse 4s ease-in-out infinite,sunFloat 8s ease-in-out infinite;z-index:1;}
+#tag .sun-rays{position:absolute;inset:clamp(-25px,-4vw,-40px);border-radius:50%;animation:rotateRays 20s linear infinite;}
+#tag .sun-rays span{position:absolute;width:clamp(4px,0.7vw,8px);height:clamp(40px,6vw,60px);background:linear-gradient(to top,rgba(255,140,0,0),#ffeb3b);left:50%;top:50%;margin-left:calc(clamp(4px,0.7vw,8px)/-2);margin-top:clamp(-90px,-12vw,-120px);border-radius:999px;transform-origin:center clamp(90px,12vw,120px);box-shadow:0 0 12px #ffeb3b;}
+#tag h1{font-size:clamp(2rem,7vw,5rem);line-height:1.2;position:relative;z-index:10;padding:0 20px;background:linear-gradient(135deg,red,orange,yellow,green,blue,indigo,violet);background-size:700% 700%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowFlow 20s linear infinite;}
+
+/* ---- NACHT (18-5) ---- */
+#nacht{background:#0b0c2a;display:flex;justify-content:center;align-items:center;position:absolute;inset:0;z-index:0;}
+#nacht h1{font-size:clamp(2rem,7vw,5rem);color:#f5f5f5;text-shadow:0 0 10px #fff,0 0 20px #aaa;}
+
+/* ---- EMOJIS ---- */
+.emoji{display:inline-block;text-shadow:0 0 10px rgba(255,255,255,0.5);}
+.line{display:block;margin:0.4em 0;}
 </style>
 </head>
-
 <body>
 
-<div id="content"></div>
+<!-- MORGEN -->
+<div id="morgen" class="timeAnimation">
+    <div class="sky"></div>
+    <div class="sea">
+        <div class="sun-reflection"></div>
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+        <div class="sparkle s5"></div>
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="wave wave4"></div>
+    </div>
+    <div class="beach"></div>
+    <div class="sun">
+        <div class="rays">
+            <span style="transform:rotate(0deg)"></span><span style="transform:rotate(30deg)"></span>
+            <span style="transform:rotate(60deg)"></span><span style="transform:rotate(90deg)"></span>
+            <span style="transform:rotate(120deg)"></span><span style="transform:rotate(150deg)"></span>
+            <span style="transform:rotate(180deg)"></span><span style="transform:rotate(210deg)"></span>
+            <span style="transform:rotate(240deg)"></span><span style="transform:rotate(270deg)"></span>
+            <span style="transform:rotate(300deg)"></span><span style="transform:rotate(330deg)"></span>
+        </div>
+        <div class="sun-core"></div>
+    </div>
+    <h1><span class="emoji">☀️</span>Guten Morgen<span class="emoji">☀️</span></h1>
+</div>
+
+<!-- TAG -->
+<div id="tag" class="timeAnimation">
+    <div class="sky"></div>
+    <div class="sun"><div class="sun-rays">
+        <span style="transform:rotate(0deg)"></span><span style="transform:rotate(30deg)"></span>
+        <span style="transform:rotate(60deg)"></span><span style="transform:rotate(90deg)"></span>
+        <span style="transform:rotate(120deg)"></span><span style="transform:rotate(150deg)"></span>
+        <span style="transform:rotate(180deg)"></span><span style="transform:rotate(210deg)"></span>
+        <span style="transform:rotate(240deg)"></span><span style="transform:rotate(270deg)"></span>
+        <span style="transform:rotate(300deg)"></span><span style="transform:rotate(330deg)"></span>
+    </div></div>
+    <h1><span class="emoji">🌼</span>Schönen Guten Tag<span class="emoji">🌼</span></h1>
+</div>
+
+<!-- NACHT -->
+<div id="nacht" class="timeAnimation">
+    <h1><span class="emoji">🌙</span>Gute Nacht<span class="emoji">🌙</span></h1>
+</div>
 
 <script>
-// ========================== FEIERTAGE ==========================
-function getEasterDate(year){
-    const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),
-    e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
-    h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,
-    l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
-    month=Math.floor((h+l-7*m+114)/31),
-    day=((h+l-7*m+114)%31)+1;
-    return new Date(year,month-1,day);
+function showAnimationByTime(){
+    const hour = new Date().getHours();
+    document.querySelectorAll('.timeAnimation').forEach(e=>e.style.display='none');
+    if(hour >=5 && hour <12) document.getElementById('morgen').style.display='block';
+    else if(hour >=12 && hour <18) document.getElementById('tag').style.display='block';
+    else document.getElementById('nacht').style.display='flex';
 }
-
-function getMessage(){
-    const now=new Date(), h=now.getHours(), day=now.getDate(), month=now.getMonth()+1;
-    const easter=getEasterDate(now.getFullYear());
-
-    if(day===25 && month===12) return "Frohe Weihnachten! 🎄";
-    if((day===31 && month===12) || (day===1 && month===1)) return "Frohes neues Jahr! 🎉";
-    if(day===31 && month===10) return "Happy Halloween! 🎃";
-    if(day===easter.getDate() && month===easter.getMonth()+1) return "Frohe Ostern! 🐰";
-
-    if(h>=5 && h<12) return "morning";
-    if(h>=12 && h<18) return "day";
-    return "other";
-}
-
-const message=getMessage();
-const container=document.getElementById("content");
-
-if(message==="morning"){
-    container.innerHTML=`<div class="morning sky"></div>
-    <div class="morning sea"></div>
-    <div class="morning sun"><div class="morning sun-core"></div></div>
-    <div class="morning beach"></div>
-    <h1><span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">☕</span>Morgen<span class="emoji">☕</span></h1>`;
-}else if(message==="day"){
-    container.innerHTML=`<div class="day sky"></div>
-    <div class="day sun"><div class="day sun-rays"><span></span></div></div>
-    <div class="day cloud cloud1"></div>
-    <div class="day cloud cloud2"></div>
-    <div class="day leaf l1">🍃</div>
-    <div class="day leaf l2">🌸</div>
-    <div class="day leaf l3">🍂</div>
-    <div class="day leaf l4">🌺</div>
-    <div class="day leaf l5">🍃</div>
-    <div class="day firefly f1"></div>
-    <div class="day firefly f2"></div>
-    <div class="day firefly f3"></div>
-    <div class="day firefly f4"></div>
-    <div class="day firefly f5"></div>
-    <div class="day bubble b1"></div>
-    <div class="day bubble b2"></div>
-    <div class="day bubble b3"></div>
-    <div class="day bubble b4"></div>
-    <div class="day bubble b5"></div>
-    <div class="day bubble b6"></div>
-    <div class="day grass" id="grass"></div>
-    <h1><span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span><span class="line"></span><span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span></h1>`;
-}
-
-// ========================== GRAS SCRIPT ==========================
-if(message==="day"){
-    const grass=document.getElementById("grass");
-    const bladeCount=window.innerWidth<600?80:140;
-    for(let i=0;i<bladeCount;i++){
-        const blade=document.createElement("div");
-        blade.className="blade";
-        blade.style.animationDelay=Math.random()*1.5+"s";
-        blade.style.height=(40+Math.random()*120)+"px";
-        grass.appendChild(blade);
-    }
-}
+showAnimationByTime();
+setInterval(showAnimationByTime,60000);
 </script>
 
 </body>
