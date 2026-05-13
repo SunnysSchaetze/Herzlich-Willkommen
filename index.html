@@ -3,161 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grüße & Feiertage</title>
-<style>
-* { box-sizing:border-box; margin:0; padding:0; }
-html, body { width:100%; height:100%; overflow:hidden; font-family:Arial,sans-serif; background:#000; display:flex; justify-content:center; align-items:center; text-align:center; position:relative; }
+<title>Animation je nach Tageszeit / Feiertag</title>
 
-h1 {
-    font-size:clamp(2rem,8vw,5rem);
+<style>
+/* ===================== */
+/* Gemeinsame Grundstyles */
+*{ margin:0; padding:0; box-sizing:border-box; }
+html, body{ width:100%; height:100%; overflow:hidden; font-family:Arial,sans-serif; }
+body{ display:flex; justify-content:center; align-items:center; text-align:center; position:relative; background:#000; }
+
+/* ===================== */
+/* Gemeinsamer Text */
+h1{
+    font-size:clamp(2rem,8vw,5.5rem);
     line-height:1.2;
     background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
     background-size:700% 700%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation: rainbowFlow 20s linear infinite;
+    position:relative;
     z-index:10;
+    padding:0 20px;
 }
+.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5); }
 .line{ display:block; margin:0.35em 0; }
-.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5),0 0 20px rgba(255,255,255,0.2); }
 
-@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
+@keyframes rainbowFlow{ 0%{background-position:0% 0%;} 100%{background-position:100% 100%;} }
 
-/* GENERISCHER BACKGROUND-EFFECT */
-.background{position:absolute; inset:0; z-index:0; overflow:hidden;}
-.star, .snowflake, .ghost, .bunny, .egg, .firework{position:absolute; pointer-events:none;}
+/* ===================== */
+/* TAGESZEIT ANIMATIONEN */
+/* Morgen / Tag / Abend */
+.daytime-bg{ position:absolute; inset:0; background:#87ceeb; z-index:0; transition:background 2s ease; }
 
-/* STARS / SNOW */
-.star{background:#fff;border-radius:50%;opacity:0.8; animation: twinkle ease-in-out infinite alternate;}
-@keyframes twinkle{0%{opacity:0.2;transform:scale(0.8);}100%{opacity:1;transform:scale(1.5);}}
-.snowflake{width:4px;height:4px;border-radius:50%;background:#fff;opacity:0.8; animation: fall linear infinite;}
-@keyframes fall{0%{transform:translateY(-10px);}100%{transform:translateY(110vh);}}
+/* ===================== */
+/* WEIHNACHTEN */
+.snowflake{
+    position:absolute;
+    top:-10px;
+    color:white;
+    font-size:clamp(10px,2vw,20px);
+    animation: fall linear infinite;
+    z-index:5;
+}
+@keyframes fall{ 0%{ transform:translateY(0) rotate(0deg);} 100%{ transform:translateY(110vh) rotate(360deg);} }
 
-/* Halloweeneffekt */
-.ghost{width:50px;height:60px;background:rgba(255,255,255,0.2);border-radius:50% 50% 20% 20%;backdrop-filter:blur(2px);box-shadow:0 0 15px rgba(255,255,255,0.8),0 0 35px rgba(180,220,255,0.6);animation: ghostFloat 3s ease-in-out infinite alternate;}
+/* ===================== */
+/* OSTERN */
+.egg, .flower{ position:absolute; font-size:clamp(1.2rem,2.5vw,2rem); bottom:clamp(25px,5vh,45px); z-index:5; }
+.grass{ position:absolute; bottom:0; left:0; width:100%; height:clamp(120px,20vh,220px); background:linear-gradient(to top,#0a4d1c 0%,#1f8a34 70%,#37b44c 100%); z-index:3; overflow:hidden; }
+
+/* ===================== */
+/* HALLOWEEN */
+.moon{ position:absolute; top:6vh; left:50%; transform:translateX(-50%); width:clamp(110px,18vw,180px); height:clamp(110px,18vw,180px); border-radius:50%; background:radial-gradient(circle,#fff 0%,#d8d8ff 60%,#9999cc 100%); box-shadow:0 0 40px #fff,0 0 100px #9999ff,0 0 180px rgba(255,255,255,0.5); animation:moonGlow 4s ease-in-out infinite alternate; z-index:0; }
+@keyframes moonGlow{ 0%{ transform:translateX(-50%) scale(1); filter:brightness(1);} 100%{ transform:translateX(-50%) scale(1.05); filter:brightness(1.2);} }
+.ghost{ position:absolute; width:clamp(35px,6vw,50px); height:clamp(45px,8vw,60px); background:rgba(255,255,255,0.18); border-radius:50% 50% 20% 20%; backdrop-filter:blur(2px); box-shadow:0 0 15px rgba(255,255,255,0.8),0 0 35px rgba(180,220,255,0.6); display:flex; justify-content:center; align-items:center; flex-direction:column; color:white; z-index:5; animation:ghostFloat 3s ease-in-out infinite alternate; }
 @keyframes ghostFloat{0%{transform:translateY(0);}100%{transform:translateY(-20px);}}
 
-/* Ostereffekt */
-.grass{position:absolute;bottom:0;width:100%;height:20vh;background:linear-gradient(to top,#0a4d1c 0%,#1f8a34 70%,#37b44c 100%);z-index:3;overflow:hidden;}
-.egg{font-size:2rem;}
+/* ===================== */
+/* SILVESTER / NEUJAHR */
+.firework{ position:absolute; width:7px; height:7px; border-radius:50%; pointer-events:none; z-index:30; animation: explodeParticle 1.5s ease-out forwards; }
+@keyframes explodeParticle{0%{transform:translate(0,0) scale(1); opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0); opacity:0;}}
 
-/* Neujahr / Silvester */
-.firework{width:7px;height:7px;border-radius:50%;pointer-events:none;animation: explode 1.5s ease-out forwards;}
-@keyframes explode{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}}
-
+/* ===================== */
+/* Mobile */
+@media (max-width:600px){ h1{ line-height:1.2; } }
 </style>
 </head>
 <body>
-<div class="background" id="background"></div>
-<h1 id="greeting"><span class="emoji">🌞</span>Hallo!<span class="emoji">🌞</span></h1>
+
+<h1 id="message"></h1>
+
+<!-- Container für Feiertags-Animationen -->
+<div id="holiday-container"></div>
 
 <script>
-// GRÜSSE NACH TAGESZEIT
-function getTimeGreeting(){
-    const now = new Date();
-    const hour = now.getHours();
-    if(hour>=5 && hour<12) return "Guten Morgen";
-    if(hour>=12 && hour<18) return "Schönen Guten Tag";
-    return "Guten Abend";
-}
+// =====================
+// DATUM & ZEIT
+const now = new Date();
+const month = now.getMonth()+1; // 1-12
+const date = now.getDate();
+const hours = now.getHours();
 
-// SPEZIELLE FEIERTAGE
-function getSpecialGreeting(){
-    const now = new Date();
-    const month = now.getMonth()+1; // 1-12
-    const day = now.getDate();
-
-    // Weihnachten: 24-26 Dezember
-    if(month===12 && day>=24 && day<=26) return "🎄 Frohe Weihnachten 🎄";
-    // Ostern: variable, z.B. für Demo nehmen 9 April
-    if(month===4 && (day===9 || day===10 || day===12)) return "🥚 Frohe Ostern 🥚";
-    // Halloween: 31 Oktober
-    if(month===10 && day===31) return "👻 Happy Halloween 👻";
-    // Silvester: 31 Dez
-    if(month===12 && day===31) return "🥂 Guten Rutsch 🥂";
-    // Neujahr: 1 Jan
-    if(month===1 && day===1) return "🎊 Frohes Neues Jahr 🎊";
-
+// Feiertage definieren
+function getHoliday(){
+    // Weihnachten: 24-26 Dez
+    if(month===12 && date>=24 && date<=26) return 'christmas';
+    // Ostern: für Demo nehmen wir fixe Daten (z.B. 9-12 April)
+    if(month===4 && date>=9 && date<=12) return 'easter';
+    // Halloween: 31 Okt
+    if(month===10 && date===31) return 'halloween';
+    // Silvester: 31 Dez - 1 Jan
+    if(month===12 && date===31) return 'newyear';
+    if(month===1 && date===1) return 'newyear';
     return null;
 }
 
-// HINTERGRUND ANIMATIONEN
-const bg = document.getElementById("background");
-function spawnStar(){
-    const star = document.createElement("div");
-    star.className="star";
-    const size=Math.random()*3+1;
-    star.style.width=size+"px";
-    star.style.height=size+"px";
-    star.style.left=Math.random()*window.innerWidth+"px";
-    star.style.top=Math.random()*window.innerHeight+"px";
-    star.style.animationDuration=2+Math.random()*3+"s";
-    bg.appendChild(star);
-}
-for(let i=0;i<50;i++){spawnStar();}
-
-// SNOW / WINTER
-function spawnSnowflake(){
-    const s=document.createElement("div");
-    s.className="snowflake";
-    s.style.left=Math.random()*window.innerWidth+"px";
-    s.style.animationDuration=(3+Math.random()*4)+"s";
-    bg.appendChild(s);
+// Tageszeit
+function getDaytime(){
+    if(hours>=6 && hours<12) return 'morning';
+    if(hours>=12 && hours<18) return 'day';
+    return 'evening';
 }
 
-// HALLOWEEN GEISTER
-function spawnGhost(){
-    const g=document.createElement("div");
-    g.className="ghost";
-    g.style.left=Math.random()*(window.innerWidth-50)+"px";
-    g.style.top=Math.random()*(window.innerHeight-80)+"px";
-    bg.appendChild(g);
-    setTimeout(()=>g.remove(),9000);
-}
+// =====================
+// ANIMATIONEN
+const container = document.getElementById('holiday-container');
+const message = document.getElementById('message');
 
-// OSTEREIER / WIESE
-function spawnEgg(left,pos="bottom") {
-    const e=document.createElement("div");
-    e.className="egg";
-    e.style.left=left+"%";
-    e.style.bottom="5vh";
-    e.textContent="🥚";
-    bg.appendChild(e);
-}
-
-// NEUJAHRSFEUERWERK
-function explode(x,y){
-    const amount=30;
-    for(let i=0;i<amount;i++){
-        const p=document.createElement("div");
-        p.className="firework";
-        const angle=Math.random()*Math.PI*2;
-        const distance=Math.random()*150+50;
-        const hue=Math.random()*360;
-        p.style.left=x+"px";
-        p.style.top=y+"px";
-        p.style.background=`hsl(${hue},100%,60%)`;
-        p.style.boxShadow=`0 0 14px hsl(${hue},100%,60%)`;
-        p.style.setProperty("--x",Math.cos(angle)*distance+"px");
-        p.style.setProperty("--y",Math.sin(angle)*distance+"px");
-        document.body.appendChild(p);
-        setTimeout(()=>p.remove(),1500);
+const holiday = getHoliday();
+if(holiday){
+    switch(holiday){
+        case 'christmas':
+            message.innerHTML='🎄 Frohe Weihnachten 🎄';
+            // Schnee erzeugen
+            for(let i=0;i<100;i++){
+                const s = document.createElement('div');
+                s.className='snowflake';
+                s.style.left=Math.random()*100+'vw';
+                s.style.animationDuration=(2+Math.random()*3)+'s';
+                s.style.fontSize=(10+Math.random()*10)+'px';
+                container.appendChild(s);
+            }
+            break;
+        case 'easter':
+            message.innerHTML='🐰 Frohe Ostern 🥚';
+            // Ostereier und Blumen
+            container.innerHTML=`
+                <div class="grass"></div>
+                <div class="flower" style="left:8%;">🌷</div>
+                <div class="flower" style="left:18%;">🌼</div>
+                <div class="flower" style="left:30%;">🌸</div>
+                <div class="egg" style="left:12%;">🥚</div>
+                <div class="egg" style="left:24%;">🪺</div>
+            `;
+            break;
+        case 'halloween':
+            message.innerHTML='🎃 Happy Halloween 👻';
+            // Mond & Geist
+            container.innerHTML=`
+                <div class="moon"></div>
+                <div class="ghost" style="left:20%;top:50px;"><span>◉ ◉</span><span>︶</span></div>
+                <div class="ghost" style="left:60%;top:120px;"><span>◉ ◉</span><span>︶</span></div>
+            `;
+            break;
+        case 'newyear':
+            message.innerHTML='🎆 Frohes Neues Jahr 🍾';
+            // Feuerwerk generieren
+            function explode(x,y){
+                for(let i=0;i<40;i++){
+                    const p = document.createElement('div');
+                    p.className='firework';
+                    const angle = Math.random()*2*Math.PI;
+                    const distance = Math.random()*180+50;
+                    const hue = Math.random()*360;
+                    p.style.left=x+'px';
+                    p.style.top=y+'px';
+                    p.style.background=`hsl(${hue},100%,60%)`;
+                    p.style.setProperty('--x',Math.cos(angle)*distance+'px');
+                    p.style.setProperty('--y',Math.sin(angle)*distance+'px');
+                    container.appendChild(p);
+                    setTimeout(()=>p.remove(),1500);
+                }
+            }
+            setInterval(()=>{
+                explode(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.7);
+            },800);
+            break;
+    }
+}else{
+    // =====================
+    // Tageszeit-Animation
+    const daytime = getDaytime();
+    switch(daytime){
+        case 'morning':
+            message.innerHTML='🌅 Guten Morgen 🌅';
+            document.body.style.background='#87ceeb';
+            break;
+        case 'day':
+            message.innerHTML='☀️ Schönen Tag ☀️';
+            document.body.style.background='#00bfff';
+            break;
+        case 'evening':
+            message.innerHTML='🌙 Guten Abend 🌙';
+            document.body.style.background='#1a1a40';
+            break;
     }
 }
-
-// GREETING SETZEN UND EFFEKTE STARTEN
-const greeting = document.getElementById("greeting");
-const special=getSpecialGreeting();
-if(special){
-    greeting.innerHTML=special;
-    if(special.includes("Weihnachten")) for(let i=0;i<20;i++) spawnSnowflake();
-    if(special.includes("Ostern")) {spawnEgg(12); spawnEgg(30); spawnEgg(70); spawnEgg(90);}
-    if(special.includes("Halloween")) setInterval(spawnGhost,2200);
-    if(special.includes("Neues Jahr") || special.includes("Guten Rutsch")) setInterval(()=>{explode(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.7)},800);
-} else {
-    greeting.innerHTML=getTimeGreeting();
-}
-
 </script>
+
 </body>
 </html>
