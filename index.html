@@ -3,376 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatische Begrüßung</title>
-
+<title>Grüße & Feiertage</title>
 <style>
-:root{
-    --sun-size: clamp(120px, 20vw, 260px);
-    --ray-width: clamp(5px, 1vw, 10px);
-    --ray-height: clamp(70px, 12vw, 150px);
-}
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { width:100%; height:100%; overflow:hidden; font-family:Arial,sans-serif; background:#000; display:flex; justify-content:center; align-items:center; text-align:center; position:relative; }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html, body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
-
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#000;
-    font-family:Arial,sans-serif;
-    text-align:center;
-    position:relative;
-}
-
-/* HIMMEL */
-.sky{
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            to bottom,
-            #000000 0%,
-            #000000 45%,
-            #08263d 70%,
-            #145b82 100%
-        );
-    z-index:0;
-}
-
-/* MEER */
-.sea{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:clamp(180px,35vh,380px);
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,180,255,0.15) 0%,
-            rgba(0,120,210,0.4) 30%,
-            rgba(0,70,160,0.9) 100%
-        );
-    overflow:hidden;
-    z-index:1;
-}
-
-/* LICHTREFLEX */
-.sun-reflection{
-    position:absolute;
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:clamp(120px,20vw,260px);
-    height:100%;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(255,255,255,0.5),
-            rgba(255,220,120,0.25),
-            transparent
-        );
-    filter:blur(10px);
-    opacity:0.7;
-    animation: reflectionMove 5s ease-in-out infinite;
-    z-index:2;
-}
-
-/* WELLEN */
-.wave{
-    position:absolute;
-    width:250%;
-    left:-70%;
-    border-radius:45%;
-    opacity:0.45;
-}
-.wave1{
-    height:180px;
-    bottom:-70px;
-    background: rgba(0,180,255,0.22);
-    animation: waveMove 8s linear infinite;
-}
-.wave2{
-    height:220px;
-    bottom:-110px;
-    background: rgba(255,255,255,0.08);
-    animation: waveMoveReverse 13s linear infinite;
-}
-.wave3{
-    height:250px;
-    bottom:-150px;
-    background: rgba(0,120,255,0.18);
-    animation: waveMove 18s linear infinite;
-}
-.wave4{
-    height:150px;
-    bottom:-40px;
-    background: rgba(255,255,255,0.05);
-    animation: waveMoveReverse 7s linear infinite;
-}
-
-/* WASSER GLITZERN */
-.sparkle{
-    position:absolute;
-    width:3px;
-    height:clamp(20px,4vw,35px);
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(255,255,255,0),
-            rgba(255,255,255,0.8),
-            rgba(255,255,255,0)
-        );
-    border-radius:999px;
-    opacity:0.5;
-    animation: sparkleMove 3s ease-in-out infinite;
-}
-.s1{ left:20%; top:20%; }
-.s2{ left:35%; top:45%; animation-delay:1s; }
-.s3{ left:55%; top:30%; animation-delay:2s; }
-.s4{ left:75%; top:50%; animation-delay:0.5s; }
-.s5{ left:88%; top:25%; animation-delay:1.5s; }
-
-/* STRAND */
-.beach{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:clamp(40px,8vh,80px);
-    background:
-        linear-gradient(
-            to bottom,
-            #f6d28d,
-            #d5a96a
-        );
-    z-index:4;
-    box-shadow: 0 -8px 20px rgba(255,255,255,0.06);
-}
-
-/* DELFINE */
-.dolphin{
-    position:absolute;
-    font-size:clamp(2rem,4vw,3.5rem);
-    z-index:5;
-    opacity:0;
-    pointer-events:none;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
-    animation: dolphinFlip 2s linear forwards;
-}
-
-/* TEXT */
-h1{
+h1 {
     font-size:clamp(2rem,8vw,5rem);
     line-height:1.2;
-    position:relative;
-    z-index:10;
-    padding:0 20px;
     background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
     background-size:700% 700%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation: rainbowFlow 20s linear infinite;
+    z-index:10;
 }
-.emoji{
-    display:inline-block;
-    text-shadow:0 0 10px rgba(255,255,255,0.5);
-}
-.line{
-    display:block;
-    margin:0.4em 0;
-}
+.line{ display:block; margin:0.35em 0; }
+.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5),0 0 20px rgba(255,255,255,0.2); }
 
-/* SONNE */
-.sun{
-    position:absolute;
-    width:var(--sun-size);
-    height:var(--sun-size);
-    bottom:calc(var(--sun-size) / -2);
-    left:calc(var(--sun-size) / -2);
-    animation: rise 10s ease-in-out forwards;
-    z-index:2;
-}
-.sun-core{
-    position:absolute;
-    inset:0;
-    background: radial-gradient(circle,#ffff66,#ffcc00);
-    border-radius:50%;
-    box-shadow: 0 0 30px yellow, 0 0 60px orange, 0 0 100px gold;
-}
+@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
 
-/* STRAHLEN */
-.rays{
-    position:absolute;
-    inset:0;
-    animation: rotateRays 10s linear infinite, pulseRays 2.5s ease-in-out infinite;
-}
-.rays span{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:var(--ray-width);
-    height:var(--ray-height);
-    margin-left:calc(var(--ray-width) / -2);
-    margin-top:calc(var(--ray-height) * -1);
-    background: linear-gradient(to top,orange,yellow);
-    border-radius:999px;
-    transform-origin:center var(--ray-height);
-    box-shadow: 0 0 20px yellow, 0 0 40px orange;
-    animation: rayFloat 2s ease-in-out infinite;
-}
-.rays span:nth-child(even){ animation-delay:1s; }
+/* GENERISCHER BACKGROUND-EFFECT */
+.background{position:absolute; inset:0; z-index:0; overflow:hidden;}
+.star, .snowflake, .ghost, .bunny, .egg, .firework{position:absolute; pointer-events:none;}
 
-/* ANIMATIONEN */
-@keyframes rainbowFlow{ 0%{ background-position:0% 0%; } 100%{ background-position:100% 100%; } }
-@keyframes rise{ 0%{ transform:translate(0,0); } 100%{ transform: translate(calc(100vw - var(--sun-size) * 0.6), calc(-100vh + var(--sun-size) * 0.7)); } }
-@keyframes rotateRays{ 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
-@keyframes pulseRays{ 0%{ scale:1; } 50%{ scale:1.05; } 100%{ scale:1; } }
-@keyframes rayFloat{ 0%{ height:var(--ray-height); } 50%{ height:calc(var(--ray-height) + 18px); } 100%{ height:var(--ray-height); } }
-@keyframes waveMove{ 0%{ transform:translateX(0); } 100%{ transform:translateX(20%); } }
-@keyframes waveMoveReverse{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-20%); } }
-@keyframes reflectionMove{ 0%,100%{ transform: translateX(-50%) scaleX(1); } 50%{ transform: translateX(-50%) scaleX(1.15); } }
-@keyframes sparkleMove{ 0%,100%{ opacity:0.2; transform:scaleY(0.7); } 50%{ opacity:1; transform:scaleY(1.3); } }
-@keyframes dolphinFlip{ 0%{ transform: translateY(0) rotate(0deg) scale(0.8); opacity:0; } 10%{ opacity:1; } 25%{ transform: translateY(-80px) rotate(120deg) scale(1); } 50%{ transform: translateY(-150px) rotate(260deg) scale(1.1); } 75%{ transform: translateY(-70px) rotate(420deg) scale(1); } 100%{ transform: translateY(20px) rotate(540deg) scale(0.7); opacity:0; } }
+/* STARS / SNOW */
+.star{background:#fff;border-radius:50%;opacity:0.8; animation: twinkle ease-in-out infinite alternate;}
+@keyframes twinkle{0%{opacity:0.2;transform:scale(0.8);}100%{opacity:1;transform:scale(1.5);}}
+.snowflake{width:4px;height:4px;border-radius:50%;background:#fff;opacity:0.8; animation: fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-10px);}100%{transform:translateY(110vh);}}
 
-@media (max-width:768px){
-    .sea{ height:32vh; }
-    .wave{ width:320%; left:-110%; }
-    h1{ margin-top:-8vh; }
-}
+/* Halloweeneffekt */
+.ghost{width:50px;height:60px;background:rgba(255,255,255,0.2);border-radius:50% 50% 20% 20%;backdrop-filter:blur(2px);box-shadow:0 0 15px rgba(255,255,255,0.8),0 0 35px rgba(180,220,255,0.6);animation: ghostFloat 3s ease-in-out infinite alternate;}
+@keyframes ghostFloat{0%{transform:translateY(0);}100%{transform:translateY(-20px);}}
 
-@media (max-width:480px){
-    .sea{ height:30vh; }
-    .beach{ height:7vh; }
-    .wave{ width:360%; left:-130%; }
-    h1{ font-size:clamp(1.8rem,10vw,3rem); }
-}
+/* Ostereffekt */
+.grass{position:absolute;bottom:0;width:100%;height:20vh;background:linear-gradient(to top,#0a4d1c 0%,#1f8a34 70%,#37b44c 100%);z-index:3;overflow:hidden;}
+.egg{font-size:2rem;}
+
+/* Neujahr / Silvester */
+.firework{width:7px;height:7px;border-radius:50%;pointer-events:none;animation: explode 1.5s ease-out forwards;}
+@keyframes explode{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}}
+
 </style>
 </head>
 <body>
-
-<div class="sky"></div>
-
-<div class="sea">
-    <div class="sun-reflection"></div>
-    <div class="sparkle s1"></div>
-    <div class="sparkle s2"></div>
-    <div class="sparkle s3"></div>
-    <div class="sparkle s4"></div>
-    <div class="sparkle s5"></div>
-    <div class="wave wave1"></div>
-    <div class="wave wave2"></div>
-    <div class="wave wave3"></div>
-    <div class="wave wave4"></div>
-</div>
-
-<div class="beach"></div>
-
-<div class="sun">
-    <div class="rays">
-        <span style="transform:rotate(0deg);"></span>
-        <span style="transform:rotate(30deg);"></span>
-        <span style="transform:rotate(60deg);"></span>
-        <span style="transform:rotate(90deg);"></span>
-        <span style="transform:rotate(120deg);"></span>
-        <span style="transform:rotate(150deg);"></span>
-        <span style="transform:rotate(180deg);"></span>
-        <span style="transform:rotate(210deg);"></span>
-        <span style="transform:rotate(240deg);"></span>
-        <span style="transform:rotate(270deg);"></span>
-        <span style="transform:rotate(300deg);"></span>
-        <span style="transform:rotate(330deg);"></span>
-    </div>
-    <div class="sun-core"></div>
-</div>
-
-<h1 id="greeting">
-    <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
-    <span class="line"></span>
-    <span class="emoji">☕</span>Morgen<span class="emoji">☕</span>
-</h1>
+<div class="background" id="background"></div>
+<h1 id="greeting"><span class="emoji">🌞</span>Hallo!<span class="emoji">🌞</span></h1>
 
 <script>
-// --- Zeit- & Feiertagsbegrüßung ---
-function getTimeGreeting() {
+// GRÜSSE NACH TAGESZEIT
+function getTimeGreeting(){
     const now = new Date();
-    const hours = now.getHours();
-    const month = now.getMonth() + 1;
+    const hour = now.getHours();
+    if(hour>=5 && hour<12) return "Guten Morgen";
+    if(hour>=12 && hour<18) return "Schönen Guten Tag";
+    return "Guten Abend";
+}
+
+// SPEZIELLE FEIERTAGE
+function getSpecialGreeting(){
+    const now = new Date();
+    const month = now.getMonth()+1; // 1-12
     const day = now.getDate();
 
-    // Feiertage
-    if(month === 12 && day === 24) return "Frohe Weihnachten!";
-    if(month === 12 && day === 31) return "Guten Rutsch!";
-    if(month === 1 && day === 1) return "Frohes Neues Jahr!";
-    if(month === 10 && day === 31) return "Happy Halloween!";
-    // Ostern berechnen
-    const easter = calculateEaster(now.getFullYear());
-    if(month === (easter.getMonth()+1) && day === easter.getDate()) return "Frohe Ostern!";
+    // Weihnachten: 24-26 Dezember
+    if(month===12 && day>=24 && day<=26) return "🎄 Frohe Weihnachten 🎄";
+    // Ostern: variable, z.B. für Demo nehmen 9 April
+    if(month===4 && (day===9 || day===10 || day===12)) return "🥚 Frohe Ostern 🥚";
+    // Halloween: 31 Oktober
+    if(month===10 && day===31) return "👻 Happy Halloween 👻";
+    // Silvester: 31 Dez
+    if(month===12 && day===31) return "🥂 Guten Rutsch 🥂";
+    // Neujahr: 1 Jan
+    if(month===1 && day===1) return "🎊 Frohes Neues Jahr 🎊";
 
-    // Tageszeit
-    if(hours >= 5 && hours < 12) return "Morgen";
-    if(hours >= 12 && hours < 18) return "Tag";
-    return "Abend";
+    return null;
 }
 
-function calculateEaster(year) {
-    const f = Math.floor, G = year % 19, C = f(year / 100), H = (C - f(C / 4) - f((8*C + 13)/25) + 19*G + 15) % 30;
-    const I = H - f(H/28) * (1 - f(29/(H+1))*f((21-G)/11));
-    const J = (year + f(year/4) + I + 2 - C + f(C/4)) % 7;
-    const L = I - J;
-    const month = 3 + f((L + 40)/44);
-    const day = L + 28 - 31*f(month/4);
-    return new Date(year, month-1, day);
+// HINTERGRUND ANIMATIONEN
+const bg = document.getElementById("background");
+function spawnStar(){
+    const star = document.createElement("div");
+    star.className="star";
+    const size=Math.random()*3+1;
+    star.style.width=size+"px";
+    star.style.height=size+"px";
+    star.style.left=Math.random()*window.innerWidth+"px";
+    star.style.top=Math.random()*window.innerHeight+"px";
+    star.style.animationDuration=2+Math.random()*3+"s";
+    bg.appendChild(star);
+}
+for(let i=0;i<50;i++){spawnStar();}
+
+// SNOW / WINTER
+function spawnSnowflake(){
+    const s=document.createElement("div");
+    s.className="snowflake";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.animationDuration=(3+Math.random()*4)+"s";
+    bg.appendChild(s);
 }
 
-function updateGreeting() {
-    const greetingElement = document.getElementById("greeting");
-    const greetingText = getTimeGreeting();
+// HALLOWEEN GEISTER
+function spawnGhost(){
+    const g=document.createElement("div");
+    g.className="ghost";
+    g.style.left=Math.random()*(window.innerWidth-50)+"px";
+    g.style.top=Math.random()*(window.innerHeight-80)+"px";
+    bg.appendChild(g);
+    setTimeout(()=>g.remove(),9000);
+}
 
-    greetingElement.innerHTML = `
-        <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
-        <span class="line"></span>
-        <span class="emoji">☕</span>${greetingText}<span class="emoji">☕</span>
-    `;
+// OSTEREIER / WIESE
+function spawnEgg(left,pos="bottom") {
+    const e=document.createElement("div");
+    e.className="egg";
+    e.style.left=left+"%";
+    e.style.bottom="5vh";
+    e.textContent="🥚";
+    bg.appendChild(e);
+}
 
-    if(greetingText === "Morgen"){
-        spawnLoop();
+// NEUJAHRSFEUERWERK
+function explode(x,y){
+    const amount=30;
+    for(let i=0;i<amount;i++){
+        const p=document.createElement("div");
+        p.className="firework";
+        const angle=Math.random()*Math.PI*2;
+        const distance=Math.random()*150+50;
+        const hue=Math.random()*360;
+        p.style.left=x+"px";
+        p.style.top=y+"px";
+        p.style.background=`hsl(${hue},100%,60%)`;
+        p.style.boxShadow=`0 0 14px hsl(${hue},100%,60%)`;
+        p.style.setProperty("--x",Math.cos(angle)*distance+"px");
+        p.style.setProperty("--y",Math.sin(angle)*distance+"px");
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),1500);
     }
 }
 
-// --- Delfin Animation ---
-function createDolphin(){
-    const dolphin = document.createElement("div");
-    dolphin.className = "dolphin";
-    dolphin.innerHTML = "🐬";
-    const side = Math.random() > 0.5 ? "left" : "right";
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = 10 + Math.random() * 8;
-    dolphin.style.left = x + "px";
-    dolphin.style.bottom = y + "vh";
-    if(side === "right"){ dolphin.style.transform = "rotateY(180deg)"; }
-    document.body.appendChild(dolphin);
-    setTimeout(() => dolphin.remove(), 2000);
+// GREETING SETZEN UND EFFEKTE STARTEN
+const greeting = document.getElementById("greeting");
+const special=getSpecialGreeting();
+if(special){
+    greeting.innerHTML=special;
+    if(special.includes("Weihnachten")) for(let i=0;i<20;i++) spawnSnowflake();
+    if(special.includes("Ostern")) {spawnEgg(12); spawnEgg(30); spawnEgg(70); spawnEgg(90);}
+    if(special.includes("Halloween")) setInterval(spawnGhost,2200);
+    if(special.includes("Neues Jahr") || special.includes("Guten Rutsch")) setInterval(()=>{explode(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.7)},800);
+} else {
+    greeting.innerHTML=getTimeGreeting();
 }
 
-function spawnLoop(){
-    createDolphin();
-    const next = 700 + Math.random() * 1500;
-    setTimeout(spawnLoop, next);
-}
-
-// --- Start ---
-updateGreeting();
 </script>
 </body>
 </html>
