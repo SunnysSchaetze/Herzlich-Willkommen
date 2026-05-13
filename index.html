@@ -3,524 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Welcome</title>
+<title>Begrüßung</title>
 
 <style>
+/* ------------------- GEMEINSAME STYLES ------------------- */
 :root{
-    --sun-size: clamp(120px, 18vw, 220px);
-    --ray-width: clamp(6px, 1vw, 10px);
-    --ray-height: clamp(80px, 12vw, 140px);
-    --moon-size: clamp(120px, 18vw, 220px);
+    --sun-size: clamp(110px,16vw,220px);
+    --moon-size: clamp(120px,18vw,220px);
 }
 
-html, body{
-    margin:0;
-    padding:0;
-    height:100%;
-    overflow:hidden;
-    background:#000;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    position:relative;
-    flex-direction:column;
-    background:#000;
-}
-
-/* MORGEN */
-
-.sky{
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            to bottom,
-            #000 0%,
-            #000 55%,
-            #071c2f 70%,
-            #0b3b5a 100%
-        );
-    z-index:0;
-    opacity:0;
-    pointer-events:none;
-}
-
-.sea{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:28vh;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,180,255,0.25),
-            rgba(0,90,180,0.9)
-        );
-    overflow:hidden;
-    z-index:1;
-    opacity:0;
-    pointer-events:none;
-}
-
-.wave{
-    position:absolute;
-    width:200%;
-    height:120px;
-    left:-50%;
-    border-radius:45%;
-    opacity:0.35;
-}
-
-.wave1{
-    bottom:-40px;
-    background:rgba(0,180,255,0.35);
-    animation:waveMove 10s linear infinite;
-}
-
-.wave2{
-    bottom:-55px;
-    background:rgba(255,255,255,0.12);
-    animation:waveMoveReverse 14s linear infinite;
-}
-
-.wave3{
-    bottom:-70px;
-    background:rgba(0,120,255,0.28);
-    animation:waveMove 18s linear infinite;
-}
-
-/* TAG */
-
-.cloud{
-    position:absolute;
-    background:rgba(255,255,255,0.06);
-    border-radius:999px;
-    filter:blur(2px);
-    z-index:1;
-    opacity:0;
-    pointer-events:none;
-}
-
-.cloud::before,
-.cloud::after{
-    content:"";
-    position:absolute;
-    background:inherit;
-    border-radius:inherit;
-}
-
-.cloud1{
-    width:140px;
-    height:45px;
-    top:12%;
-    left:-200px;
-    animation:cloudMove 70s linear infinite;
-}
-
-.cloud1::before{
-    width:70px;
-    height:70px;
-    top:-30px;
-    left:18px;
-}
-
-.cloud1::after{
-    width:85px;
-    height:85px;
-    top:-40px;
-    right:18px;
-}
-
-.cloud2{
-    width:180px;
-    height:55px;
-    top:32%;
-    left:-250px;
-    animation:cloudMove 95s linear infinite;
-    opacity:0.5;
-}
-
-.cloud2::before{
-    width:90px;
-    height:90px;
-    top:-40px;
-    left:22px;
-}
-
-.cloud2::after{
-    width:105px;
-    height:105px;
-    top:-48px;
-    right:22px;
-}
-
-.cloud3{
-    width:120px;
-    height:38px;
-    top:65%;
-    left:-180px;
-    animation:cloudMove 80s linear infinite;
-    opacity:0.4;
-}
-
-.cloud3::before{
-    width:60px;
-    height:60px;
-    top:-25px;
-    left:14px;
-}
-
-.cloud3::after{
-    width:72px;
-    height:72px;
-    top:-32px;
-    right:14px;
-}
-
-.bubble{
-    position:absolute;
-    bottom:-120px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(2px);
-    box-shadow:
-        0 0 10px rgba(255,255,255,0.12),
-        inset 0 0 10px rgba(255,255,255,0.08);
-    animation:bubbleFloat linear infinite;
-    z-index:1;
-    opacity:0;
-    pointer-events:none;
-}
-
-.b1{
-    width:18px;
-    height:18px;
-    left:10%;
-    animation-duration:18s;
-}
-
-.b2{
-    width:28px;
-    height:28px;
-    left:22%;
-    animation-duration:22s;
-    animation-delay:4s;
-}
-
-.b3{
-    width:14px;
-    height:14px;
-    left:38%;
-    animation-duration:16s;
-    animation-delay:2s;
-}
-
-.b4{
-    width:35px;
-    height:35px;
-    left:55%;
-    animation-duration:24s;
-    animation-delay:6s;
-}
-
-.b5{
-    width:20px;
-    height:20px;
-    left:70%;
-    animation-duration:19s;
-    animation-delay:1s;
-}
-
-.b6{
-    width:12px;
-    height:12px;
-    left:85%;
-    animation-duration:14s;
-    animation-delay:5s;
-}
-
-/* ABEND */
-
-#stars-canvas,
-#shooting-stars{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:0;
-    pointer-events:none;
-}
-
-/* TEXT */
-
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;text-align:center;position:relative;}
 h1{
-    font-size:clamp(2.5rem,8vw,5rem);
+    font-size:clamp(2rem,7vw,5rem);
     line-height:1.2;
-    background:linear-gradient(
-        135deg,
-        red,
-        orange,
-        yellow,
-        green,
-        blue,
-        indigo,
-        violet
-    );
+    position:relative; z-index:10; padding:0 20px;
+    background:linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
     background-size:700% 700%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    animation:rainbowFlow 20s linear infinite;
-    position:relative;
-    z-index:5;
+    animation: rainbowFlow 20s linear infinite;
 }
+.emoji{text-shadow:0 0 10px rgba(255,255,255,0.5),0 0 20px rgba(255,255,255,0.2);}
+.line{display:block;margin:0.4em 0;}
+@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
 
-.emoji{
-    display:inline-block;
-    text-shadow:
-        0 0 8px rgba(255,255,255,0.5),
-        0 0 15px rgba(255,255,255,0.3);
-}
+/* ------------------- MORGEN / TAG ------------------- */
+.sky{position:absolute;inset:0;z-index:0;}
+.sun{position:absolute;width:var(--sun-size);height:var(--sun-size);border-radius:50%;background:radial-gradient(circle,#fff176 0%,#ffeb3b 35%,#ff9800 70%,rgba(255,140,0,0.1) 100%);box-shadow:0 0 40px #ffeb3b,0 0 80px #ff9800,0 0 140px rgba(255,180,0,0.8);animation:sunPulse 4s ease-in-out infinite,sunFloat 8s ease-in-out infinite;z-index:1;}
+.sun-rays{position:absolute;inset:clamp(-25px,-4vw,-40px);border-radius:50%;animation:rotateRays 20s linear infinite;}
+.sun-rays span{position:absolute;width:clamp(4px,0.7vw,8px);height:clamp(40px,6vw,60px);background:linear-gradient(to top,rgba(255,140,0,0),#ffeb3b);left:50%;top:50%;margin-left:calc(clamp(4px,0.7vw,8px)/-2);margin-top:clamp(-90px,-12vw,-120px);border-radius:999px;transform-origin:center clamp(90px,12vw,120px);box-shadow:0 0 12px #ffeb3b;}
+.cloud{position:absolute;background:rgba(255,255,255,0.06);border-radius:999px;filter:blur(2px);}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:inherit;}
+.cloud1{width:clamp(100px,16vw,140px);height:clamp(35px,5vw,45px);top:12%;left:-220px;animation:cloudMove 70s linear infinite;}
+.cloud1::before{width:50%;height:160%;top:-70%;left:12%;}
+.cloud1::after{width:60%;height:190%;top:-90%;right:10%;}
+.cloud2{width:clamp(130px,22vw,180px);height:clamp(45px,6vw,55px);top:32%;left:-280px;opacity:0.5;animation:cloudMove 95s linear infinite;}
+.cloud2::before{width:50%;height:170%;top:-75%;left:12%;}
+.cloud2::after{width:60%;height:200%;top:-95%;right:10%;}
+.leaf{position:absolute;top:-60px;font-size:clamp(1rem,2vw,1.8rem);z-index:3;opacity:0.75;animation:leafFall linear infinite,leafSpin 4s ease-in-out infinite;}
+.l1{left:10%;animation-duration:14s;}
+.l2{left:28%;animation-duration:18s;animation-delay:3s;}
+.l3{left:50%;animation-duration:16s;animation-delay:1s;}
+.l4{left:70%;animation-duration:20s;animation-delay:5s;}
+.l5{left:88%;animation-duration:15s;animation-delay:2s;}
+.firefly{position:absolute;width:clamp(4px,0.7vw,6px);height:clamp(4px,0.7vw,6px);border-radius:50%;background:#ffe66d;box-shadow:0 0 8px #fff176,0 0 16px #ffee58,0 0 28px #ffeb3b;z-index:4;animation:fireflyFloat linear infinite,fireflyGlow 2s ease-in-out infinite;}
+.f1{left:15%;bottom:20vh;animation-duration:14s;}
+.f2{left:35%;bottom:25vh;animation-duration:11s;animation-delay:2s;}
+.f3{left:55%;bottom:18vh;animation-duration:16s;animation-delay:1s;}
+.f4{left:75%;bottom:23vh;animation-duration:13s;animation-delay:4s;}
+.f5{left:88%;bottom:19vh;animation-duration:15s;animation-delay:3s;}
+.bubble{position:absolute;bottom:-120px;border-radius:50%;background:rgba(255,255,255,0.08);backdrop-filter:blur(2px);box-shadow:0 0 10px rgba(255,255,255,0.12),inset 0 0 10px rgba(255,255,255,0.08);animation:bubbleFloat linear infinite;}
+.b1{width:18px;height:18px;left:10%;animation-duration:18s;}
+.b2{width:28px;height:28px;left:22%;animation-duration:22s;animation-delay:4s;}
+.b3{width:14px;height:14px;left:38%;animation-duration:16s;animation-delay:2s;}
+.b4{width:35px;height:35px;left:55%;animation-duration:24s;animation-delay:6s;}
+.b5{width:20px;height:20px;left:70%;animation-duration:19s;animation-delay:1s;}
+.b6{width:12px;height:12px;left:85%;animation-duration:14s;animation-delay:5s;}
+.grass{position:absolute;bottom:0;left:0;width:100%;height:clamp(120px,22vh,220px);display:flex;align-items:flex-end;z-index:2;}
+.blade{flex:1;background:linear-gradient(to top,#0a5f16,#20b437);clip-path:polygon(50% 0%,0% 100%,100% 100%);transform-origin:bottom;animation:growGrass 2s ease-out forwards,sway 3s ease-in-out infinite alternate;opacity:0;}
 
-.line{
-    display:block;
-    margin:0.4em 0;
-}
-
-#countdown{
-    font-size:clamp(1.5rem,5vw,3rem);
-    margin-top:20px;
-    text-shadow:0 0 5px rgba(255,255,255,0.7);
-    z-index:5;
-}
-
-/* SONNE */
-
-.sun{
-    position:absolute;
-    width:var(--sun-size);
-    height:var(--sun-size);
-    bottom:calc(var(--sun-size) / -2);
-    left:calc(var(--sun-size) / -2);
-    animation:rise 10s ease-in-out forwards;
-    z-index:2;
-}
-
-.sun-core{
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle,#ffff66,#ffcc00);
-    border-radius:50%;
-    box-shadow:
-        0 0 30px yellow,
-        0 0 60px orange,
-        0 0 100px gold;
-    z-index:2;
-}
-
-.rays{
-    position:absolute;
-    inset:0;
-    animation:
-        rotateRays 10s linear infinite,
-        pulseRays 2.5s ease-in-out infinite;
-    z-index:1;
-}
-
-.rays span{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:var(--ray-width);
-    height:var(--ray-height);
-    margin-left:calc(var(--ray-width) / -2);
-    margin-top:calc(var(--ray-height) * -1);
-    background:linear-gradient(to top,orange,yellow);
-    border-radius:999px;
-    transform-origin:center var(--ray-height);
-    box-shadow:
-        0 0 20px yellow,
-        0 0 40px orange;
-    animation:rayFloat 2s ease-in-out infinite;
-}
-
-.rays span:nth-child(even){
-    animation-delay:1s;
-}
-
-/* MOND */
-
-.moon{
-    position:absolute;
-    width:var(--moon-size);
-    height:var(--moon-size);
-    bottom:calc(var(--moon-size) / -2);
-    left:calc(var(--moon-size) / -2);
-    border-radius:50%;
-    background:radial-gradient(circle,#bdefff,#6fdcff);
-    box-shadow:
-        0 0 40px #7fe7ff,
-        0 0 80px #55dfff,
-        0 0 120px #33ccff;
-    animation:floatMoon 12s ease-in-out forwards;
-    z-index:1;
-}
-
-/* KEYFRAMES */
-
-@keyframes rainbowFlow{
-    0%{
-        background-position:0% 0%;
-    }
-
-    100%{
-        background-position:100% 100%;
-    }
-}
-
-@keyframes rise{
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:translate(
-            calc(100vw - var(--sun-size) * 0.6),
-            calc(-100vh + var(--sun-size) * 0.6)
-        );
-    }
-}
-
-@keyframes rotateRays{
-    0%{
-        transform:rotate(0deg);
-    }
-
-    100%{
-        transform:rotate(360deg);
-    }
-}
-
-@keyframes pulseRays{
-    0%{
-        scale:1;
-    }
-
-    50%{
-        scale:1.05;
-    }
-
-    100%{
-        scale:1;
-    }
-}
-
-@keyframes rayFloat{
-    0%{
-        height:var(--ray-height);
-    }
-
-    50%{
-        height:calc(var(--ray-height) + 18px);
-    }
-
-    100%{
-        height:var(--ray-height);
-    }
-}
-
-@keyframes waveMove{
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(25%);
-    }
-}
-
-@keyframes waveMoveReverse{
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(-25%);
-    }
-}
-
-@keyframes cloudMove{
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(calc(100vw + 500px));
-    }
-}
-
-@keyframes bubbleFloat{
-    0%{
-        transform:
-            translateY(0)
-            translateX(0)
-            scale(0.7);
-        opacity:0;
-    }
-
-    10%{
-        opacity:1;
-    }
-
-    50%{
-        transform:
-            translateY(-50vh)
-            translateX(20px)
-            scale(1);
-    }
-
-    100%{
-        transform:
-            translateY(-120vh)
-            translateX(-20px)
-            scale(1.2);
-        opacity:0;
-    }
-}
-
-@keyframes floatMoon{
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:translate(
-            calc(100vw - var(--moon-size) * 0.6),
-            calc(-100vh + var(--moon-size) * 0.6)
-        );
-    }
-}
+/* ------------------- NACHT ------------------- */
+#stars-canvas,#shooting-stars{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;}
+#stars-canvas{z-index:0;}
+#shooting-stars{z-index:1;}
+.moon{position:absolute;width:var(--moon-size);height:var(--moon-size);bottom:calc(var(--moon-size)/-2);left:calc(var(--moon-size)/-2);border-radius:50%;background:radial-gradient(circle,#d8f7ff 0%,#8be8ff 45%,#53d9ff 100%);box-shadow:0 0 40px #7fe7ff,0 0 80px #55dfff,0 0 120px #33ccff;animation:floatMoon 12s ease-in-out forwards;z-index:2;}
+.ufo-zone{position:absolute;inset:0;overflow:hidden;z-index:6;pointer-events:none;}
+.ufo{position:absolute;font-size:clamp(2.5rem,5vw,4rem);z-index:6;filter:drop-shadow(0 0 10px cyan) drop-shadow(0 0 25px white);animation:ufoFly 28s linear infinite,ufoFloat 2s ease-in-out infinite;}
+@keyframes floatMoon{0%{transform:translate(0,0);}100%{transform:translate(calc(100vw - var(--moon-size)*0.6),calc(-100vh + var(--moon-size)*0.6));}}
+@keyframes ufoFly{0%{left:-15%;top:80%;transform:rotate(0deg);}100%{left:-15%;top:80%;transform:rotate(0deg);}}
+@keyframes ufoFloat{0%,100%{margin-top:0;}50%{margin-top:-15px;}}
+@keyframes cloudMove{0%{transform:translateX(0);}100%{transform:translateX(calc(100vw + 500px));}}
+@keyframes bubbleFloat{0%{transform:translateY(0) translateX(0) scale(0.7);opacity:0;}10%{opacity:1;}50%{transform:translateY(-50vh) translateX(20px) scale(1);}100%{transform:translateY(-120vh) translateX(-20px) scale(1.2);opacity:0;}}
+@keyframes fireflyFloat{0%{transform:translate(0,0);}25%{transform:translate(20px,-40px);}50%{transform:translate(-10px,-80px);}75%{transform:translate(25px,-40px);}100%{transform:translate(0,0);}}
+@keyframes fireflyGlow{0%,100%{opacity:0.4;scale:0.8;}50%{opacity:1;scale:1.4;}}
+@keyframes leafFall{0%{transform:translateY(-80px) translateX(0);}100%{transform:translateY(120vh) translateX(80px);}}
+@keyframes leafSpin{0%{rotate:0deg;}100%{rotate:360deg;}}
+@keyframes sunPulse{0%,100%{scale:1;}50%{scale:1.08;}}
+@keyframes sunFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
+@keyframes rotateRays{0%{rotate:0deg;}100%{rotate:360deg;}}
+@keyframes growGrass{0%{transform:scaleY(0);opacity:0;}100%{transform:scaleY(1);opacity:1;}}
+@keyframes sway{0%{transform:rotate(-2deg);}100%{transform:rotate(2deg);}}
+@media(max-width:768px){h1{padding:0 14px;}.grass{height:20vh;}}
+@media(max-width:480px){.sun{top:12px;right:12px;}h1{font-size:clamp(1.8rem,9vw,3rem);}.grass{height:18vh;}}
 </style>
 </head>
 
 <body>
 
+<!-- MORGEN / TAG -->
 <div class="sky"></div>
-
-<div class="sea">
-    <div class="wave wave1"></div>
-    <div class="wave wave2"></div>
-    <div class="wave wave3"></div>
+<div class="sun">
+    <div class="sun-rays">
+        <span style="transform:rotate(0deg);"></span>
+        <span style="transform:rotate(30deg);"></span>
+        <span style="transform:rotate(60deg);"></span>
+        <span style="transform:rotate(90deg);"></span>
+        <span style="transform:rotate(120deg);"></span>
+        <span style="transform:rotate(150deg);"></span>
+        <span style="transform:rotate(180deg);"></span>
+        <span style="transform:rotate(210deg);"></span>
+        <span style="transform:rotate(240deg);"></span>
+        <span style="transform:rotate(270deg);"></span>
+        <span style="transform:rotate(300deg);"></span>
+        <span style="transform:rotate(330deg);"></span>
+    </div>
 </div>
 
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
-<div class="cloud cloud3"></div>
+
+<div class="leaf l1">🍃</div>
+<div class="leaf l2">🌸</div>
+<div class="leaf l3">🍂</div>
+<div class="leaf l4">🌺</div>
+<div class="leaf l5">🍃</div>
+
+<div class="firefly f1"></div>
+<div class="firefly f2"></div>
+<div class="firefly f3"></div>
+<div class="firefly f4"></div>
+<div class="firefly f5"></div>
 
 <div class="bubble b1"></div>
 <div class="bubble b2"></div>
@@ -529,369 +132,45 @@ h1{
 <div class="bubble b5"></div>
 <div class="bubble b6"></div>
 
+<div class="grass" id="grass"></div>
+
+<!-- NACHT -->
 <canvas id="stars-canvas"></canvas>
 <canvas id="shooting-stars"></canvas>
+<div class="moon"></div>
+<div class="ufo-zone"><div class="ufo">🛸</div></div>
 
-<div id="sunContainer"></div>
-
-<h1 id="welcome"></h1>
-<div id="countdown"></div>
+<h1 id="greeting">🌼 Schönen Guten Tag 🔆</h1>
 
 <script>
-const el = document.getElementById("welcome");
-const sunContainer = document.getElementById("sunContainer");
-
-const now = new Date();
-const day = now.getDate();
-const month = now.getMonth() + 1;
-const hour = now.getHours();
-
-let html = "";
-
-if(month === 12 && day >= 24 && day <= 26){
-
-    html = `
-        <span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span>
-        <span class="line"></span>
-        <span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>
-    `;
-
-} else if(month === 12 && day === 31){
-
-    html = `
-        <span class="emoji">🍾</span>Guten<span class="emoji">🍾</span>
-        <span class="line"></span>
-        <span class="emoji">🎉</span>Rutsch<span class="emoji">🎉</span>
-    `;
-
-} else if(month === 1 && day === 1){
-
-    html = `
-        <span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span>
-        <span class="line"></span>
-        <span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span>
-    `;
-
-} else if(month === 10 && day === 31){
-
-    html = `
-        <span class="emoji">💀</span>Happy<span class="emoji">💀</span>
-        <span class="line"></span>
-        <span class="emoji">👻</span>Halloween<span class="emoji">👻</span>
-    `;
-
-} else if(month === 4 && day >= 18 && day <= 21){
-
-    html = `
-        <span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span>
-        <span class="line"></span>
-        <span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span>
-    `;
-
-} else if(hour >= 5 && hour < 12){
-
-    document.querySelector(".sky").style.opacity = "1";
-    document.querySelector(".sea").style.opacity = "1";
-
-    html = `
-        <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
-        <span class="line"></span>
-        <span class="emoji">☕</span>Morgen<span class="emoji">☕</span>
-    `;
-
-    sunContainer.innerHTML = `
-        <div class="sun">
-            <div class="rays">
-                <span style="transform:rotate(0deg);"></span>
-                <span style="transform:rotate(30deg);"></span>
-                <span style="transform:rotate(60deg);"></span>
-                <span style="transform:rotate(90deg);"></span>
-                <span style="transform:rotate(120deg);"></span>
-                <span style="transform:rotate(150deg);"></span>
-                <span style="transform:rotate(180deg);"></span>
-                <span style="transform:rotate(210deg);"></span>
-                <span style="transform:rotate(240deg);"></span>
-                <span style="transform:rotate(270deg);"></span>
-                <span style="transform:rotate(300deg);"></span>
-                <span style="transform:rotate(330deg);"></span>
-            </div>
-
-            <div class="sun-core"></div>
-        </div>
-    `;
-
-} else if(hour >= 12 && hour < 18){
-
-    document.querySelectorAll(".cloud").forEach(el => {
-        el.style.opacity = "1";
-    });
-
-    document.querySelectorAll(".bubble").forEach(el => {
-        el.style.opacity = "1";
-    });
-
-    html = `
-        <span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span>
-        <span class="line"></span>
-        <span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span>
-    `;
-
-} else{
-
-    html = `
-        <span class="emoji">🌙</span>Guten<span class="emoji">🌙</span>
-        <span class="line"></span>
-        <span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>
-    `;
-
-    sunContainer.innerHTML = `<div class="moon"></div>`;
+/* ------------------- GRAS ------------------- */
+const grass=document.getElementById("grass");
+const bladeCount=window.innerWidth<600?80:140;
+for(let i=0;i<bladeCount;i++){
+    const blade=document.createElement("div");
+    blade.className="blade";
+    blade.style.animationDelay=Math.random()*1.5+"s";
+    blade.style.height=(40+Math.random()*120)+"px";
+    grass.appendChild(blade);
 }
 
-el.innerHTML = html;
-
-/* ABEND ANIMATION */
-
-if(hour >= 18 || hour < 5){
-
-const starCanvas = document.getElementById("stars-canvas");
-const starCtx = starCanvas.getContext("2d");
-
-const shootCanvas = document.getElementById("shooting-stars");
-const shootCtx = shootCanvas.getContext("2d");
-
-function resizeCanvas(){
-
-    starCanvas.width = shootCanvas.width = window.innerWidth;
-    starCanvas.height = shootCanvas.height = window.innerHeight;
-}
-
-resizeCanvas();
-
-window.addEventListener("resize", resizeCanvas);
-
-let STAR_COUNT =
-    window.innerWidth < 600
-    ? 25
-    : window.innerWidth < 1200
-    ? 45
-    : 70;
-
-const stars = [];
-
-for(let i = 0; i < STAR_COUNT; i++){
-
-    stars.push({
-        x: Math.random() * starCanvas.width,
-        y: Math.random() * starCanvas.height,
-        size: Math.random() * 3 + 1.5,
-        phase: Math.random() * Math.PI * 2
-    });
-}
-
-function drawStars(){
-
-    starCtx.clearRect(0,0,starCanvas.width,starCanvas.height);
-
-    stars.forEach(s => {
-
-        const alpha =
-            0.2 +
-            Math.abs(
-                Math.sin(
-                    s.phase + performance.now() / 1200
-                )
-            ) * 0.8;
-
-        starCtx.shadowColor = `rgba(255,255,255,${alpha})`;
-        starCtx.shadowBlur = 12;
-
-        starCtx.fillStyle = `rgba(255,255,255,${alpha})`;
-
-        let rot = Math.PI / 2 * 3;
-        let spikes = 5;
-        let outer = s.size;
-        let inner = s.size / 2;
-
-        starCtx.beginPath();
-
-        starCtx.moveTo(s.x, s.y - outer);
-
-        for(let i = 0; i < spikes; i++){
-
-            starCtx.lineTo(
-                s.x + Math.cos(rot) * outer,
-                s.y + Math.sin(rot) * outer
-            );
-
-            rot += Math.PI / spikes;
-
-            starCtx.lineTo(
-                s.x + Math.cos(rot) * inner,
-                s.y + Math.sin(rot) * inner
-            );
-
-            rot += Math.PI / spikes;
-        }
-
-        starCtx.closePath();
-        starCtx.fill();
-
-        s.phase += 0.02;
-    });
-
-    requestAnimationFrame(drawStars);
-}
-
-drawStars();
-
-class ShootingStar{
-
-    constructor(){
-        this.reset();
-    }
-
-    reset(){
-
-        this.x = Math.random() * shootCanvas.width;
-        this.y = Math.random() * -shootCanvas.height;
-
-        this.len = 70 + Math.random() * 80;
-
-        this.speed = 0.15 + Math.random() * 0.35;
-
-        this.angle =
-            Math.random() * Math.PI / 3 +
-            Math.PI / 5;
-
-        this.size = 1 + Math.random() * 1.2;
-    }
-
-    update(){
-
-        this.x -= Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-
-        if(
-            this.x < -this.len ||
-            this.y > shootCanvas.height + this.len
-        ){
-            this.reset();
-        }
-    }
-
-    draw(){
-
-        const endX = this.x;
-        const endY = this.y;
-
-        const startX =
-            endX + Math.cos(this.angle) * this.len;
-
-        const startY =
-            endY - Math.sin(this.angle) * this.len;
-
-        const grad =
-            shootCtx.createLinearGradient(
-                startX,
-                startY,
-                endX,
-                endY
-            );
-
-        grad.addColorStop(0,"rgba(255,255,255,0)");
-        grad.addColorStop(0.4,"rgba(255,255,255,0.25)");
-        grad.addColorStop(1,"rgba(255,255,255,1)");
-
-        shootCtx.beginPath();
-
-        shootCtx.moveTo(startX, startY);
-        shootCtx.lineTo(endX, endY);
-
-        shootCtx.strokeStyle = grad;
-        shootCtx.lineWidth = this.size;
-
-        shootCtx.shadowColor = "#ffffff";
-        shootCtx.shadowBlur = 12;
-
-        shootCtx.lineCap = "round";
-
-        shootCtx.stroke();
-
-        shootCtx.fillStyle = "#ffffff";
-
-        let rot = Math.PI / 2 * 3;
-        let spikes = 5;
-
-        let outer = this.size * 1.8;
-        let inner = outer / 2;
-
-        shootCtx.beginPath();
-
-        shootCtx.moveTo(endX, endY - outer);
-
-        for(let i = 0; i < spikes; i++){
-
-            shootCtx.lineTo(
-                endX + Math.cos(rot) * outer,
-                endY + Math.sin(rot) * outer
-            );
-
-            rot += Math.PI / spikes;
-
-            shootCtx.lineTo(
-                endX + Math.cos(rot) * inner,
-                endY + Math.sin(rot) * inner
-            );
-
-            rot += Math.PI / spikes;
-        }
-
-        shootCtx.closePath();
-
-        shootCtx.shadowColor = "#ffffff";
-        shootCtx.shadowBlur = 10;
-
-        shootCtx.fill();
-    }
-}
-
-const shootingStars = [];
-
-let maxShoot =
-    window.innerWidth < 600
-    ? 2
-    : window.innerWidth < 1200
-    ? 4
-    : 6;
-
-for(let i = 0; i < maxShoot; i++){
-
-    shootingStars.push(
-        new ShootingStar()
-    );
-}
-
-function animateShooting(){
-
-    shootCtx.clearRect(
-        0,
-        0,
-        shootCanvas.width,
-        shootCanvas.height
-    );
-
-    shootingStars.forEach(s => {
-
-        s.update();
-        s.draw();
-    });
-
-    requestAnimationFrame(animateShooting);
-}
-
-animateShooting();
-
-}
+/* ------------------- STERNE ------------------- */
+const starCanvas=document.getElementById("stars-canvas");
+const starCtx=starCanvas.getContext("2d");
+const shootCanvas=document.getElementById("shooting-stars");
+const shootCtx=shootCanvas.getContext("2d");
+let stars=[],shootingStars=[];
+
+function getStarCount(){return window.innerWidth<600?40:window.innerWidth<1200?70:110;}
+function getShootCount(){return window.innerWidth<600?2:window.innerWidth<1200?4:6;}
+function resizeCanvas(){starCanvas.width=shootCanvas.width=window.innerWidth;starCanvas.height=shootCanvas.height=window.innerHeight;createStars();createShootingStars();}
+window.addEventListener("resize",resizeCanvas);
+function createStars(){stars=[];const STAR_COUNT=getStarCount();for(let i=0;i<STAR_COUNT;i++){stars.push({x:Math.random()*starCanvas.width,y:Math.random()*starCanvas.height,size:Math.random()*2.5+0.5,phase:Math.random()*Math.PI*2});}}
+function drawStars(){starCtx.clearRect(0,0,starCanvas.width,starCanvas.height);stars.forEach(s=>{const alpha=0.25+Math.abs(Math.sin(s.phase+performance.now()/1500))*0.75;starCtx.beginPath();starCtx.fillStyle=`rgba(255,255,255,${alpha})`;starCtx.shadowColor=`rgba(255,255,255,${alpha})`;starCtx.shadowBlur=10;starCtx.arc(s.x,s.y,s.size,0,Math.PI*2);starCtx.fill();s.phase+=0.01;});requestAnimationFrame(drawStars);}
+class ShootingStar{constructor(){this.reset();}reset(){this.x=Math.random()*shootCanvas.width;this.y=Math.random()*-shootCanvas.height;this.len=80+Math.random()*120;this.speed=2+Math.random()*2;this.angle=Math.PI/4;this.size=1+Math.random()*1.5;}update(){this.x-=Math.cos(this.angle)*this.speed;this.y+=Math.sin(this.angle)*this.speed;if(this.x<-this.len||this.y>shootCanvas.height+this.len){this.reset();}}draw(){const endX=this.x,endY=this.y,startX=endX+Math.cos(this.angle)*this.len,startY=endY-Math.sin(this.angle)*this.len;const grad=shootCtx.createLinearGradient(startX,startY,endX,endY);grad.addColorStop(0,"rgba(255,255,255,0)");grad.addColorStop(0.5,"rgba(255,255,255,0.5)");grad.addColorStop(1,"rgba(255,255,255,1)");shootCtx.beginPath();shootCtx.moveTo(startX,startY);shootCtx.lineTo(endX,endY);shootCtx.strokeStyle=grad;shootCtx.lineWidth=this.size;shootCtx.lineCap="round";shootCtx.shadowColor="white";shootCtx.shadowBlur=15;shootCtx.stroke();}}
+function createShootingStars(){shootingStars=[];const maxShoot=getShootCount();for(let i=0;i<maxShoot;i++){shootingStars.push(new ShootingStar());}}
+function animateShooting(){shootCtx.clearRect(0,0,shootCanvas.width,shootCanvas.height);shootingStars.forEach(s=>{s.update();s.draw();});requestAnimationFrame(animateShooting);}
+resizeCanvas();drawStars();animateShooting();
 </script>
 
 </body>
