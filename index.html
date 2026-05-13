@@ -7,7 +7,9 @@
 
 <style>
 :root{
-    --sun-size: clamp(110px, 16vw, 220px);
+    --sun-size: clamp(120px, 20vw, 260px);
+    --ray-width: clamp(5px, 1vw, 10px);
+    --ray-height: clamp(70px, 12vw, 150px);
 }
 
 *{
@@ -40,11 +42,155 @@ body{
         linear-gradient(
             to bottom,
             #000000 0%,
-            #050505 40%,
-            #10283d 75%,
-            #1d5f87 100%
+            #000000 45%,
+            #08263d 70%,
+            #145b82 100%
         );
     z-index:0;
+}
+
+/* MEER */
+.sea{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(180px,35vh,380px);
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,180,255,0.15) 0%,
+            rgba(0,120,210,0.4) 30%,
+            rgba(0,70,160,0.9) 100%
+        );
+    overflow:hidden;
+    z-index:1;
+}
+
+/* LICHTREFLEX */
+.sun-reflection{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:clamp(120px,20vw,260px);
+    height:100%;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.5),
+            rgba(255,220,120,0.25),
+            transparent
+        );
+    filter:blur(10px);
+    opacity:0.7;
+    animation: reflectionMove 5s ease-in-out infinite;
+    z-index:2;
+}
+
+/* WELLEN */
+.wave{
+    position:absolute;
+    width:250%;
+    left:-70%;
+    border-radius:45%;
+    opacity:0.45;
+}
+.wave1{
+    height:180px;
+    bottom:-70px;
+    background: rgba(0,180,255,0.22);
+    animation: waveMove 8s linear infinite;
+}
+.wave2{
+    height:220px;
+    bottom:-110px;
+    background: rgba(255,255,255,0.08);
+    animation: waveMoveReverse 13s linear infinite;
+}
+.wave3{
+    height:250px;
+    bottom:-150px;
+    background: rgba(0,120,255,0.18);
+    animation: waveMove 18s linear infinite;
+}
+.wave4{
+    height:150px;
+    bottom:-40px;
+    background: rgba(255,255,255,0.05);
+    animation: waveMoveReverse 7s linear infinite;
+}
+
+/* WASSER GLITZERN */
+.sparkle{
+    position:absolute;
+    width:3px;
+    height:clamp(20px,4vw,35px);
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0),
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0)
+        );
+    border-radius:999px;
+    opacity:0.5;
+    animation: sparkleMove 3s ease-in-out infinite;
+}
+.s1{ left:20%; top:20%; }
+.s2{ left:35%; top:45%; animation-delay:1s; }
+.s3{ left:55%; top:30%; animation-delay:2s; }
+.s4{ left:75%; top:50%; animation-delay:0.5s; }
+.s5{ left:88%; top:25%; animation-delay:1.5s; }
+
+/* STRAND */
+.beach{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(40px,8vh,80px);
+    background:
+        linear-gradient(
+            to bottom,
+            #f6d28d,
+            #d5a96a
+        );
+    z-index:4;
+    box-shadow: 0 -8px 20px rgba(255,255,255,0.06);
+}
+
+/* DELFINE */
+.dolphin{
+    position:absolute;
+    font-size:clamp(2rem,4vw,3.5rem);
+    z-index:5;
+    opacity:0;
+    pointer-events:none;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+    animation: dolphinFlip 2s linear forwards;
+}
+
+/* TEXT */
+h1{
+    font-size:clamp(2rem,8vw,5rem);
+    line-height:1.2;
+    position:relative;
+    z-index:10;
+    padding:0 20px;
+    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size:700% 700%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: rainbowFlow 20s linear infinite;
+}
+.emoji{
+    display:inline-block;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+.line{
+    display:block;
+    margin:0.4em 0;
 }
 
 /* SONNE */
@@ -52,117 +198,88 @@ body{
     position:absolute;
     width:var(--sun-size);
     height:var(--sun-size);
-    top:clamp(10px,4vw,40px);
-    right:clamp(10px,4vw,40px);
+    bottom:calc(var(--sun-size) / -2);
+    left:calc(var(--sun-size) / -2);
+    animation: rise 10s ease-in-out forwards;
+    z-index:2;
+}
+.sun-core{
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle,#ffff66,#ffcc00);
     border-radius:50%;
-    background:
-        radial-gradient(
-            circle,
-            #fff176 0%,
-            #ffeb3b 35%,
-            #ff9800 70%,
-            rgba(255,140,0,0.1) 100%
-        );
-    box-shadow:
-        0 0 40px #ffeb3b,
-        0 0 80px #ff9800,
-        0 0 140px rgba(255,180,0,0.8);
-    animation:
-        sunPulse 4s ease-in-out infinite,
-        sunFloat 8s ease-in-out infinite;
-    z-index:1;
+    box-shadow: 0 0 30px yellow, 0 0 60px orange, 0 0 100px gold;
 }
 
-/* SONNENSTRAHLEN */
-.sun-rays{
+/* STRAHLEN */
+.rays{
     position:absolute;
-    inset:clamp(-25px,-4vw,-40px);
-    border-radius:50%;
-    animation: rotateRays 20s linear infinite;
+    inset:0;
+    animation: rotateRays 10s linear infinite, pulseRays 2.5s ease-in-out infinite;
 }
-.sun-rays span{
+.rays span{
     position:absolute;
-    width:clamp(4px,0.7vw,8px);
-    height:clamp(40px,6vw,60px);
-    background: linear-gradient(to top, rgba(255,140,0,0), #ffeb3b);
-    left:50%;
     top:50%;
-    margin-left:calc(clamp(4px,0.7vw,8px) / -2);
-    margin-top:clamp(-90px,-12vw,-120px);
+    left:50%;
+    width:var(--ray-width);
+    height:var(--ray-height);
+    margin-left:calc(var(--ray-width) / -2);
+    margin-top:calc(var(--ray-height) * -1);
+    background: linear-gradient(to top,orange,yellow);
     border-radius:999px;
-    transform-origin:center clamp(90px,12vw,120px);
-    box-shadow: 0 0 12px #ffeb3b;
+    transform-origin:center var(--ray-height);
+    box-shadow: 0 0 20px yellow, 0 0 40px orange;
+    animation: rayFloat 2s ease-in-out infinite;
 }
-
-/* WOLKEN */
-.cloud{ position:absolute; background:rgba(255,255,255,0.06); border-radius:999px; filter:blur(2px);}
-.cloud::before, .cloud::after{ content:""; position:absolute; background:inherit; border-radius:inherit; }
-.cloud1{ width:clamp(100px,16vw,140px); height:clamp(35px,5vw,45px); top:12%; left:-220px; animation: cloudMove 70s linear infinite;}
-.cloud1::before{ width:50%; height:160%; top:-70%; left:12%; }
-.cloud1::after{ width:60%; height:190%; top:-90%; right:10%; }
-.cloud2{ width:clamp(130px,22vw,180px); height:clamp(45px,6vw,55px); top:32%; left:-280px; opacity:0.5; animation: cloudMove 95s linear infinite; }
-.cloud2::before{ width:50%; height:170%; top:-75%; left:12%; }
-.cloud2::after{ width:60%; height:200%; top:-95%; right:10%; }
-
-/* FALLENDE BLÄTTER */
-.leaf{ position:absolute; top:-60px; font-size:clamp(1rem,2vw,1.8rem); z-index:3; opacity:0.75; animation: leafFall linear infinite, leafSpin 4s ease-in-out infinite;}
-.l1{ left:10%; animation-duration:14s;}
-.l2{ left:28%; animation-duration:18s; animation-delay:3s;}
-.l3{ left:50%; animation-duration:16s; animation-delay:1s;}
-.l4{ left:70%; animation-duration:20s; animation-delay:5s;}
-.l5{ left:88%; animation-duration:15s; animation-delay:2s;}
-
-/* GLÜHWÜRMCHEN */
-.firefly{ position:absolute; width:clamp(4px,0.7vw,6px); height:clamp(4px,0.7vw,6px); border-radius:50%; background:#ffe66d; box-shadow:0 0 8px #fff176,0 0 16px #ffee58,0 0 28px #ffeb3b; z-index:4; animation: fireflyFloat linear infinite, fireflyGlow 2s ease-in-out infinite; }
-.f1{ left:15%; bottom:20vh; animation-duration:14s; }
-.f2{ left:35%; bottom:25vh; animation-duration:11s; animation-delay:2s; }
-.f3{ left:55%; bottom:18vh; animation-duration:16s; animation-delay:1s; }
-.f4{ left:75%; bottom:23vh; animation-duration:13s; animation-delay:4s; }
-.f5{ left:88%; bottom:19vh; animation-duration:15s; animation-delay:3s; }
-
-/* BUBBLES */
-.bubble{ position:absolute; bottom:-120px; border-radius:50%; background: rgba(255,255,255,0.08); backdrop-filter:blur(2px); box-shadow:0 0 10px rgba(255,255,255,0.12), inset 0 0 10px rgba(255,255,255,0.08); animation: bubbleFloat linear infinite;}
-.b1{ width:18px; height:18px; left:10%; animation-duration:18s; }
-.b2{ width:28px; height:28px; left:22%; animation-duration:22s; animation-delay:4s; }
-.b3{ width:14px; height:14px; left:38%; animation-duration:16s; animation-delay:2s; }
-.b4{ width:35px; height:35px; left:55%; animation-duration:24s; animation-delay:6s; }
-.b5{ width:20px; height:20px; left:70%; animation-duration:19s; animation-delay:1s; }
-.b6{ width:12px; height:12px; left:85%; animation-duration:14s; animation-delay:5s; }
-
-/* GRAS */
-.grass{ position:absolute; bottom:0; left:0; width:100%; height:clamp(120px,22vh,220px); display:flex; align-items:flex-end; z-index:2;}
-.blade{ flex:1; background:linear-gradient(to top,#0a5f16,#20b437); clip-path:polygon(50% 0%,0% 100%,100% 100%); transform-origin:bottom; animation: growGrass 2s ease-out forwards, sway 3s ease-in-out infinite alternate; opacity:0;}
-
-/* TEXT */
-h1{ font-size:clamp(2rem,7vw,5rem); line-height:1.2; position:relative; z-index:10; padding:0 20px; background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet); background-size:700% 700%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation: rainbowFlow 20s linear infinite;}
-.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5),0 0 20px rgba(255,255,255,0.2); }
-.line{ display:block; margin:0.4em 0; }
+.rays span:nth-child(even){ animation-delay:1s; }
 
 /* ANIMATIONEN */
-@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
-@keyframes cloudMove{0%{transform:translateX(0);}100%{transform:translateX(calc(100vw + 500px));}}
-@keyframes bubbleFloat{0%{transform:translateY(0) translateX(0) scale(0.7);opacity:0;}10%{opacity:1;}50%{transform:translateY(-50vh) translateX(20px) scale(1);}100%{transform:translateY(-120vh) translateX(-20px) scale(1.2);opacity:0;}}
-@keyframes fireflyFloat{0%{transform:translate(0,0);}25%{transform:translate(20px,-40px);}50%{transform:translate(-10px,-80px);}75%{transform:translate(25px,-40px);}100%{transform:translate(0,0);}}
-@keyframes fireflyGlow{0%,100%{opacity:0.4;scale:0.8;}50%{opacity:1;scale:1.4;}}
-@keyframes leafFall{0%{transform:translateY(-80px) translateX(0);}100%{transform:translateY(120vh) translateX(80px);}}
-@keyframes leafSpin{0%{rotate:0deg;}100%{rotate:360deg;}}
-@keyframes sunPulse{0%,100%{scale:1;}50%{scale:1.08;}}
-@keyframes sunFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
-@keyframes rotateRays{0%{rotate:0deg;}100%{rotate:360deg;}}
-@keyframes growGrass{0%{transform:scaleY(0);opacity:0;}100%{transform:scaleY(1);opacity:1;}}
-@keyframes sway{0%{transform:rotate(-2deg);}100%{transform:rotate(2deg);}}
+@keyframes rainbowFlow{ 0%{ background-position:0% 0%; } 100%{ background-position:100% 100%; } }
+@keyframes rise{ 0%{ transform:translate(0,0); } 100%{ transform: translate(calc(100vw - var(--sun-size) * 0.6), calc(-100vh + var(--sun-size) * 0.7)); } }
+@keyframes rotateRays{ 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
+@keyframes pulseRays{ 0%{ scale:1; } 50%{ scale:1.05; } 100%{ scale:1; } }
+@keyframes rayFloat{ 0%{ height:var(--ray-height); } 50%{ height:calc(var(--ray-height) + 18px); } 100%{ height:var(--ray-height); } }
+@keyframes waveMove{ 0%{ transform:translateX(0); } 100%{ transform:translateX(20%); } }
+@keyframes waveMoveReverse{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-20%); } }
+@keyframes reflectionMove{ 0%,100%{ transform: translateX(-50%) scaleX(1); } 50%{ transform: translateX(-50%) scaleX(1.15); } }
+@keyframes sparkleMove{ 0%,100%{ opacity:0.2; transform:scaleY(0.7); } 50%{ opacity:1; transform:scaleY(1.3); } }
+@keyframes dolphinFlip{ 0%{ transform: translateY(0) rotate(0deg) scale(0.8); opacity:0; } 10%{ opacity:1; } 25%{ transform: translateY(-80px) rotate(120deg) scale(1); } 50%{ transform: translateY(-150px) rotate(260deg) scale(1.1); } 75%{ transform: translateY(-70px) rotate(420deg) scale(1); } 100%{ transform: translateY(20px) rotate(540deg) scale(0.7); opacity:0; } }
 
-@media (max-width:768px){ h1{padding:0 14px;} .grass{height:20vh;} }
-@media (max-width:480px){ .sun{top:12px;right:12px;} h1{font-size:clamp(1.8rem,9vw,3rem);} .grass{height:18vh;} }
+@media (max-width:768px){
+    .sea{ height:32vh; }
+    .wave{ width:320%; left:-110%; }
+    h1{ margin-top:-8vh; }
+}
+
+@media (max-width:480px){
+    .sea{ height:30vh; }
+    .beach{ height:7vh; }
+    .wave{ width:360%; left:-130%; }
+    h1{ font-size:clamp(1.8rem,10vw,3rem); }
+}
 </style>
 </head>
-
 <body>
 
 <div class="sky"></div>
 
+<div class="sea">
+    <div class="sun-reflection"></div>
+    <div class="sparkle s1"></div>
+    <div class="sparkle s2"></div>
+    <div class="sparkle s3"></div>
+    <div class="sparkle s4"></div>
+    <div class="sparkle s5"></div>
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div>
+</div>
+
+<div class="beach"></div>
+
 <div class="sun">
-    <div class="sun-rays">
+    <div class="rays">
         <span style="transform:rotate(0deg);"></span>
         <span style="transform:rotate(30deg);"></span>
         <span style="transform:rotate(60deg);"></span>
@@ -176,46 +293,16 @@ h1{ font-size:clamp(2rem,7vw,5rem); line-height:1.2; position:relative; z-index:
         <span style="transform:rotate(300deg);"></span>
         <span style="transform:rotate(330deg);"></span>
     </div>
+    <div class="sun-core"></div>
 </div>
 
-<div class="cloud cloud1"></div>
-<div class="cloud cloud2"></div>
-
-<div class="leaf l1">🍃</div>
-<div class="leaf l2">🌸</div>
-<div class="leaf l3">🍂</div>
-<div class="leaf l4">🌺</div>
-<div class="leaf l5">🍃</div>
-
-<div class="firefly f1"></div>
-<div class="firefly f2"></div>
-<div class="firefly f3"></div>
-<div class="firefly f4"></div>
-<div class="firefly f5"></div>
-
-<div class="bubble b1"></div>
-<div class="bubble b2"></div>
-<div class="bubble b3"></div>
-<div class="bubble b4"></div>
-<div class="bubble b5"></div>
-<div class="bubble b6"></div>
-
-<div class="grass" id="grass"></div>
-
-<h1 id="greeting"></h1>
+<h1 id="greeting">
+    <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
+    <span class="line"></span>
+    <span class="emoji">☕</span>Morgen<span class="emoji">☕</span>
+</h1>
 
 <script>
-// --- Gras generieren ---
-const grass = document.getElementById("grass");
-const bladeCount = window.innerWidth < 600 ? 80 : 140;
-for(let i = 0; i < bladeCount; i++){
-    const blade = document.createElement("div");
-    blade.className = "blade";
-    blade.style.animationDelay = Math.random() * 1.5 + "s";
-    blade.style.height = (40 + Math.random() * 120) + "px";
-    grass.appendChild(blade);
-}
-
 // --- Zeit- & Feiertagsbegrüßung ---
 function getTimeGreeting() {
     const now = new Date();
@@ -224,13 +311,13 @@ function getTimeGreeting() {
     const day = now.getDate();
 
     // Feiertage
-    if(month === 12 && day === 24) return "🎄 Frohe Weihnachten! 🎄";
-    if(month === 12 && day === 31) return "🎉 Guten Rutsch! 🎉";
-    if(month === 1 && day === 1) return "🥳 Frohes Neues Jahr! 🥳";
-    if(month === 10 && day === 31) return "🎃 Happy Halloween! 🎃";
+    if(month === 12 && day === 24) return "Frohe Weihnachten!";
+    if(month === 12 && day === 31) return "Guten Rutsch!";
+    if(month === 1 && day === 1) return "Frohes Neues Jahr!";
+    if(month === 10 && day === 31) return "Happy Halloween!";
     // Ostern berechnen
     const easter = calculateEaster(now.getFullYear());
-    if(month === (easter.getMonth()+1) && day === easter.getDate()) return "🐰 Frohe Ostern! 🐰";
+    if(month === (easter.getMonth()+1) && day === easter.getDate()) return "Frohe Ostern!";
 
     // Tageszeit
     if(hours >= 5 && hours < 12) return "Morgen";
@@ -253,14 +340,39 @@ function updateGreeting() {
     const greetingText = getTimeGreeting();
 
     greetingElement.innerHTML = `
-        <span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span>
+        <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
         <span class="line"></span>
-        <span class="emoji">🔆</span>${greetingText}<span class="emoji">🔆</span>
+        <span class="emoji">☕</span>${greetingText}<span class="emoji">☕</span>
     `;
+
+    if(greetingText === "Morgen"){
+        spawnLoop();
+    }
 }
 
+// --- Delfin Animation ---
+function createDolphin(){
+    const dolphin = document.createElement("div");
+    dolphin.className = "dolphin";
+    dolphin.innerHTML = "🐬";
+    const side = Math.random() > 0.5 ? "left" : "right";
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = 10 + Math.random() * 8;
+    dolphin.style.left = x + "px";
+    dolphin.style.bottom = y + "vh";
+    if(side === "right"){ dolphin.style.transform = "rotateY(180deg)"; }
+    document.body.appendChild(dolphin);
+    setTimeout(() => dolphin.remove(), 2000);
+}
+
+function spawnLoop(){
+    createDolphin();
+    const next = 700 + Math.random() * 1500;
+    setTimeout(spawnLoop, next);
+}
+
+// --- Start ---
 updateGreeting();
 </script>
-
 </body>
 </html>
