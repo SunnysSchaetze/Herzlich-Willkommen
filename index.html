@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merged Document</title>
+  <style>
+    .merged-section { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #ddd; }
+    .merged-section:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+<!-- ═══ Evening.html ═══ -->
+<section class="merged-section">
+<canvas id="stars-canvas"></canvas>
+<canvas id="shooting-stars"></canvas>
+
+<div class="moon"></div>
+
+<!-- UFO -->
+<div class="ufo-zone">
+    <div class="ufo">🛸</div>
+</div>
+
+<h1>
+    <span class="emoji">🌙</span>Guten<span class="emoji">🌙</span>
+    <span class="line"></span>
+    <span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>
+</h1>
+
+<script>
+const starCanvas =
+    document.getElementById("stars-canvas");
+
+const starCtx =
+    starCanvas.getContext("2d");
+
+const shootCanvas =
+    document.getElementById("shooting-stars");
+
+const shootCtx =
+    shootCanvas.getContext("2d");
+
+let stars = [];
+let shootingStars = [];
+
+/* RESPONSIVE */
+
+function getStarCount(){
+
+    if(window.innerWidth < 600){
+        return 40;
+    }
+
+    if(window.innerWidth < 1200){
+        return 70;
+    }
+
+    return 110;
+}
+
+function getShootCount(){
+
+    if(window.innerWidth < 600){
+        return 2;
+    }
+
+    if(window.innerWidth < 1200){
+        return 4;
+    }
+
+    return 6;
+}
+
+function resizeCanvas(){
+
+    starCanvas.width =
+        shootCanvas.width =
+        window.innerWidth;
+
+    starCanvas.height =
+        shootCanvas.height =
+        window.innerHeight;
+
+    createStars();
+    createShootingStars();
+}
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+/* STERNE */
+
+function createStars(){
+
+    stars = [];
+
+    const STAR_COUNT =
+        getStarCount();
+
+    for(let i = 0; i < STAR_COUNT; i++){
+
+        stars.push({
+
+            x:
+                Math.random() *
+                starCanvas.width,
+
+            y:
+                Math.random() *
+                starCanvas.height,
+
+            size:
+                Math.random() * 2.5 + 0.5,
+
+            phase:
+                Math.random() *
+                Math.PI * 2
+        });
+    }
+}
+
+function drawStars(){
+
+    starCtx.clearRect(
+        0,
+        0,
+        starCanvas.width,
+        starCanvas.height
+    );
+
+    stars.forEach(s => {
+
+        const alpha =
+            0.25 +
+            Math.abs(
+                Math.sin(
+                    s.phase +
+                    performance.now() / 1500
+                )
+            ) * 0.75;
+
+        starCtx.beginPath();
+
+        starCtx.fillStyle =
+            `rgba(255,255,255,${alpha})`;
+
+        starCtx.shadowColor =
+            `rgba(255,255,255,${alpha})`;
+
+        starCtx.shadowBlur = 10;
+
+        starCtx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI * 2
+        );
+
+        starCtx.fill();
+
+        s.phase += 0.01;
+    });
+
+    requestAnimationFrame(drawStars);
+}
+
+/* STERNSCHNUPPEN */
+
+class ShootingStar{
+
+    constructor(){
+        this.reset();
+    }
+
+    reset(){
+
+        this.x =
+            Math.random() *
+            shootCanvas.width;
+
+        this.y =
+            Math.random() *
+            -shootCanvas.height;
+
+        this.len =
+            80 +
+            Math.random() * 120;
+
+        this.speed =
+            2 +
+            Math.random() * 2;
+
+        this.angle =
+            Math.PI / 4;
+
+        this.size =
+            1 +
+            Math.random() * 1.5;
+    }
+
+    update(){
+
+        this.x -=
+            Math.cos(this.angle) *
+            this.speed;
+
+        this.y +=
+            Math.sin(this.angle) *
+            this.speed;
+
+        if(
+            this.x < -this.len ||
+            this.y >
+            shootCanvas.height + this.len
+        ){
+            this.reset();
+        }
+    }
+
+    draw(){
+
+        const endX = this.x;
+        const endY = this.y;
+
+        const startX =
+            endX +
+            Math.cos(this.angle) *
+            this.len;
+
+        const startY =
+            endY -
+            Math.sin(this.angle) *
+            this.len;
+
+        const grad =
+            shootCtx.createLinearGradient(
+                startX,
+                startY,
+                endX,
+                endY
+            );
+
+        grad.addColorStop(
+            0,
+            "rgba(255,255,255,0)"
+        );
+
+        grad.addColorStop(
+            0.5,
+            "rgba(255,255,255,0.5)"
+        );
+
+        grad.addColorStop(
+            1,
+            "rgba(255,255,255,1)"
+        );
+
+        shootCtx.beginPath();
+
+        shootCtx.moveTo(
+            startX,
+            startY
+        );
+
+        shootCtx.lineTo(
+            endX,
+            endY
+        );
+
+        shootCtx.strokeStyle = grad;
+
+        shootCtx.lineWidth =
+            this.size;
+
+        shootCtx.lineCap =
+            "round";
+
+        shootCtx.shadowColor =
+            "white";
+
+        shootCtx.shadowBlur = 15;
+
+        shootCtx.stroke();
+    }
+}
+
+function createShootingStars(){
+
+    shootingStars = [];
+
+    const maxShoot =
+        getShootCount();
+
+    for(let i = 0; i < maxShoot; i++){
+
+        shootingStars.push(
+            new ShootingStar()
+        );
+    }
+}
+
+function animateShooting(){
+
+    shootCtx.clearRect(
+        0,
+        0,
+        shootCanvas.width,
+        shootCanvas.height
+    );
+
+    shootingStars.forEach(s => {
+
+        s.update();
+        s.draw();
+    });
+
+    requestAnimationFrame(
+        animateShooting
+    );
+}
+
+/* START */
+
+resizeCanvas();
+
+drawStars();
+
+animateShooting();
+</script>
+</section>
+
+<!-- ═══ Easter.html ═══ -->
+<section class="merged-section">
+<div class="moon"></div>
+
+<h1>
+    <span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span>
+    <span class="line"></span>
+    <span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span>
+</h1>
+
+<div class="grass"></div>
+
+<div class="flower" style="left:8%;">🌷</div>
+<div class="flower" style="left:18%;">🌼</div>
+<div class="flower" style="left:30%;">🌸</div>
+<div class="flower" style="left:72%;">🌻</div>
+<div class="flower" style="left:84%;">🌺</div>
+
+<div class="egg" style="left:12%;">🥚</div>
+<div class="egg" style="left:24%;">🪺</div>
+<div class="egg" style="left:78%;">🥚</div>
+<div class="egg" style="left:90%;">🪺</div>
+
+<div class="bunny-container" id="bunnyContainer"></div>
+
+<script>
+
+for(let i = 0; i < 120; i++){
+
+    const star =
+        document.createElement("div");
+
+    star.className = "star";
+
+    const size =
+        Math.random() * 3 + 1;
+
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+
+    star.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    star.style.top =
+        Math.random() * (window.innerHeight * 0.75) + "px";
+
+    star.style.animationDelay =
+        Math.random() * 5 + "s";
+
+    document.body.appendChild(star);
+}
+
+for(let i = 0; i < 18; i++){
+
+    const fly =
+        document.createElement("div");
+
+    fly.className = "firefly";
+
+    fly.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    fly.style.top =
+        Math.random() * (window.innerHeight * 0.7) + "px";
+
+    fly.style.animationDuration =
+        (4 + Math.random() * 6) + "s";
+
+    fly.style.animationDelay =
+        Math.random() * 5 + "s";
+
+    document.body.appendChild(fly);
+}
+
+const bunnyContainer =
+    document.getElementById("bunnyContainer");
+
+function spawnBunny(){
+
+    const bunny =
+        document.createElement("div");
+
+    bunny.className = "bunny";
+
+    bunny.innerText = "🐇";
+
+    bunny.style.animationDuration =
+        (10 + Math.random() * 6) + "s, 0.7s";
+
+    bunny.style.fontSize =
+        (2 + Math.random() * 2) + "rem";
+
+    bunnyContainer.appendChild(bunny);
+
+    setTimeout(() => {
+
+        bunny.remove();
+
+    },18000);
+}
+
+spawnBunny();
+
+setInterval(() => {
+
+    if(document.querySelectorAll(".bunny").length < 2){
+
+        spawnBunny();
+    }
+
+},4000);
+
+</script>
+</section>
+
+<!-- ═══ Day.html ═══ -->
+<section class="merged-section">
+<div class="sky"></div>
+
+<div class="sun">
+
+    <div class="sun-rays">
+        <span style="transform:rotate(0deg);"></span>
+        <span style="transform:rotate(30deg);"></span>
+        <span style="transform:rotate(60deg);"></span>
+        <span style="transform:rotate(90deg);"></span>
+        <span style="transform:rotate(120deg);"></span>
+        <span style="transform:rotate(150deg);"></span>
+        <span style="transform:rotate(180deg);"></span>
+        <span style="transform:rotate(210deg);"></span>
+        <span style="transform:rotate(240deg);"></span>
+        <span style="transform:rotate(270deg);"></span>
+        <span style="transform:rotate(300deg);"></span>
+        <span style="transform:rotate(330deg);"></span>
+    </div>
+
+</div>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="leaf l1">🍃</div>
+<div class="leaf l2">🌸</div>
+<div class="leaf l3">🍂</div>
+<div class="leaf l4">🌺</div>
+<div class="leaf l5">🍃</div>
+
+<div class="firefly f1"></div>
+<div class="firefly f2"></div>
+<div class="firefly f3"></div>
+<div class="firefly f4"></div>
+<div class="firefly f5"></div>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+<div class="bubble b5"></div>
+<div class="bubble b6"></div>
+
+<div class="grass" id="grass"></div>
+
+<h1>
+    <span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span>
+    <span class="line"></span>
+    <span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span>
+</h1>
+
+<script>
+
+const grass = document.getElementById("grass");
+
+const bladeCount =
+    window.innerWidth < 600 ? 80 : 140;
+
+for(let i = 0; i < bladeCount; i++){
+
+    const blade =
+        document.createElement("div");
+
+    blade.className = "blade";
+
+    blade.style.animationDelay =
+        Math.random() * 1.5 + "s";
+
+    blade.style.height =
+        (40 + Math.random() * 120) + "px";
+
+    grass.appendChild(blade);
+}
+
+</script>
+</section>
+
+<!-- ═══ Christmas.html ═══ -->
+<section class="merged-section">
+<div class="aurora"></div>
+<div class="aurora2"></div>
+
+<div class="santa">🦌🦌🦌🎅🛷</div>
+
+<div class="snowGround"></div>
+
+<!-- DORF -->
+
+<div class="village">
+
+    <div class="house">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+        <div class="window w3"></div>
+        <div class="window w4"></div>
+    </div>
+
+    <div class="house" style="background:#5c4b8a;">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+    </div>
+
+    <div class="house" style="background:#2f6b55;">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+        <div class="window w3"></div>
+    </div>
+
+    <div class="house" style="background:#8a2f4a;">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+    </div>
+
+    <div class="house" style="background:#355c8a;">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+        <div class="window w3"></div>
+    </div>
+
+    <div class="house" style="background:#7b5a2c;">
+        <div class="chimney"></div>
+        <div class="roof-snow"></div>
+
+        <div class="window w1"></div>
+        <div class="window w2"></div>
+    </div>
+
+</div>
+
+<!-- BAUM -->
+
+<div class="tree">
+
+    <div class="star">⭐</div>
+
+    <div class="tree-body"></div>
+    <div class="trunk"></div>
+
+    <div class="ball ball1"></div>
+    <div class="ball ball2"></div>
+    <div class="ball ball3"></div>
+    <div class="ball ball4"></div>
+    <div class="ball ball5"></div>
+    <div class="ball ball6"></div>
+
+    <div class="gifts">
+        <div class="gift gift1"></div>
+        <div class="gift gift2"></div>
+        <div class="gift gift3"></div>
+    </div>
+
+</div>
+
+<!-- TEXT -->
+
+<h1>
+    <span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span>
+    <span class="line"></span>
+    <span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>
+</h1>
+
+<script>
+
+function createSnowflake(){
+
+    const s =
+        document.createElement("div");
+
+    s.className = "snowflake";
+
+    const size =
+        Math.random() * 5 + 2;
+
+    s.style.width = size + "px";
+    s.style.height = size + "px";
+
+    s.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    s.style.animationDuration =
+        (Math.random() * 4 + 5) + "s";
+
+    document.body.appendChild(s);
+
+    setTimeout(() => {
+        s.remove();
+    },10000);
+}
+
+setInterval(createSnowflake,150);
+
+</script>
+</section>
+
+<!-- ═══ newyear_day.html ═══ -->
+<section class="merged-section">
+<div class="glow"></div>
+
+<h1>
+    <span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span>
+    <span class="line"></span>
+    <span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span>
+</h1>
+
+<script>
+
+/* RESPONSIVE PARTIKELMENGE */
+
+function getParticleAmount(){
+
+    if(window.innerWidth < 600){
+        return 24;
+    }
+
+    if(window.innerWidth < 1200){
+        return 34;
+    }
+
+    return 46;
+}
+
+/* 🎇 PARTIKEL */
+
+function createParticle(
+    x,
+    y,
+    type,
+    angleOffset = 0
+){
+
+    const p =
+        document.createElement("div");
+
+    p.className = "particle";
+
+    const angle =
+        Math.random() *
+        Math.PI * 2 +
+        angleOffset;
+
+    let distance =
+        Math.random() * 140 + 60;
+
+    const hue =
+        Math.random() * 360;
+
+    if(type === "star"){
+
+        distance *= 1.3;
+
+        p.style.boxShadow =
+            `0 0 12px hsl(${hue},100%,60%)`;
+    }
+
+    if(type === "spiral"){
+        distance *= 0.9;
+    }
+
+    const vx =
+        Math.cos(angle) *
+        distance + "px";
+
+    const vy =
+        Math.sin(angle) *
+        distance + "px";
+
+    p.style.setProperty("--x", vx);
+    p.style.setProperty("--y", vy);
+
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+
+    p.style.background =
+        `hsl(${hue},100%,60%)`;
+
+    const size =
+        type === "star"
+        ? Math.random() * 6 + 3
+        : Math.random() * 4 + 2;
+
+    p.style.width =
+        size + "px";
+
+    p.style.height =
+        size + "px";
+
+    document.body.appendChild(p);
+
+    setTimeout(() => {
+
+        p.remove();
+
+    },1200);
+}
+
+/* 💥 EXPLOSION */
+
+function explode(x,y){
+
+    const types =
+        ["circle","star","spiral"];
+
+    const type =
+        types[
+            Math.floor(
+                Math.random() *
+                types.length
+            )
+        ];
+
+    const amount =
+        getParticleAmount();
+
+    if(type === "circle"){
+
+        for(let i = 0; i < amount; i++){
+
+            createParticle(
+                x,
+                y,
+                "circle"
+            );
+        }
+    }
+
+    if(type === "star"){
+
+        for(let i = 0; i < amount + 10; i++){
+
+            createParticle(
+                x,
+                y,
+                "star"
+            );
+        }
+    }
+
+    if(type === "spiral"){
+
+        for(let i = 0; i < amount + 4; i++){
+
+            createParticle(
+                x,
+                y,
+                "spiral",
+                i * 0.2
+            );
+        }
+    }
+}
+
+/* 🚀 RAKETE */
+
+function launchRocket(){
+
+    const rocket =
+        document.createElement("div");
+
+    rocket.className = "rocket";
+
+    const startX =
+        Math.random() *
+        window.innerWidth;
+
+    rocket.style.left =
+        startX + "px";
+
+    let posY = -30;
+
+    const targetY =
+        window.innerHeight *
+        (
+            0.25 +
+            Math.random() * 0.45
+        );
+
+    document.body.appendChild(rocket);
+
+    const speed =
+        window.innerWidth < 600
+        ? 5
+        : 6;
+
+    const rise =
+        setInterval(() => {
+
+        posY += speed;
+
+        rocket.style.bottom =
+            posY + "px";
+
+        if(posY >= targetY){
+
+            clearInterval(rise);
+
+            const rect =
+                rocket.getBoundingClientRect();
+
+            explode(
+                rect.left,
+                rect.top
+            );
+
+            rocket.remove();
+        }
+
+    },16);
+}
+
+/* 🔁 LOOP */
+
+function loop(){
+
+    launchRocket();
+
+    const delay =
+        window.innerWidth < 600
+        ? 800 + Math.random() * 1200
+        : 500 + Math.random() * 900;
+
+    setTimeout(loop,delay);
+}
+
+loop();
+
+</script>
+</section>
+
+<!-- ═══ newyear_eve.html ═══ -->
+<section class="merged-section">
+<div class="bg"></div>
+
+<!-- Sterne -->
+<div class="star" style="top:10%;left:15%;width:2px;height:2px;animation-duration:2s;"></div>
+<div class="star" style="top:18%;left:70%;width:3px;height:3px;animation-duration:3s;"></div>
+<div class="star" style="top:32%;left:28%;width:2px;height:2px;animation-duration:4s;"></div>
+<div class="star" style="top:15%;left:88%;width:4px;height:4px;animation-duration:2.5s;"></div>
+<div class="star" style="top:60%;left:12%;width:3px;height:3px;animation-duration:3.5s;"></div>
+<div class="star" style="top:72%;left:78%;width:2px;height:2px;animation-duration:2s;"></div>
+<div class="star" style="top:80%;left:40%;width:4px;height:4px;animation-duration:4s;"></div>
+
+<!-- Content -->
+<div class="content">
+
+<h1>
+    <span class="emoji">🍀</span> Guten <span class="emoji">🍀</span>
+    <span class="line"></span>
+    <span class="emoji">🥂</span> Rutsch <span class="emoji">🥂</span>
+</h1>
+
+<div id="countdown">00:00:00</div>
+
+</div>
+
+<script>
+const countdown = document.getElementById("countdown");
+
+function updateCountdown(){
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24,0,0,0); // Mitternacht heute
+    const diff = Math.max(0, Math.floor((midnight - now) / 1000)); // Sekunden bis Mitternacht
+
+    if(diff > 0){
+        const hours = String(Math.floor(diff / 3600)).padStart(2,"0");
+        const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2,"0");
+        const seconds = String(diff % 60).padStart(2,"0");
+        countdown.textContent = `${hours}:${minutes}:${seconds}`;
+
+        if(diff <= 10){
+            countdown.classList.add("danger");
+        } else {
+            countdown.classList.remove("danger");
+        }
+
+    } else {
+        countdown.innerHTML = '<span class="newyear">🐉 FROHES NEUES JAHR 🐉</span>';
+        countdown.classList.remove("danger");
+        createMegaExplosion();
+    }
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* Feuerwerk */
+function createExplosion(x,y){
+    const amount = window.innerWidth < 600 ? 35 : 60;
+    for(let i=0;i<amount;i++){
+        const p = document.createElement("div");
+        p.className="firework";
+        const angle = Math.random()*Math.PI*2;
+        const distance = Math.random()*180 + 50;
+        const hue = Math.random()*360;
+        p.style.left = x+"px";
+        p.style.top = y+"px";
+        p.style.background = `hsl(${hue},100%,60%)`;
+        p.style.boxShadow = `0 0 14px hsl(${hue},100%,60%)`;
+        p.style.setProperty("--x",Math.cos(angle)*distance + "px");
+        p.style.setProperty("--y",Math.sin(angle)*distance + "px");
+        document.body.appendChild(p);
+        setTimeout(()=>{p.remove();},1500);
+    }
+}
+
+function createMegaExplosion(){
+    for(let i=0;i<12;i++){
+        setTimeout(()=>{
+            createExplosion(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.7);
+        },i*250);
+    }
+}
+</script>
+</section>
+
+<!-- ═══ index.html ═══ -->
+<section class="merged-section">
+<!-- ==================== Morning ==================== -->
+<div id="morning" style="display:none">
+<!-- Morning.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Day ==================== -->
+<div id="day" style="display:none">
+<!-- Day.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Evening ==================== -->
+<div id="evening" style="display:none">
+<!-- Evening.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Christmas ==================== -->
+<div id="christmas" style="display:none">
+<!-- Christmas.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Easter ==================== -->
+<div id="easter" style="display:none">
+<!-- Easter.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Halloween ==================== -->
+<div id="halloween" style="display:none">
+<!-- Halloween.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== New Year Day ==================== -->
+<div id="newyear_day" style="display:none">
+<!-- newyear_day.html Body komplett einfügen inkl. <div>, <canvas>, <script> etc. -->
+</div>
+
+<!-- ==================== New Year Eve ==================== -->
+<div id="newyear_eve" style="display:none">
+<!-- newyear_eve.html Body komplett einfügen inkl. <div>, <canvas>, <script> etc. -->
+</div>
+
+<script>
+function showAnimation() {
+    const now = new Date();
+    const month = now.getMonth()+1;
+    const day = now.getDate();
+    const hours = now.getHours();
+    let id='';
+    if(month===12&&(day===24||day===25||day===26)) id='christmas';
+    else if(month===4&&(day===5||day===6)) id='easter';
+    else if(month===10&&day===31) id='halloween';
+    else if(month===12&&day===31) id='newyear_eve';
+    else if(month===1&&day===1) id='newyear_day';
+    else if(hours>=5&&hours<12) id='morning';
+    else if(hours>=12&&hours<18) id='day';
+    else id='evening';
+    document.querySelectorAll('div[id]').forEach(d=>d.style.display='none');
+    document.getElementById(id).style.display='block';
+}
+showAnimation();
+setInterval(showAnimation,60000);
+</script>
+</section>
+
+<!-- ═══ Morning.html ═══ -->
+<section class="merged-section">
+<div class="sky"></div>
+
+<div class="sea">
+
+    <div class="sun-reflection"></div>
+
+    <div class="sparkle s1"></div>
+    <div class="sparkle s2"></div>
+    <div class="sparkle s3"></div>
+    <div class="sparkle s4"></div>
+    <div class="sparkle s5"></div>
+
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div>
+
+</div>
+
+<div class="beach"></div>
+
+<div class="sun">
+
+    <div class="rays">
+        <span style="transform:rotate(0deg);"></span>
+        <span style="transform:rotate(30deg);"></span>
+        <span style="transform:rotate(60deg);"></span>
+        <span style="transform:rotate(90deg);"></span>
+        <span style="transform:rotate(120deg);"></span>
+        <span style="transform:rotate(150deg);"></span>
+        <span style="transform:rotate(180deg);"></span>
+        <span style="transform:rotate(210deg);"></span>
+        <span style="transform:rotate(240deg);"></span>
+        <span style="transform:rotate(270deg);"></span>
+        <span style="transform:rotate(300deg);"></span>
+        <span style="transform:rotate(330deg);"></span>
+    </div>
+
+    <div class="sun-core"></div>
+
+</div>
+
+<h1>
+    <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
+    <span class="line"></span>
+    <span class="emoji">☕</span>Morgen<span class="emoji">☕</span>
+</h1>
+
+<script>
+
+function createDolphin(){
+
+    const dolphin =
+        document.createElement("div");
+
+    dolphin.className = "dolphin";
+
+    dolphin.innerHTML = "🐬";
+
+    const side =
+        Math.random() > 0.5 ? "left" : "right";
+
+    const x =
+        Math.random() * (window.innerWidth - 100);
+
+    const y =
+        10 + Math.random() * 8;
+
+    dolphin.style.left = x + "px";
+    dolphin.style.bottom = y + "vh";
+
+    if(side === "right"){
+        dolphin.style.transform =
+            "rotateY(180deg)";
+    }
+
+    document.body.appendChild(dolphin);
+
+    setTimeout(() => {
+        dolphin.remove();
+    },2000);
+}
+
+function spawnLoop(){
+
+    createDolphin();
+
+    const next =
+        700 + Math.random() * 1500;
+
+    setTimeout(spawnLoop,next);
+}
+
+spawnLoop();
+
+</script>
+</section>
+
+<!-- ═══ Halloween.html ═══ -->
+<section class="merged-section">
+<div class="moon"></div>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="flash" id="flash"></div>
+
+<div class="graveyard" id="graveyard"></div>
+
+<h1>
+    <span class="emoji">💀</span>Happy<span class="emoji">💀</span>
+    <span class="line"></span>
+    <span class="emoji">👻</span>Halloween<span class="emoji">👻</span>
+</h1>
+
+<script>
+const graveyard =
+    document.getElementById("graveyard");
+
+for(let i = 0; i < 14; i++){
+
+    const grave =
+        document.createElement("div");
+
+    grave.className = "grave";
+
+    grave.innerText = "RIP";
+
+    grave.style.left =
+        (i * 7) + Math.random() * 3 + "%";
+
+    grave.style.height =
+        (60 + Math.random() * 60) + "px";
+
+    grave.style.width =
+        (45 + Math.random() * 25) + "px";
+
+    grave.style.opacity =
+        0.4 + Math.random() * 0.5;
+
+    graveyard.appendChild(grave);
+}
+
+function spawnGhost(){
+
+    const ghost =
+        document.createElement("div");
+
+    ghost.className = "ghost";
+
+    ghost.innerHTML = `
+        <span>◉ ◉</span>
+        <span>︶</span>
+    `;
+
+    ghost.style.left =
+        Math.random() * (window.innerWidth - 60) + "px";
+
+    ghost.style.top =
+        Math.random() * (window.innerHeight - 120) + "px";
+
+    ghost.style.transform =
+        `scale(${0.8 + Math.random()})`;
+
+    document.body.appendChild(ghost);
+
+    const speed =
+        1 + Math.random() * 2;
+
+    let dirX =
+        (Math.random() - 0.5) * speed;
+
+    let dirY =
+        (Math.random() - 0.5) * speed;
+
+    const move =
+        setInterval(() => {
+
+        let x =
+            parseFloat(ghost.style.left);
+
+        let y =
+            parseFloat(ghost.style.top);
+
+        x += dirX;
+        y += dirY;
+
+        if(x < 0 || x > window.innerWidth - 60){
+            dirX *= -1;
+        }
+
+        if(y < 0 || y > window.innerHeight - 80){
+            dirY *= -1;
+        }
+
+        ghost.style.left = x + "px";
+        ghost.style.top = y + "px";
+
+    },30);
+
+    setTimeout(() => {
+
+        clearInterval(move);
+
+        ghost.remove();
+
+    },9000);
+}
+
+setInterval(spawnGhost,2200);
+
+const flash =
+    document.getElementById("flash");
+
+function createLightning(){
+
+    const bolt =
+        document.createElement("div");
+
+    bolt.className = "lightning";
+
+    bolt.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    bolt.style.top =
+        Math.random() * 200 + "px";
+
+    bolt.style.height =
+        (150 + Math.random() * 220) + "px";
+
+    document.body.appendChild(bolt);
+
+    bolt.animate(
+        [
+            { opacity:0 },
+            { opacity:1 },
+            { opacity:0.3 },
+            { opacity:1 },
+            { opacity:0 }
+        ],
+        {
+            duration:300,
+            easing:"ease-out"
+        }
+    );
+
+    flash.animate(
+        [
+            { opacity:0 },
+            { opacity:0.3 },
+            { opacity:0 }
+        ],
+        {
+            duration:250
+        }
+    );
+
+    setTimeout(() => {
+
+        bolt.remove();
+
+    },300);
+}
+
+setInterval(() => {
+
+    createLightning();
+
+},4000 + Math.random() * 5000);
+
+function createRain(){
+
+    const rain =
+        document.createElement("div");
+
+    rain.className = "rain";
+
+    rain.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    rain.style.animationDuration =
+        (0.5 + Math.random() * 0.7) + "s";
+
+    rain.style.opacity =
+        0.3 + Math.random() * 0.7;
+
+    document.body.appendChild(rain);
+
+    setTimeout(() => {
+
+        rain.remove();
+
+    },1500);
+}
+
+setInterval(createRain,35);
+</script>
+</section>
+</body>
+</html>
