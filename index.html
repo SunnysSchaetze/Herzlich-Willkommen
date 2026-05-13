@@ -4,68 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auto Welcome</title>
-
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    position: relative;
-}
-
-h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    line-height: 1.2;
-    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
-    background-size: 700% 700%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbowFlow 20s linear infinite;
-    position: relative;
-    z-index: 2;
-}
-
-.emoji { display: inline-block; text-shadow: 0 0 8px rgba(255,255,255,0.5), 0 0 15px rgba(255,255,255,0.3); }
-.line { display: block; margin: 0.4em 0; }
-
-@keyframes rainbowFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
-
-.particle { position: absolute; border-radius: 50%; opacity: 0; animation: explode 1.2s ease-out forwards; }
-@keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--x),var(--y)) scale(0); opacity: 0; } }
-
-.snowflake { position: absolute; top: -10px; background: #fff; border-radius: 50%; opacity: 0.8; pointer-events: none; animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite; }
-@keyframes fall { 0% { transform: translateY(0) translateX(0); opacity: 0.8; } 100% { transform: translateY(110vh) translateX(30px); opacity: 0.2; } }
-
-.bat { position: absolute; font-size: 2rem; user-select: none; pointer-events: none; }
-.ghost { position: absolute; width: 30px; height: 40px; background: rgba(255,255,255,0.8); border-radius: 50% 50% 0 0; top: 50%; left: 0; animation: float 5s ease-in-out infinite; box-shadow: 0 0 10px rgba(255,255,255,0.5); display: flex; justify-content: center; align-items: center; flex-direction: column; font-size: 0.6em; color: black; }
-.ghost span { display: block; }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-50px); } }
+html, body { margin:0; padding:0; height:100%; overflow:hidden; background:#000; }
+body { display:flex; justify-content:center; align-items:center; font-family:Arial,sans-serif; text-align:center; position:relative; }
+h1 { font-size:clamp(2.5rem,8vw,5rem); line-height:1.2; background:linear-gradient(135deg,red,orange,yellow,green,blue,indigo,violet); background-size:700% 700%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:rainbowFlow 20s linear infinite; position:relative; z-index:2; }
+.emoji { display:inline-block; text-shadow:0 0 8px rgba(255,255,255,0.5),0 0 15px rgba(255,255,255,0.3); }
+.line { display:block; margin:0.4em 0; }
+@keyframes rainbowFlow {0% {background-position:0% 0%;} 100% {background-position:100% 100%;}}
+.particle { position:absolute; border-radius:50%; opacity:0; animation:explode 1.2s ease-out forwards; }
+@keyframes explode {0% {transform:translate(0,0) scale(1); opacity:1;} 100% {transform:translate(var(--x),var(--y)) scale(0); opacity:0;}}
+.snowflake { position:absolute; top:-10px; background:#fff; border-radius:50%; opacity:0.8; pointer-events:none; animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite; }
+@keyframes fall {0% {transform:translateY(0) translateX(0); opacity:0.8;} 100% {transform:translateY(110vh) translateX(30px); opacity:0.2;}}
+.bat { position:absolute; font-size:2rem; user-select:none; pointer-events:none; }
+.ghost { position:absolute; width:30px; height:40px; background:rgba(255,255,255,0.8); border-radius:50% 50% 0 0; box-shadow:0 0 10px rgba(255,255,255,0.5); display:flex; justify-content:center; align-items:center; flex-direction:column; font-size:0.6em; color:black; }
+.ghost span { display:block; }
 </style>
 </head>
-
 <body>
-
 <h1 id="welcome"></h1>
-
 <script>
-const el = document.getElementById("welcome");
-const now = new Date();
-const d = now.getDate();
-const m = now.getMonth() + 1;
-const h = now.getHours();
-let html = "", showFireworks = false, showSnow = false, showHalloween = false;
-
-if (m===12&&d>=24&&d<=26){ html=`<span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span><span class="line"></span><span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>`; showSnow=true;}
+const el=document.getElementById("welcome");
+const now=new Date(),d=now.getDate(),m=now.getMonth()+1,h=now.getHours();
+let html="",showSnow=false,showFireworks=false,showHalloween=false;
+if(m===12&&d>=24&&d<=26){ html=`<span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span><span class="line"></span><span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>`; showSnow=true;}
 else if(m===12&&d===31){ html=`<span class="emoji">🎆</span>Guten<span class="emoji">🎆</span><span class="line"></span><span class="emoji">🥂</span>Rutsch<span class="emoji">🥂</span>`; showSnow=true; showFireworks=true;}
 else if(m===1&&d===1){ html=`<span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span><span class="line"></span><span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span>`; showSnow=true; showFireworks=true;}
 else if(m===10&&d===31){ html=`<span class="emoji">💀</span>Happy<span class="emoji">💀</span><span class="line"></span><span class="emoji">👻</span>Halloween<span class="emoji">👻</span>`; showHalloween=true;}
@@ -75,15 +36,14 @@ else if(h>=12&&h<18){ html=`<span class="emoji">🌼</span>Schönen<span class="
 else{ html=`<span class="emoji">🌙</span>Guten<span class="emoji">🌙</span><span class="line"></span><span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>`;}
 el.innerHTML=html;
 
-if(showSnow){ function createSnowflake(){ const s=document.createElement('div'); s.classList.add('snowflake'); const size=Math.random()*8+4; s.style.width=`${size}px`; s.style.height=`${size}px`; s.style.left=`${Math.random()*window.innerWidth}px`; s.style.animationDuration=`${Math.random()*5+5}s`; s.style.opacity=Math.random(); document.body.appendChild(s); setTimeout(()=>s.remove(),10000);} setInterval(createSnowflake,200); }
+if(showSnow){ function createSnowflake(){ const s=document.createElement('div'); s.classList.add('snowflake'); const size=Math.random()*8+4; s.style.width=`${size}px`; s.style.height=`${size}px`; s.style.left=`${Math.random()*window.innerWidth}px`; s.style.animationDuration=`${Math.random()*5+5}s`; s.style.opacity=Math.random(); document.body.appendChild(s); setTimeout(()=>s.remove(),10000); } setInterval(createSnowflake,200); }
 
-if(showFireworks){ function spawnExplosion(){ const cx=Math.random()*window.innerWidth,cy=Math.random()*window.innerHeight; for(let i=0;i<25;i++){ const p=document.createElement("div"); p.className="particle"; const angle=Math.random()*2*Math.PI,d=Math.random()*150+50,x=Math.cos(angle)*d+"px",y=Math.sin(angle)*d+"px"; p.style.setProperty("--x",x); p.style.setProperty("--y",y); p.style.left=cx+"px"; p.style.top=cy+"px"; p.style.background=`hsl(${Math.random()*360},100%,60%)`; const size=Math.random()<0.3?Math.random()*6+4:Math.random()*3+1; p.style.width=size+"px"; p.style.height=size+"px"; document.body.appendChild(p); setTimeout(()=>p.remove(),1200);} } setInterval(spawnExplosion,800); }
+if(showFireworks){ function spawnExplosion(){ const cx=Math.random()*window.innerWidth,cy=Math.random()*window.innerHeight; for(let i=0;i<25;i++){ const p=document.createElement("div"); p.className="particle"; const angle=Math.random()*2*Math.PI,d=Math.random()*150+50,x=Math.cos(angle)*d+"px",y=Math.sin(angle)*d+"px"; p.style.setProperty("--x",x); p.style.setProperty("--y",y); p.style.left=cx+"px"; p.style.top=cy+"px"; p.style.background=`hsl(${Math.random()*360},100%,60%)`; const size=Math.random()<0.3?Math.random()*6+4:Math.random()*3+1; p.style.width=size+"px"; p.style.height=size+"px"; document.body.appendChild(p); setTimeout(()=>p.remove(),1200); } } setInterval(spawnExplosion,800); }
 
 if(showHalloween){
 function spawnBat(){ const bat=document.createElement("div"); bat.className="bat"; bat.textContent="🦇"; const startX=Math.random()*window.innerWidth,startY=Math.random()*window.innerHeight,endX=Math.random()*window.innerWidth,endY=Math.random()*window.innerHeight,duration=5+Math.random()*5; bat.style.left=startX+"px"; bat.style.top=startY+"px"; bat.style.transition=`transform ${duration}s linear`; document.body.appendChild(bat); setTimeout(()=>{ bat.style.transform=`translate(${endX-startX}px,${endY-startY}px)`; },50); setTimeout(()=>bat.remove(),duration*1000); } setInterval(spawnBat,4000);
 
-function spawnGhost(){ const ghost=document.createElement("div"); ghost.className="ghost"; ghost.style.left=Math.random()*window.innerWidth+"px"; ghost.style.animationDuration=(4+Math.random()*3)+"s"; ghost.innerHTML=`<span>• •</span><span>‿</span>`; document.body.appendChild(ghost); setTimeout(()=>ghost.remove(),8000);} setInterval(spawnGhost,2500);}
+function spawnGhost(){ const ghost=document.createElement("div"); ghost.className="ghost"; ghost.innerHTML=`<span>• •</span><span>‿</span>`; ghost.style.left=Math.random()*window.innerWidth+"px"; ghost.style.top=Math.random()*window.innerHeight+"px"; document.body.appendChild(ghost); const speed=0.5+Math.random()*0.8; let dirX=(Math.random()-0.5)*speed, dirY=(Math.random()-0.5)*speed; const move=setInterval(()=>{ let x=parseFloat(ghost.style.left), y=parseFloat(ghost.style.top); x+=dirX; y+=dirY; if(x<0||x>window.innerWidth-30) dirX*=-1; if(y<0||y>window.innerHeight-40) dirY*=-1; ghost.style.left=x+"px"; ghost.style.top=y+"px"; },30); setTimeout(()=>{ clearInterval(move); ghost.remove(); },10000); } setInterval(spawnGhost,2000); }
 </script>
-
 </body>
 </html>
