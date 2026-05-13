@@ -41,10 +41,7 @@ h1 {
                  0 0 15px rgba(255,255,255,0.3);
 }
 
-.line {
-    display: block;
-    margin: 0.4em 0;
-}
+.line { display: block; margin: 0.4em 0; }
 
 @keyframes rainbowFlow {
     0% { background-position: 0% 0%; }
@@ -62,6 +59,23 @@ h1 {
     0% { transform: translate(0, 0) scale(1); opacity: 1; }
     100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
 }
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+    100% { transform: translateY(110vh) translateX(30px); opacity: 0.2; }
+}
 </style>
 </head>
 
@@ -78,6 +92,7 @@ const h = now.getHours();
 
 let html = "";
 let showFireworks = false;
+let showSnow = false;
 
 if (m === 12 && d >= 24 && d <= 26) {
     html = `
@@ -85,12 +100,14 @@ if (m === 12 && d >= 24 && d <= 26) {
     <span class="line"></span>
     <span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>
     `;
+    showSnow = true;
 } else if (m === 12 && d === 31) {
     html = `
     <span class="emoji">🎆</span>Guten<span class="emoji">🎆</span>
     <span class="line"></span>
     <span class="emoji">🥂</span>Rutsch<span class="emoji">🥂</span>
     `;
+    showSnow = true;
     showFireworks = true;
 } else if (m === 1 && d === 1) {
     html = `
@@ -98,6 +115,7 @@ if (m === 12 && d >= 24 && d <= 26) {
     <span class="line"></span>
     <span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span>
     `;
+    showSnow = true;
     showFireworks = true;
 } else if (m === 10 && d === 31) {
     html = `
@@ -133,6 +151,22 @@ if (m === 12 && d >= 24 && d <= 26) {
 
 el.innerHTML = html;
 
+if (showSnow) {
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        const size = Math.random() * 8 + 4;
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
+        snowflake.style.left = `${Math.random() * window.innerWidth}px`;
+        snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+        snowflake.style.opacity = Math.random();
+        document.body.appendChild(snowflake);
+        setTimeout(() => snowflake.remove(), 10000);
+    }
+    setInterval(createSnowflake, 200);
+}
+
 if (showFireworks) {
     function spawnExplosion() {
         const centerX = Math.random() * window.innerWidth;
@@ -161,7 +195,6 @@ if (showFireworks) {
             setTimeout(() => p.remove(), 1200);
         }
     }
-
     setInterval(spawnExplosion, 800);
 }
 </script>
