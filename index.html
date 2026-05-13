@@ -30,25 +30,25 @@ body {
 
 /* Regenbogen Text */
 .rainbow-text {
-    font-size: clamp(3rem, 10vw, 8rem); /* größer für alle Bildschirme */
+    font-size: clamp(2rem, 8vw, 4.5rem); /* kleiner als vorher */
     font-weight: bold;
     background: linear-gradient(135deg, red, orange, yellow, lime, cyan, blue, violet);
     background-size: 700% 700%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: rainbowFlow 18s linear infinite;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 /* Leuchtende Emojis */
 .emoji {
     display: inline-block;
-    font-size: clamp(3rem, 10vw, 8rem); /* gleiche Größe wie Text für Harmonie */
+    font-size: clamp(2rem, 8vw, 4.5rem); /* proportional zur Schrift */
     text-shadow:
-        0 0 15px rgba(255,255,255,0.8),
-        0 0 30px rgba(255,255,255,0.5),
-        0 0 45px rgba(255,255,255,0.3),
-        0 0 60px rgba(255,255,255,0.2);
+        0 0 10px rgba(255,255,255,0.7),
+        0 0 20px rgba(255,255,255,0.5),
+        0 0 30px rgba(255,255,255,0.3),
+        0 0 40px rgba(255,255,255,0.2);
     animation: pulse 2.5s ease-in-out infinite;
 }
 
@@ -60,16 +60,16 @@ body {
 
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.05); }
 }
 
 /* Mobile Anpassung */
 @media (max-width: 600px) {
     .rainbow-text {
-        font-size: clamp(2.5rem, 15vw, 6rem);
+        font-size: clamp(1.5rem, 12vw, 3.5rem);
     }
     .emoji {
-        font-size: clamp(2.5rem, 15vw, 6rem);
+        font-size: clamp(1.5rem, 12vw, 3.5rem);
     }
 }
 </style>
