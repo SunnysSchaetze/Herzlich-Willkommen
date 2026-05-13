@@ -36,11 +36,11 @@ let html = "", showSnow = false, showFireworks = false, showHalloween = false, s
 const eggEmojis = ["🔴","🟠","🟡","🟢","🔵","🟣"];
 const bunnyEmoji = "🐇";
 if(month === 12 && day >= 24 && day <= 26){html=`<span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span><span class="line"></span><span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span>`; showSnow=true;}
-else if(month === 12 && day === 31){html=`<span class="emoji">🎆</span>Guten<span class="emoji">🎆</span><span class="line"></span><span class="emoji">🥂</span>Rutsch<span class="emoji">🥂</span>`; showFireworks=true;}
+else if(month === 12 && day === 31){html=`<span class="emoji">🍀</span>Guten<span class="emoji">🍀</span><span class="line"></span><span class="emoji">🥂</span>Rutsch<span class="emoji">🥂</span>`; showFireworks=true;}
 else if(month === 1 && day === 1){html=`<span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span><span class="line"></span><span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span>`; showFireworks=true;}
 else if(month === 10 && day === 31){html=`<span class="emoji">💀</span>Happy<span class="emoji">💀</span><span class="line"></span><span class="emoji">👻</span>Halloween<span class="emoji">👻</span>`; showHalloween=true;}
 else if(month === 4 && day >= 18 && day <= 21){html=`<span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span><span class="line"></span><span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span>`; showEaster=true;}
-else if(hour >= 5 && hour < 12){html=`<span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">🌅</span>Morgen<span class="emoji">🌅</span>`;}
+else if(hour >= 5 && hour < 12){html=`<span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">☕</span>Morgen<span class="emoji">☕</span>`;}
 else if(hour >= 12 && hour < 18){html=`<span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span><span class="line"></span><span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span>`;}
 else{html=`<span class="emoji">🌙</span>Guten<span class="emoji">🌙</span><span class="line"></span><span class="emoji">⭐</span>Abend<span class="emoji">⭐</span>`;}
 el.innerHTML = html;
