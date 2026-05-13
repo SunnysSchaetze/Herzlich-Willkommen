@@ -3,123 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tageszeit-Animation</title>
+<title>Guten Morgen</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;position:relative;text-align:center;display:flex;justify-content:center;align-items:center;}
 
-/* ---- Container für jede Tageszeit ---- */
-.timeAnimation{display:none;width:100%;height:100%;position:absolute;inset:0;}
+:root{
+    --sun-size: clamp(120px, 20vw, 260px);
+    --ray-width: clamp(5px, 1vw, 10px);
+    --ray-height: clamp(70px, 12vw, 150px);
+}
 
-/* ---- GEMEINSAME KEYFRAMES ---- */
-@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
-@keyframes rotateRays{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-@keyframes pulseRays{0%{scale:1;}50%{scale:1.05;}100%{scale:1;}}
-@keyframes rayFloat{0%{height:var(--ray-height);}50%{height:calc(var(--ray-height) + 18px);}100%{height:var(--ray-height);}}
-@keyframes rise{0%{transform:translate(0,0);}100%{transform:translate(calc(100vw - var(--sun-size) * 0.6), calc(-100vh + var(--sun-size) * 0.7));}}
-@keyframes waveMove{0%{transform:translateX(0);}100%{transform:translateX(20%);}}
-@keyframes waveMoveReverse{0%{transform:translateX(0);}100%{transform:translateX(-20%);}}
-@keyframes reflectionMove{0%,100%{transform:translateX(-50%) scaleX(1);}50%{transform:translateX(-50%) scaleX(1.15);}}
-@keyframes sparkleMove{0%,100%{opacity:0.2;transform:scaleY(0.7);}50%{opacity:1;transform:scaleY(1.3);}}
-@keyframes dolphinFlip{0%{transform:translateY(0) rotate(0deg) scale(0.8);opacity:0;}10%{opacity:1;}25%{transform:translateY(-80px) rotate(120deg) scale(1);}50%{transform:translateY(-150px) rotate(260deg) scale(1.1);}75%{transform:translateY(-70px) rotate(420deg) scale(1);}100%{transform:translateY(20px) rotate(540deg) scale(0.7);opacity:0;}}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-/* ---- MORGEN (5-12) ---- */
-#morgen{--sun-size:clamp(120px,20vw,260px);}
-#morgen .sky{position:absolute;inset:0;background:linear-gradient(to bottom,#000000 0%,#000000 45%,#08263d 70%,#145b82 100%);z-index:0;}
-#morgen .sea{position:absolute;bottom:0;width:100%;height:clamp(180px,35vh,380px);background:linear-gradient(to bottom,rgba(0,180,255,0.15) 0%,rgba(0,120,210,0.4) 30%,rgba(0,70,160,0.9) 100%);z-index:1;overflow:hidden;}
-#morgen .sun-reflection{position:absolute;top:0;left:50%;transform:translateX(-50%);width:var(--sun-size);height:100%;background:linear-gradient(to bottom,rgba(255,255,255,0.5),rgba(255,220,120,0.25),transparent);filter:blur(10px);opacity:0.7;animation:reflectionMove 5s ease-in-out infinite;z-index:2;}
-#morgen .wave{position:absolute;width:250%;left:-70%;border-radius:45%;opacity:0.45;}
-#morgen .wave1{height:180px;bottom:-70px;background:rgba(0,180,255,0.22);animation:waveMove 8s linear infinite;}
-#morgen .wave2{height:220px;bottom:-110px;background:rgba(255,255,255,0.08);animation:waveMoveReverse 13s linear infinite;}
-#morgen .wave3{height:250px;bottom:-150px;background:rgba(0,120,255,0.18);animation:waveMove 18s linear infinite;}
-#morgen .wave4{height:150px;bottom:-40px;background:rgba(255,255,255,0.05);animation:waveMoveReverse 7s linear infinite;}
-#morgen .sparkle{position:absolute;width:3px;height:clamp(20px,4vw,35px);background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,0));border-radius:999px;opacity:0.5;animation:sparkleMove 3s ease-in-out infinite;}
-#morgen .s1{left:20%;top:20%;} #morgen .s2{left:35%;top:45%;animation-delay:1s;} #morgen .s3{left:55%;top:30%;animation-delay:2s;} #morgen .s4{left:75%;top:50%;animation-delay:0.5s;} #morgen .s5{left:88%;top:25%;animation-delay:1.5s;}
-#morgen .beach{position:absolute;bottom:0;width:100%;height:clamp(40px,8vh,80px);background:linear-gradient(to bottom,#f6d28d,#d5a96a);z-index:4;box-shadow:0 -8px 20px rgba(255,255,255,0.06);}
-#morgen .sun{position:absolute;width:var(--sun-size);height:var(--sun-size);bottom:calc(var(--sun-size)/-2);left:calc(var(--sun-size)/-2);animation:rise 10s ease-in-out forwards;z-index:2;}
-#morgen .sun-core{position:absolute;inset:0;background:radial-gradient(circle,#ffff66,#ffcc00);border-radius:50%;box-shadow:0 0 30px yellow,0 0 60px orange,0 0 100px gold;}
-#morgen .rays{position:absolute;inset:0;animation:rotateRays 10s linear infinite,pulseRays 2.5s ease-in-out infinite;}
-#morgen .rays span{position:absolute;top:50%;left:50%;width:var(--ray-width);height:var(--ray-height);margin-left:calc(var(--ray-width)/-2);margin-top:calc(var(--ray-height)*-1);background:linear-gradient(to top,orange,yellow);border-radius:999px;transform-origin:center var(--ray-height);box-shadow:0 0 20px yellow,0 0 40px orange;animation:rayFloat 2s ease-in-out infinite;}
-#morgen h1{font-size:clamp(2rem,8vw,5rem);line-height:1.2;position:relative;z-index:10;padding:0 20px;background:linear-gradient(135deg,red,orange,yellow,green,blue,indigo,violet);background-size:700% 700%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowFlow 20s linear infinite;}
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    display:none; /* wird nur sichtbar, wenn Uhrzeit passt */
+}
 
-/* ---- TAG (12-18) ---- */
-#tag{--sun-size:clamp(110px,16vw,220px);}
-#tag .sky{position:absolute;inset:0;background:linear-gradient(to bottom,#000000 0%,#050505 40%,#10283d 75%,#1d5f87 100%);z-index:0;}
-#tag .sun{position:absolute;width:var(--sun-size);height:var(--sun-size);top:clamp(10px,4vw,40px);right:clamp(10px,4vw,40px);border-radius:50%;background:radial-gradient(circle,#fff176 0%,#ffeb3b 35%,#ff9800 70%,rgba(255,140,0,0.1) 100%);box-shadow:0 0 40px #ffeb3b,0 0 80px #ff9800,0 0 140px rgba(255,180,0,0.8);animation:sunPulse 4s ease-in-out infinite,sunFloat 8s ease-in-out infinite;z-index:1;}
-#tag .sun-rays{position:absolute;inset:clamp(-25px,-4vw,-40px);border-radius:50%;animation:rotateRays 20s linear infinite;}
-#tag .sun-rays span{position:absolute;width:clamp(4px,0.7vw,8px);height:clamp(40px,6vw,60px);background:linear-gradient(to top,rgba(255,140,0,0),#ffeb3b);left:50%;top:50%;margin-left:calc(clamp(4px,0.7vw,8px)/-2);margin-top:clamp(-90px,-12vw,-120px);border-radius:999px;transform-origin:center clamp(90px,12vw,120px);box-shadow:0 0 12px #ffeb3b;}
-#tag h1{font-size:clamp(2rem,7vw,5rem);line-height:1.2;position:relative;z-index:10;padding:0 20px;background:linear-gradient(135deg,red,orange,yellow,green,blue,indigo,violet);background-size:700% 700%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowFlow 20s linear infinite;}
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    position:relative;
+}
 
-/* ---- NACHT (18-5) ---- */
-#nacht{background:#0b0c2a;display:flex;justify-content:center;align-items:center;position:absolute;inset:0;z-index:0;}
-#nacht h1{font-size:clamp(2rem,7vw,5rem);color:#f5f5f5;text-shadow:0 0 10px #fff,0 0 20px #aaa;}
+/* HIMMEL */
+.sky{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            to bottom,
+            #000000 0%,
+            #000000 45%,
+            #08263d 70%,
+            #145b82 100%
+        );
+    z-index:0;
+}
 
-/* ---- EMOJIS ---- */
-.emoji{display:inline-block;text-shadow:0 0 10px rgba(255,255,255,0.5);}
-.line{display:block;margin:0.4em 0;}
+/* MEER */
+.sea{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(180px,35vh,380px);
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,180,255,0.15) 0%,
+            rgba(0,120,210,0.4) 30%,
+            rgba(0,70,160,0.9) 100%
+        );
+    overflow:hidden;
+    z-index:1;
+}
+
+/* LICHTREFLEX */
+.sun-reflection{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:clamp(120px,20vw,260px);
+    height:100%;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.5),
+            rgba(255,220,120,0.25),
+            transparent
+        );
+    filter:blur(10px);
+    opacity:0.7;
+    animation: reflectionMove 5s ease-in-out infinite;
+    z-index:2;
+}
+
+/* WELLEN */
+.wave{
+    position:absolute;
+    width:250%;
+    left:-70%;
+    border-radius:45%;
+    opacity:0.45;
+}
+
+.wave1{
+    height:180px;
+    bottom:-70px;
+    background: rgba(0,180,255,0.22);
+    animation: waveMove 8s linear infinite;
+}
+
+.wave2{
+    height:220px;
+    bottom:-110px;
+    background: rgba(255,255,255,0.08);
+    animation: waveMoveReverse 13s linear infinite;
+}
+
+.wave3{
+    height:250px;
+    bottom:-150px;
+    background: rgba(0,120,255,0.18);
+    animation: waveMove 18s linear infinite;
+}
+
+.wave4{
+    height:150px;
+    bottom:-40px;
+    background: rgba(255,255,255,0.05);
+    animation: waveMoveReverse 7s linear infinite;
+}
+
+/* WASSER GLITZERN */
+.sparkle{
+    position:absolute;
+    width:3px;
+    height:clamp(20px,4vw,35px);
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0),
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0)
+        );
+    border-radius:999px;
+    opacity:0.5;
+    animation: sparkleMove 3s ease-in-out infinite;
+}
+
+.s1{ left:20%; top:20%; }
+.s2{ left:35%; top:45%; animation-delay:1s; }
+.s3{ left:55%; top:30%; animation-delay:2s; }
+.s4{ left:75%; top:50%; animation-delay:0.5s; }
+.s5{ left:88%; top:25%; animation-delay:1.5s; }
+
+/* STRAND */
+.beach{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(40px,8vh,80px);
+    background:
+        linear-gradient(
+            to bottom,
+            #f6d28d,
+            #d5a96a
+        );
+    z-index:4;
+    box-shadow: 0 -8px 20px rgba(255,255,255,0.06);
+}
+
+/* DELFINE */
+.dolphin{
+    position:absolute;
+    font-size:clamp(2rem,4vw,3.5rem);
+    z-index:5;
+    opacity:0;
+    pointer-events:none;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+    animation: dolphinFlip 2s linear forwards;
+}
+
+/* TEXT */
+h1{
+    font-size:clamp(2rem,8vw,5rem);
+    line-height:1.2;
+    position:relative;
+    z-index:10;
+    padding:0 20px;
+    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size:700% 700%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: rainbowFlow 20s linear infinite;
+}
+
+.emoji{
+    display:inline-block;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.line{
+    display:block;
+    margin:0.4em 0;
+}
+
+/* SONNE */
+.sun{
+    position:absolute;
+    width:var(--sun-size);
+    height:var(--sun-size);
+    bottom:calc(var(--sun-size) / -2);
+    left:calc(var(--sun-size) / -2);
+    animation: rise 10s ease-in-out forwards;
+    z-index:2;
+}
+
+.sun-core{
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle,#ffff66,#ffcc00);
+    border-radius:50%;
+    box-shadow: 0 0 30px yellow, 0 0 60px orange, 0 0 100px gold;
+}
+
+/* STRAHLEN */
+.rays{
+    position:absolute;
+    inset:0;
+    animation: rotateRays 10s linear infinite, pulseRays 2.5s ease-in-out infinite;
+}
+
+.rays span{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:var(--ray-width);
+    height:var(--ray-height);
+    margin-left:calc(var(--ray-width) / -2);
+    margin-top:calc(var(--ray-height) * -1);
+    background: linear-gradient(to top,orange,yellow);
+    border-radius:999px;
+    transform-origin:center var(--ray-height);
+    box-shadow: 0 0 20px yellow, 0 0 40px orange;
+    animation: rayFloat 2s ease-in-out infinite;
+}
+
+.rays span:nth-child(even){
+    animation-delay:1s;
+}
+
+/* ANIMATIONEN */
+@keyframes rainbowFlow{
+    0%{ background-position:0% 0%; }
+    100%{ background-position:100% 100%; }
+}
+
+@keyframes rise{
+    0%{ transform:translate(0,0); }
+    100%{ transform: translate(calc(100vw - var(--sun-size) * 0.6), calc(-100vh + var(--sun-size) * 0.7)); }
+}
+
+@keyframes rotateRays{ 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
+@keyframes pulseRays{ 0%{ scale:1; } 50%{ scale:1.05; } 100%{ scale:1; } }
+@keyframes rayFloat{ 0%{ height:var(--ray-height); } 50%{ height:calc(var(--ray-height) + 18px); } 100%{ height:var(--ray-height); } }
+@keyframes waveMove{ 0%{ transform:translateX(0); } 100%{ transform:translateX(20%); } }
+@keyframes waveMoveReverse{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-20%); } }
+@keyframes reflectionMove{ 0%,100%{ transform:translateX(-50%) scaleX(1); } 50%{ transform:translateX(-50%) scaleX(1.15); } }
+@keyframes sparkleMove{ 0%,100%{ opacity:0.2; transform:scaleY(0.7); } 50%{ opacity:1; transform:scaleY(1.3); } }
+@keyframes dolphinFlip{
+    0%{ transform: translateY(0) rotate(0deg) scale(0.8); opacity:0; }
+    10%{ opacity:1; }
+    25%{ transform: translateY(-80px) rotate(120deg) scale(1); }
+    50%{ transform: translateY(-150px) rotate(260deg) scale(1.1); }
+    75%{ transform: translateY(-70px) rotate(420deg) scale(1); }
+    100%{ transform: translateY(20px) rotate(540deg) scale(0.7); opacity:0; }
+}
+
+@media (max-width:768px){
+    .sea{ height:32vh; }
+    .wave{ width:320%; left:-110%; }
+    h1{ margin-top:-8vh; }
+}
+
+@media (max-width:480px){
+    .sea{ height:30vh; }
+    .beach{ height:7vh; }
+    .wave{ width:360%; left:-130%; }
+    h1{ font-size:clamp(1.8rem,10vw,3rem); }
+}
+
 </style>
 </head>
+
 <body>
+<script>
+const now = new Date();
+const hour = now.getHours();
 
-<!-- MORGEN -->
-<div id="morgen" class="timeAnimation">
-    <div class="sky"></div>
-    <div class="sea">
-        <div class="sun-reflection"></div>
-        <div class="sparkle s1"></div>
-        <div class="sparkle s2"></div>
-        <div class="sparkle s3"></div>
-        <div class="sparkle s4"></div>
-        <div class="sparkle s5"></div>
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
-        <div class="wave wave4"></div>
+if(hour >= 9 && hour < 12){
+    document.body.style.display = "block"; // Animation anzeigen
+} else {
+    document.body.innerHTML = "<h1>Diese Animation ist nur zwischen 9 und 12 Uhr sichtbar 🌙</h1>";
+    document.body.style.display = "flex";
+    document.body.style.justifyContent = "center";
+    document.body.style.alignItems = "center";
+    document.body.style.height = "100vh";
+    document.body.style.background = "#000";
+    document.body.style.color = "#fff";
+    document.body.style.fontFamily = "Arial, sans-serif";
+}
+</script>
+
+<!-- ANIMATION -->
+<div class="sky"></div>
+<div class="sea">
+    <div class="sun-reflection"></div>
+    <div class="sparkle s1"></div>
+    <div class="sparkle s2"></div>
+    <div class="sparkle s3"></div>
+    <div class="sparkle s4"></div>
+    <div class="sparkle s5"></div>
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div>
+</div>
+<div class="beach"></div>
+<div class="sun">
+    <div class="rays">
+        <span style="transform:rotate(0deg);"></span>
+        <span style="transform:rotate(30deg);"></span>
+        <span style="transform:rotate(60deg);"></span>
+        <span style="transform:rotate(90deg);"></span>
+        <span style="transform:rotate(120deg);"></span>
+        <span style="transform:rotate(150deg);"></span>
+        <span style="transform:rotate(180deg);"></span>
+        <span style="transform:rotate(210deg);"></span>
+        <span style="transform:rotate(240deg);"></span>
+        <span style="transform:rotate(270deg);"></span>
+        <span style="transform:rotate(300deg);"></span>
+        <span style="transform:rotate(330deg);"></span>
     </div>
-    <div class="beach"></div>
-    <div class="sun">
-        <div class="rays">
-            <span style="transform:rotate(0deg)"></span><span style="transform:rotate(30deg)"></span>
-            <span style="transform:rotate(60deg)"></span><span style="transform:rotate(90deg)"></span>
-            <span style="transform:rotate(120deg)"></span><span style="transform:rotate(150deg)"></span>
-            <span style="transform:rotate(180deg)"></span><span style="transform:rotate(210deg)"></span>
-            <span style="transform:rotate(240deg)"></span><span style="transform:rotate(270deg)"></span>
-            <span style="transform:rotate(300deg)"></span><span style="transform:rotate(330deg)"></span>
-        </div>
-        <div class="sun-core"></div>
-    </div>
-    <h1><span class="emoji">☀️</span>Guten Morgen<span class="emoji">☀️</span></h1>
+    <div class="sun-core"></div>
 </div>
 
-<!-- TAG -->
-<div id="tag" class="timeAnimation">
-    <div class="sky"></div>
-    <div class="sun"><div class="sun-rays">
-        <span style="transform:rotate(0deg)"></span><span style="transform:rotate(30deg)"></span>
-        <span style="transform:rotate(60deg)"></span><span style="transform:rotate(90deg)"></span>
-        <span style="transform:rotate(120deg)"></span><span style="transform:rotate(150deg)"></span>
-        <span style="transform:rotate(180deg)"></span><span style="transform:rotate(210deg)"></span>
-        <span style="transform:rotate(240deg)"></span><span style="transform:rotate(270deg)"></span>
-        <span style="transform:rotate(300deg)"></span><span style="transform:rotate(330deg)"></span>
-    </div></div>
-    <h1><span class="emoji">🌼</span>Schönen Guten Tag<span class="emoji">🌼</span></h1>
-</div>
-
-<!-- NACHT -->
-<div id="nacht" class="timeAnimation">
-    <h1><span class="emoji">🌙</span>Gute Nacht<span class="emoji">🌙</span></h1>
-</div>
+<h1>
+    <span class="emoji">☀️</span>Guten<span class="emoji">☀️</span>
+    <span class="line"></span>
+    <span class="emoji">☕</span>Morgen<span class="emoji">☕</span>
+</h1>
 
 <script>
-function showAnimationByTime(){
-    const hour = new Date().getHours();
-    document.querySelectorAll('.timeAnimation').forEach(e=>e.style.display='none');
-    if(hour >=5 && hour <12) document.getElementById('morgen').style.display='block';
-    else if(hour >=12 && hour <18) document.getElementById('tag').style.display='block';
-    else document.getElementById('nacht').style.display='flex';
+function createDolphin(){
+    const dolphin = document.createElement("div");
+    dolphin.className = "dolphin";
+    dolphin.innerHTML = "🐬";
+    const side = Math.random() > 0.5 ? "left" : "right";
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = 10 + Math.random() * 8;
+    dolphin.style.left = x + "px";
+    dolphin.style.bottom = y + "vh";
+    if(side === "right"){
+        dolphin.style.transform = "rotateY(180deg)";
+    }
+    document.body.appendChild(dolphin);
+    setTimeout(() => { dolphin.remove(); },2000);
 }
-showAnimationByTime();
-setInterval(showAnimationByTime,60000);
+
+function spawnLoop(){
+    createDolphin();
+    const next = 700 + Math.random() * 1500;
+    setTimeout(spawnLoop,next);
+}
+
+if(hour >= 9 && hour < 12){
+    spawnLoop(); // nur zwischen 9-12 Uhr starten
+}
 </script>
 
 </body>
