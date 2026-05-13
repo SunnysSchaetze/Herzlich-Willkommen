@@ -3,31 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herzlich Willkommen</title>
+<title>Begrüßung</title>
 
 <style>
-/* --- GLOBAL --- */
-*{ box-sizing:border-box; margin:0; padding:0; }
-html, body{ width:100%; height:100%; overflow:hidden; font-family:Arial,sans-serif; background:#000; }
-body{ display:flex; justify-content:center; align-items:center; text-align:center; position:relative; color:#fff; }
+/* ========================== MORGEN STYLES ========================== */
+.morning :root{
+    --sun-size: clamp(120px, 20vw, 260px);
+}
 
-/* --- COMMON TEXT STYLES --- */
-h1{
-    font-size:clamp(2rem,8vw,5.5rem);
-    line-height:1.15;
+.morning *, .morning *::before, .morning *::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.morning html, .morning body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    position:relative;
+    background:#000;
+}
+
+.morning .sky{
+    position:absolute;
+    inset:0;
+    background: linear-gradient(to bottom,#000000 0%,#000000 45%,#08263d 70%,#145b82 100%);
+    z-index:0;
+}
+
+.morning .sea{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(180px,35vh,380px);
+    background: linear-gradient(to bottom, rgba(0,180,255,0.15) 0%, rgba(0,120,210,0.4) 30%, rgba(0,70,160,0.9) 100%);
+    z-index:1;
+}
+
+.morning .sun{
+    position:absolute;
+    width:var(--sun-size);
+    height:var(--sun-size);
+    bottom:calc(var(--sun-size)/-2);
+    left:calc(var(--sun-size)/-2);
+    z-index:2;
+}
+
+.morning .sun-core{
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle,#ffff66,#ffcc00);
+    border-radius:50%;
+    box-shadow: 0 0 30px yellow,0 0 60px orange,0 0 100px gold;
+}
+
+.morning .rays span{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:var(--ray-width);
+    height:var(--ray-height);
+    margin-left:calc(var(--ray-width)/-2);
+    margin-top:calc(var(--ray-height)*-1);
+    background: linear-gradient(to top,orange,yellow);
+    border-radius:999px;
+    transform-origin:center var(--ray-height);
+}
+
+.morning .beach{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:clamp(40px,8vh,80px);
+    background: linear-gradient(to bottom,#f6d28d,#d5a96a);
+    z-index:4;
+}
+
+.morning h1{
+    font-size:clamp(2rem,8vw,5rem);
+    line-height:1.2;
     position:relative;
     z-index:10;
     padding:0 20px;
-    max-width:90vw;
-    word-break:break-word;
-}
-
-.line{ display:block; margin:0.35em 0; }
-
-.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5); }
-
-/* --- RAINBOW TEXT --- */
-.rainbowText{
     background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
     background-size:700% 700%;
     -webkit-background-clip:text;
@@ -35,169 +97,156 @@ h1{
     animation: rainbowFlow 20s linear infinite;
 }
 
-@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
+.morning .emoji{
+    display:inline-block;
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
 
-/* --- COMMON STAR --- */
-.star{
+.morning .line{
+    display:block;
+    margin:0.4em 0;
+}
+
+/* ========================== TAG STYLES ========================== */
+.day :root{
+    --sun-size: clamp(110px, 16vw, 220px);
+}
+
+.day *, .day *::before, .day *::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.day html, .day body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    position:relative;
+    background:#000;
+}
+
+.day .sky{
     position:absolute;
-    border-radius:50%;
-    background:#fff;
-    animation: twinkle 3s ease-in-out infinite;
+    inset:0;
+    background: linear-gradient(to bottom, #000000 0%, #050505 40%, #10283d 75%, #1d5f87 100%);
     z-index:0;
 }
-@keyframes twinkle{0%{opacity:0.2; transform:scale(1);}50%{opacity:1; transform:scale(1.6);}100%{opacity:0.2; transform:scale(1);}}
 
-/* --- COMMON PARTICLE --- */
-.particle{
+.day .sun{
     position:absolute;
+    width:var(--sun-size);
+    height:var(--sun-size);
+    top:clamp(10px,4vw,40px);
+    right:clamp(10px,4vw,40px);
     border-radius:50%;
-    opacity:0;
-    pointer-events:none;
-    will-change:transform,opacity;
-    animation: explode 1.2s ease-out forwards;
-}
-@keyframes explode{0%{transform:translate(0,0) scale(1); opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0); opacity:0;}}
-
-/* --- HIDDEN BY DEFAULT --- */
-.animation{ display:none; position:absolute; inset:0; width:100%; height:100%; }
-
-/* --- SPECIFIC ANIMATION STYLES --- */
-
-/* --- MORNING --- */
-#morning h1{ font-size:clamp(2rem,8vw,5rem); }
-#morning .emoji{ filter:drop-shadow(0 0 10px rgba(255,255,255,0.5)); animation:pulse 2.5s ease-in-out infinite; }
-@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
-
-/* --- DAY --- */
-#day h1{ font-size:clamp(2rem,8vw,5rem); }
-
-/* --- EVENING --- */
-#evening h1{ font-size:clamp(2rem,8vw,5rem); }
-
-/* --- EASTER --- */
-#easter .moon{
-    position:absolute;
-    top:clamp(20px,5vw,60px);
-    right:clamp(20px,6vw,80px);
-    width:clamp(90px,14vw,180px);
-    height:clamp(90px,14vw,180px);
-    border-radius:50%;
-    background: radial-gradient(circle,#ffffff 0%,#ececff 55%,#c2c2ff 100%);
-    box-shadow:0 0 25px #fff,0 0 60px #9999ff,0 0 120px rgba(255,255,255,0.5);
-    animation: moonGlow 4s ease-in-out infinite alternate;
+    background: radial-gradient(circle, #fff176 0%, #ffeb3b 35%, #ff9800 70%, rgba(255,140,0,0.1) 100%);
+    box-shadow:0 0 40px #ffeb3b,0 0 80px #ff9800,0 0 140px rgba(255,180,0,0.8);
+    animation: sunPulse 4s ease-in-out infinite, sunFloat 8s ease-in-out infinite;
     z-index:1;
 }
-@keyframes moonGlow{0%{transform:scale(1); filter:brightness(1);}100%{transform:scale(1.08); filter:brightness(1.3);}}
-#easter .grass{ position:absolute; bottom:0; left:0; width:100%; height:clamp(120px,20vh,220px); background:linear-gradient(to top,#0a4d1c 0%,#1f8a34 70%,#37b44c 100%); z-index:3; overflow:hidden;}
-#easter .grass::before{ content:""; position:absolute; inset:0; background:repeating-linear-gradient(80deg,transparent 0px,transparent 6px,rgba(255,255,255,0.08) 7px,transparent 8px); animation: grassMove 4s ease-in-out infinite;}
-@keyframes grassMove{0%,100%{transform:translateX(0);}50%{transform:translateX(6px);}}
-#easter .bunny-container{ position:absolute; bottom:clamp(10px,2vh,25px); left:0; width:100%; height:clamp(90px,15vh,140px); overflow:hidden; z-index:6; pointer-events:none;}
-#easter .bunny{ position:absolute; bottom:0; font-size:clamp(2rem,4vw,4rem); will-change:transform; animation:bunnyRun linear forwards, bunnyHop 0.7s ease-in-out infinite alternate;}
-@keyframes bunnyRun{0%{transform:translateX(120vw);}100%{transform:translateX(-160vw);}}
-@keyframes bunnyHop{0%{margin-bottom:0;}100%{margin-bottom:clamp(20px,5vh,60px);}}
-#easter .firefly{ position:absolute; width:6px; height:6px; border-radius:50%; background:#fff59d; box-shadow:0 0 10px #fff59d,0 0 20px #ffee58; animation: fireflyMove linear infinite, fireflyGlow 2s ease-in-out infinite; z-index:2;}
-@keyframes fireflyMove{0%{transform:translate(0,0);}50%{transform:translate(30px,-40px);}100%{transform:translate(-20px,20px);}}
-@keyframes fireflyGlow{0%,100%{opacity:0.2;}50%{opacity:1;}}
 
-/* --- CHRISTMAS --- */
-#christmas .snowflake{position:absolute;color:#fff;font-size:1em;top:-2%;z-index:5;user-select:none;pointer-events:none;animation:snowFall linear infinite;}
-@keyframes snowFall{0%{transform:translateY(0);}100%{transform:translateY(110vh);}}
-
-/* --- HALLOWEEN --- */
-#halloween .moon{
+.day .sun-rays span{
     position:absolute;
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    background: radial-gradient(circle,#fff 0%,#ccc 70%,#888 100%);
-    top:30px; right:30px;
-    box-shadow:0 0 30px #fff;
+    width:clamp(4px,0.7vw,8px);
+    height:clamp(40px,6vw,60px);
+    background: linear-gradient(to top, rgba(255,140,0,0), #ffeb3b);
+    left:50%;
+    top:50%;
+    margin-left:calc(clamp(4px,0.7vw,8px)/-2);
+    margin-top:clamp(-90px,-12vw,-120px);
+    border-radius:999px;
+    transform-origin:center clamp(90px,12vw,120px);
+    box-shadow:0 0 12px #ffeb3b;
 }
-#halloween .ghost{position:absolute;font-size:2.5rem;animation:ghostMove 5s ease-in-out infinite alternate;}
-@keyframes ghostMove{0%{transform:translateY(0);}100%{transform:translateY(-50px);}}
 
-/* --- NEW YEAR --- */
-#newyear h1{ font-size:clamp(2rem,8vw,5rem); }
+.day .leaf, .day .cloud, .day .firefly, .day .bubble, .day .grass, .day .blade { /* alle Tagesanimationen bleiben hier */ }
 
+/* ========================== ANIMATIONEN ========================== */
+@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
+@keyframes sunPulse{0%,100%{scale:1;}50%{scale:1.08;}}
+@keyframes sunFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
 </style>
 </head>
+
 <body>
 
-<!-- ANIMATION CONTAINERS -->
-<div id="morning" class="animation">
-    <h1><span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">☕</span>Morgen<span class="emoji">☕</span></h1>
-</div>
-
-<div id="day" class="animation">
-    <h1><span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span><span class="line"></span><span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span></h1>
-</div>
-
-<div id="evening" class="animation">
-    <h1><span class="emoji">🌙</span>Guten<span class="emoji">🌙</span><span class="line"></span><span class="emoji">⭐</span>Abend<span class="emoji">⭐</span></h1>
-</div>
-
-<div id="easter" class="animation">
-    <h1 class="rainbowText"><span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span><span class="line"></span><span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span></h1>
-    <div class="moon"></div>
-    <div class="grass"></div>
-    <div class="bunny-container"><div class="bunny">🐇</div></div>
-</div>
-
-<div id="christmas" class="animation">
-    <h1 class="rainbowText"><span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span><span class="line"></span><span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span></h1>
-</div>
-
-<div id="halloween" class="animation">
-    <h1 class="rainbowText"><span class="emoji">💀</span>Happy<span class="emoji">💀</span><span class="line"></span><span class="emoji">👻</span>Halloween<span class="emoji">👻</span></h1>
-    <div class="moon"></div>
-    <div class="ghost">👻</div>
-</div>
-
-<div id="newyear" class="animation">
-    <h1 class="rainbowText"><span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span><span class="line"></span><span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span></h1>
-</div>
+<div id="content"></div>
 
 <script>
-// --- DATUM UND ZEIT ABFRAGE ---
-function showAnimation() {
-    const now = new Date();
-    const month = now.getMonth(); // 0 = Jan
-    const date = now.getDate();
-    const hours = now.getHours();
-
-    // Feiertage: Ostern, Weihnachten, Halloween, Neujahr
-    const easterDate = new Date('2026-04-05'); // Beispiel Ostersonntag
-    const christmasDate = new Date(now.getFullYear(), 11, 25);
-    const halloweenDate = new Date(now.getFullYear(), 9, 31);
-    const newyearEve = new Date(now.getFullYear(), 11, 31);
-    const newyearDay = new Date(now.getFullYear() + 1, 0, 1);
-
-    const morning = document.getElementById("morning");
-    const day = document.getElementById("day");
-    const evening = document.getElementById("evening");
-    const easter = document.getElementById("easter");
-    const christmas = document.getElementById("christmas");
-    const halloween = document.getElementById("halloween");
-    const newyear = document.getElementById("newyear");
-
-    // Hide all first
-    [morning, day, evening, easter, christmas, halloween, newyear].forEach(el => el.style.display='none');
-
-    // Feiertage priorisiert
-    if(now.getMonth()===easterDate.getMonth() && now.getDate()===easterDate.getDate()){ easter.style.display='block'; return; }
-    if(now.getMonth()===christmasDate.getMonth() && now.getDate()===christmasDate.getDate()){ christmas.style.display='block'; return; }
-    if(now.getMonth()===halloweenDate.getMonth() && now.getDate()===halloweenDate.getDate()){ halloween.style.display='block'; return; }
-    if((now.getMonth()===newyearEve.getMonth() && now.getDate()===newyearEve.getDate()) || (now.getMonth()===newyearDay.getMonth() && now.getDate()===newyearDay.getDate())){ newyear.style.display='block'; return; }
-
-    // Tageszeit
-    if(hours >=5 && hours<11){ morning.style.display='block'; }
-    else if(hours>=11 && hours<17){ day.style.display='block'; }
-    else { evening.style.display='block'; }
+// ========================== FEIERTAGE ==========================
+function getEasterDate(year){
+    const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),
+    e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+    h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,
+    l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+    month=Math.floor((h+l-7*m+114)/31),
+    day=((h+l-7*m+114)%31)+1;
+    return new Date(year,month-1,day);
 }
 
-showAnimation();
-setInterval(showAnimation,60000); // prüft jede Minute
+function getMessage(){
+    const now=new Date(), h=now.getHours(), day=now.getDate(), month=now.getMonth()+1;
+    const easter=getEasterDate(now.getFullYear());
 
+    if(day===25 && month===12) return "Frohe Weihnachten! 🎄";
+    if((day===31 && month===12) || (day===1 && month===1)) return "Frohes neues Jahr! 🎉";
+    if(day===31 && month===10) return "Happy Halloween! 🎃";
+    if(day===easter.getDate() && month===easter.getMonth()+1) return "Frohe Ostern! 🐰";
+
+    if(h>=5 && h<12) return "morning";
+    if(h>=12 && h<18) return "day";
+    return "other";
+}
+
+const message=getMessage();
+const container=document.getElementById("content");
+
+if(message==="morning"){
+    container.innerHTML=`<div class="morning sky"></div>
+    <div class="morning sea"></div>
+    <div class="morning sun"><div class="morning sun-core"></div></div>
+    <div class="morning beach"></div>
+    <h1><span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">☕</span>Morgen<span class="emoji">☕</span></h1>`;
+}else if(message==="day"){
+    container.innerHTML=`<div class="day sky"></div>
+    <div class="day sun"><div class="day sun-rays"><span></span></div></div>
+    <div class="day cloud cloud1"></div>
+    <div class="day cloud cloud2"></div>
+    <div class="day leaf l1">🍃</div>
+    <div class="day leaf l2">🌸</div>
+    <div class="day leaf l3">🍂</div>
+    <div class="day leaf l4">🌺</div>
+    <div class="day leaf l5">🍃</div>
+    <div class="day firefly f1"></div>
+    <div class="day firefly f2"></div>
+    <div class="day firefly f3"></div>
+    <div class="day firefly f4"></div>
+    <div class="day firefly f5"></div>
+    <div class="day bubble b1"></div>
+    <div class="day bubble b2"></div>
+    <div class="day bubble b3"></div>
+    <div class="day bubble b4"></div>
+    <div class="day bubble b5"></div>
+    <div class="day bubble b6"></div>
+    <div class="day grass" id="grass"></div>
+    <h1><span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span><span class="line"></span><span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span></h1>`;
+}
+
+// ========================== GRAS SCRIPT ==========================
+if(message==="day"){
+    const grass=document.getElementById("grass");
+    const bladeCount=window.innerWidth<600?80:140;
+    for(let i=0;i<bladeCount;i++){
+        const blade=document.createElement("div");
+        blade.className="blade";
+        blade.style.animationDelay=Math.random()*1.5+"s";
+        blade.style.height=(40+Math.random()*120)+"px";
+        grass.appendChild(blade);
+    }
+}
 </script>
 
 </body>
