@@ -5,137 +5,93 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Animation je nach Zeit und Feiertag</title>
 <style>
-/* ---------------------------
-   Allgemeine Animationen CSS
----------------------------- */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f8ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+/* ==================== Morning.html CSS ==================== */
+/* Hier Morning.html gesamten CSS-Code einfügen */
 
-.animation {
-  font-size: 2em;
-  text-align: center;
-  padding: 20px;
-  border-radius: 10px;
-  animation: fadeIn 1s ease-in-out;
-  background-color: #ffffffaa;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
+/* ==================== Day.html CSS ==================== */
+/* Hier Day.html gesamten CSS-Code einfügen */
 
-/* Einfaches Fade-In Beispiel */
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
+/* ==================== Evening.html CSS ==================== */
+/* Hier Evening.html gesamten CSS-Code einfügen */
+
+/* ==================== Christmas.html CSS ==================== */
+/* Hier Christmas.html gesamten CSS-Code einfügen */
+
+/* ==================== Easter.html CSS ==================== */
+/* Hier Easter.html gesamten CSS-Code einfügen */
+
+/* ==================== Halloween.html CSS ==================== */
+/* Hier Halloween.html gesamten CSS-Code einfügen */
+
+/* ==================== newyear_day.html CSS ==================== */
+/* Hier newyear_day.html gesamten CSS-Code einfügen */
+
+/* ==================== newyear_eve.html CSS ==================== */
+/* Hier newyear_eve.html gesamten CSS-Code einfügen */
 </style>
 </head>
 <body>
 
-<div id="animation-container"></div>
+<!-- ==================== Morning ==================== -->
+<div id="morning" style="display:none">
+<!-- Morning.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Day ==================== -->
+<div id="day" style="display:none">
+<!-- Day.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Evening ==================== -->
+<div id="evening" style="display:none">
+<!-- Evening.html Body komplett einfügen inkl. <canvas>, <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Christmas ==================== -->
+<div id="christmas" style="display:none">
+<!-- Christmas.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Easter ==================== -->
+<div id="easter" style="display:none">
+<!-- Easter.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== Halloween ==================== -->
+<div id="halloween" style="display:none">
+<!-- Halloween.html Body komplett einfügen inkl. <div>, <script> etc. -->
+</div>
+
+<!-- ==================== New Year Day ==================== -->
+<div id="newyear_day" style="display:none">
+<!-- newyear_day.html Body komplett einfügen inkl. <div>, <canvas>, <script> etc. -->
+</div>
+
+<!-- ==================== New Year Eve ==================== -->
+<div id="newyear_eve" style="display:none">
+<!-- newyear_eve.html Body komplett einfügen inkl. <div>, <canvas>, <script> etc. -->
+</div>
 
 <script>
-// ---------------------------
-// Hier deine Animationscodes einfügen
-// ---------------------------
-const animations = {
-  morning: `
-    <div class="animation">
-      Guten Morgen! 🌅
-    </div>
-  `,
-  afternoon: `
-    <div class="animation">
-      Schönen Guten Tag! ☀️
-    </div>
-  `,
-  evening: `
-    <div class="animation">
-      Guten Abend! 🌇
-    </div>
-  `,
-  christmas: `
-    <div class="animation">
-      Frohe Weihnachten! 🎄
-    </div>
-  `,
-  easter: `
-    <div class="animation">
-      Frohe Ostern! 🐰
-    </div>
-  `,
-  halloween: `
-    <div class="animation">
-      Happy Halloween! 🎃
-    </div>
-  `,
-  newyear: `
-    <div class="animation">
-      Frohes Neues Jahr! 🎉
-    </div>
-  `,
-  silvester: `
-    <div class="animation">
-      Guten Rutsch! 🥂
-    </div>
-  `
-};
-
-// ---------------------------
-// Feiertage prüfen
-// ---------------------------
-function getHolidayAnimation(date) {
-  const month = date.getMonth() + 1; // Monate 0-11
-  const day = date.getDate();
-
-  // Weihnachten 24-26 Dezember
-  if (month === 12 && (day === 24 || day === 25 || day === 26)) return animations.christmas;
-
-  // Ostern 2026 (Ostersonntag: 5. April, Ostermontag: 6. April)
-  if (month === 4 && (day === 5 || day === 6)) return animations.easter;
-
-  // Halloween 31. Oktober
-  if (month === 10 && day === 31) return animations.halloween;
-
-  // Silvester 31. Dezember
-  if (month === 12 && day === 31) return animations.silvester;
-
-  // Neujahr 1. Januar
-  if (month === 1 && day === 1) return animations.newyear;
-
-  return null;
-}
-
-// ---------------------------
-// Uhrzeit-basierte Animation
-// ---------------------------
-function getTimeAnimation(date) {
-  const hours = date.getHours();
-  if (hours >= 5 && hours < 12) return animations.morning;
-  else if (hours >= 12 && hours < 18) return animations.afternoon;
-  else return animations.evening;
-}
-
-// ---------------------------
-// Animation anzeigen
-// ---------------------------
 function showAnimation() {
-  const now = new Date();
-  const holidayAnimation = getHolidayAnimation(now);
-  const timeAnimation = getTimeAnimation(now);
-  document.getElementById('animation-container').innerHTML = holidayAnimation || timeAnimation;
+    const now = new Date();
+    const month = now.getMonth()+1;
+    const day = now.getDate();
+    const hours = now.getHours();
+    let id='';
+    if(month===12&&(day===24||day===25||day===26)) id='christmas';
+    else if(month===4&&(day===5||day===6)) id='easter';
+    else if(month===10&&day===31) id='halloween';
+    else if(month===12&&day===31) id='newyear_eve';
+    else if(month===1&&day===1) id='newyear_day';
+    else if(hours>=5&&hours<12) id='morning';
+    else if(hours>=12&&hours<18) id='day';
+    else id='evening';
+    document.querySelectorAll('div[id]').forEach(d=>d.style.display='none');
+    document.getElementById(id).style.display='block';
 }
-
-// Animation beim Laden anzeigen
 showAnimation();
-
-// Optional: alle 60 Sekunden aktualisieren
-setInterval(showAnimation, 60000);
+setInterval(showAnimation,60000);
 </script>
 
 </body>
