@@ -4,90 +4,200 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Herzlich Willkommen</title>
+
 <style>
-    html, body {
-        margin:0;
-        padding:0;
-        width:100%;
-        height:100%;
-        overflow:hidden;
-        background:#000;
-        font-family:Arial,sans-serif;
-    }
-    body {
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        text-align:center;
-        position:relative;
-    }
-    iframe {
-        border:none;
-        width:100%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
-    }
+/* --- GLOBAL --- */
+*{ box-sizing:border-box; margin:0; padding:0; }
+html, body{ width:100%; height:100%; overflow:hidden; font-family:Arial,sans-serif; background:#000; }
+body{ display:flex; justify-content:center; align-items:center; text-align:center; position:relative; color:#fff; }
+
+/* --- COMMON TEXT STYLES --- */
+h1{
+    font-size:clamp(2rem,8vw,5.5rem);
+    line-height:1.15;
+    position:relative;
+    z-index:10;
+    padding:0 20px;
+    max-width:90vw;
+    word-break:break-word;
+}
+
+.line{ display:block; margin:0.35em 0; }
+
+.emoji{ text-shadow:0 0 10px rgba(255,255,255,0.5); }
+
+/* --- RAINBOW TEXT --- */
+.rainbowText{
+    background: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size:700% 700%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: rainbowFlow 20s linear infinite;
+}
+
+@keyframes rainbowFlow{0%{background-position:0% 0%;}100%{background-position:100% 100%;}}
+
+/* --- COMMON STAR --- */
+.star{
+    position:absolute;
+    border-radius:50%;
+    background:#fff;
+    animation: twinkle 3s ease-in-out infinite;
+    z-index:0;
+}
+@keyframes twinkle{0%{opacity:0.2; transform:scale(1);}50%{opacity:1; transform:scale(1.6);}100%{opacity:0.2; transform:scale(1);}}
+
+/* --- COMMON PARTICLE --- */
+.particle{
+    position:absolute;
+    border-radius:50%;
+    opacity:0;
+    pointer-events:none;
+    will-change:transform,opacity;
+    animation: explode 1.2s ease-out forwards;
+}
+@keyframes explode{0%{transform:translate(0,0) scale(1); opacity:1;}100%{transform:translate(var(--x),var(--y)) scale(0); opacity:0;}}
+
+/* --- HIDDEN BY DEFAULT --- */
+.animation{ display:none; position:absolute; inset:0; width:100%; height:100%; }
+
+/* --- SPECIFIC ANIMATION STYLES --- */
+
+/* --- MORNING --- */
+#morning h1{ font-size:clamp(2rem,8vw,5rem); }
+#morning .emoji{ filter:drop-shadow(0 0 10px rgba(255,255,255,0.5)); animation:pulse 2.5s ease-in-out infinite; }
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+/* --- DAY --- */
+#day h1{ font-size:clamp(2rem,8vw,5rem); }
+
+/* --- EVENING --- */
+#evening h1{ font-size:clamp(2rem,8vw,5rem); }
+
+/* --- EASTER --- */
+#easter .moon{
+    position:absolute;
+    top:clamp(20px,5vw,60px);
+    right:clamp(20px,6vw,80px);
+    width:clamp(90px,14vw,180px);
+    height:clamp(90px,14vw,180px);
+    border-radius:50%;
+    background: radial-gradient(circle,#ffffff 0%,#ececff 55%,#c2c2ff 100%);
+    box-shadow:0 0 25px #fff,0 0 60px #9999ff,0 0 120px rgba(255,255,255,0.5);
+    animation: moonGlow 4s ease-in-out infinite alternate;
+    z-index:1;
+}
+@keyframes moonGlow{0%{transform:scale(1); filter:brightness(1);}100%{transform:scale(1.08); filter:brightness(1.3);}}
+#easter .grass{ position:absolute; bottom:0; left:0; width:100%; height:clamp(120px,20vh,220px); background:linear-gradient(to top,#0a4d1c 0%,#1f8a34 70%,#37b44c 100%); z-index:3; overflow:hidden;}
+#easter .grass::before{ content:""; position:absolute; inset:0; background:repeating-linear-gradient(80deg,transparent 0px,transparent 6px,rgba(255,255,255,0.08) 7px,transparent 8px); animation: grassMove 4s ease-in-out infinite;}
+@keyframes grassMove{0%,100%{transform:translateX(0);}50%{transform:translateX(6px);}}
+#easter .bunny-container{ position:absolute; bottom:clamp(10px,2vh,25px); left:0; width:100%; height:clamp(90px,15vh,140px); overflow:hidden; z-index:6; pointer-events:none;}
+#easter .bunny{ position:absolute; bottom:0; font-size:clamp(2rem,4vw,4rem); will-change:transform; animation:bunnyRun linear forwards, bunnyHop 0.7s ease-in-out infinite alternate;}
+@keyframes bunnyRun{0%{transform:translateX(120vw);}100%{transform:translateX(-160vw);}}
+@keyframes bunnyHop{0%{margin-bottom:0;}100%{margin-bottom:clamp(20px,5vh,60px);}}
+#easter .firefly{ position:absolute; width:6px; height:6px; border-radius:50%; background:#fff59d; box-shadow:0 0 10px #fff59d,0 0 20px #ffee58; animation: fireflyMove linear infinite, fireflyGlow 2s ease-in-out infinite; z-index:2;}
+@keyframes fireflyMove{0%{transform:translate(0,0);}50%{transform:translate(30px,-40px);}100%{transform:translate(-20px,20px);}}
+@keyframes fireflyGlow{0%,100%{opacity:0.2;}50%{opacity:1;}}
+
+/* --- CHRISTMAS --- */
+#christmas .snowflake{position:absolute;color:#fff;font-size:1em;top:-2%;z-index:5;user-select:none;pointer-events:none;animation:snowFall linear infinite;}
+@keyframes snowFall{0%{transform:translateY(0);}100%{transform:translateY(110vh);}}
+
+/* --- HALLOWEEN --- */
+#halloween .moon{
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background: radial-gradient(circle,#fff 0%,#ccc 70%,#888 100%);
+    top:30px; right:30px;
+    box-shadow:0 0 30px #fff;
+}
+#halloween .ghost{position:absolute;font-size:2.5rem;animation:ghostMove 5s ease-in-out infinite alternate;}
+@keyframes ghostMove{0%{transform:translateY(0);}100%{transform:translateY(-50px);}}
+
+/* --- NEW YEAR --- */
+#newyear h1{ font-size:clamp(2rem,8vw,5rem); }
+
 </style>
 </head>
 <body>
 
-<iframe id="animationFrame" src=""></iframe>
+<!-- ANIMATION CONTAINERS -->
+<div id="morning" class="animation">
+    <h1><span class="emoji">☀️</span>Guten<span class="emoji">☀️</span><span class="line"></span><span class="emoji">☕</span>Morgen<span class="emoji">☕</span></h1>
+</div>
+
+<div id="day" class="animation">
+    <h1><span class="emoji">🌼</span>Schönen<span class="emoji">🌼</span><span class="line"></span><span class="emoji">🔆</span>Guten Tag<span class="emoji">🔆</span></h1>
+</div>
+
+<div id="evening" class="animation">
+    <h1><span class="emoji">🌙</span>Guten<span class="emoji">🌙</span><span class="line"></span><span class="emoji">⭐</span>Abend<span class="emoji">⭐</span></h1>
+</div>
+
+<div id="easter" class="animation">
+    <h1 class="rainbowText"><span class="emoji">🐰</span>Frohe<span class="emoji">🐰</span><span class="line"></span><span class="emoji">🥚</span>Ostern<span class="emoji">🥚</span></h1>
+    <div class="moon"></div>
+    <div class="grass"></div>
+    <div class="bunny-container"><div class="bunny">🐇</div></div>
+</div>
+
+<div id="christmas" class="animation">
+    <h1 class="rainbowText"><span class="emoji">🎄</span>Frohe<span class="emoji">🎄</span><span class="line"></span><span class="emoji">🎅</span>Weihnachten<span class="emoji">🎅</span></h1>
+</div>
+
+<div id="halloween" class="animation">
+    <h1 class="rainbowText"><span class="emoji">💀</span>Happy<span class="emoji">💀</span><span class="line"></span><span class="emoji">👻</span>Halloween<span class="emoji">👻</span></h1>
+    <div class="moon"></div>
+    <div class="ghost">👻</div>
+</div>
+
+<div id="newyear" class="animation">
+    <h1 class="rainbowText"><span class="emoji">🎊</span>Frohes<span class="emoji">🎊</span><span class="line"></span><span class="emoji">🍾</span>Neues Jahr<span class="emoji">🍾</span></h1>
+</div>
 
 <script>
-// === DATEN UND FEIERTAGE ===
-const animations = {
-    morning: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Morning.html",
-    day: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Day.html",
-    evening: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Evening.html",
-    easter: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Easter.html",
-    christmas: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Christmas.html",
-    halloween: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/Halloween.html",
-    newyear_day: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/newyear_day.html",
-    newyear_eve: "https://raw.githubusercontent.com/SunnysSchaetze/Herzlich-Willkommen/main/newyear_eve.html"
-};
+// --- DATUM UND ZEIT ABFRAGE ---
+function showAnimation() {
+    const now = new Date();
+    const month = now.getMonth(); // 0 = Jan
+    const date = now.getDate();
+    const hours = now.getHours();
 
-// === DATUM UND UHRZEIT ===
-const today = new Date();
-const month = today.getMonth() + 1; // Januar = 0
-const day = today.getDate();
-const hour = today.getHours();
+    // Feiertage: Ostern, Weihnachten, Halloween, Neujahr
+    const easterDate = new Date('2026-04-05'); // Beispiel Ostersonntag
+    const christmasDate = new Date(now.getFullYear(), 11, 25);
+    const halloweenDate = new Date(now.getFullYear(), 9, 31);
+    const newyearEve = new Date(now.getFullYear(), 11, 31);
+    const newyearDay = new Date(now.getFullYear() + 1, 0, 1);
 
-// === FUNKTION: OSTERN ERRECHNEN (Westliche Ostern) ===
-function getEasterDate(year){
-    const f = Math.floor,
-          G = year % 19,
-          C = f(year/100),
-          H = (C - f(C/4) - f((8*C+13)/25) + 19*G + 15) % 30,
-          I = H - f(H/28)*(1 - f(H/28)*f(29/(H+1))*f((21-G)/11)),
-          J = (year + f(year/4) + I + 2 - C + f(C/4)) % 7,
-          L = I - J;
-    const month = 3 + f((L+40)/44);
-    const day = L + 28 - 31*f(month/4);
-    return {month, day};
+    const morning = document.getElementById("morning");
+    const day = document.getElementById("day");
+    const evening = document.getElementById("evening");
+    const easter = document.getElementById("easter");
+    const christmas = document.getElementById("christmas");
+    const halloween = document.getElementById("halloween");
+    const newyear = document.getElementById("newyear");
+
+    // Hide all first
+    [morning, day, evening, easter, christmas, halloween, newyear].forEach(el => el.style.display='none');
+
+    // Feiertage priorisiert
+    if(now.getMonth()===easterDate.getMonth() && now.getDate()===easterDate.getDate()){ easter.style.display='block'; return; }
+    if(now.getMonth()===christmasDate.getMonth() && now.getDate()===christmasDate.getDate()){ christmas.style.display='block'; return; }
+    if(now.getMonth()===halloweenDate.getMonth() && now.getDate()===halloweenDate.getDate()){ halloween.style.display='block'; return; }
+    if((now.getMonth()===newyearEve.getMonth() && now.getDate()===newyearEve.getDate()) || (now.getMonth()===newyearDay.getMonth() && now.getDate()===newyearDay.getDate())){ newyear.style.display='block'; return; }
+
+    // Tageszeit
+    if(hours >=5 && hours<11){ morning.style.display='block'; }
+    else if(hours>=11 && hours<17){ day.style.display='block'; }
+    else { evening.style.display='block'; }
 }
 
-// === HEUTIGER OSTERTAG ===
-const easter = getEasterDate(today.getFullYear());
+showAnimation();
+setInterval(showAnimation,60000); // prüft jede Minute
 
-// === FUNKTION: BESTIMME ANIMATION ===
-function getAnimation() {
-    // Feiertage zuerst
-    if(month === 12 && day === 25) return animations.christmas;         // Weihnachten
-    if(month === 10 && day === 31) return animations.halloween;        // Halloween
-    if(month === 12 && day === 31) return animations.newyear_eve;      // Silvester
-    if(month === 1 && day === 1) return animations.newyear_day;        // Neujahr
-    if(month === easter.month && day === easter.day) return animations.easter; // Ostern
-
-    // Wenn kein Feiertag → Tageszeit
-    if(hour >= 5 && hour < 12) return animations.morning;  // Morgen 5-12
-    if(hour >= 12 && hour < 18) return animations.day;     // Tag 12-18
-    return animations.evening;                              // Abend 18-5
-}
-
-// === IFRAME SETZEN ===
-document.getElementById("animationFrame").src = getAnimation();
 </script>
 
 </body>
