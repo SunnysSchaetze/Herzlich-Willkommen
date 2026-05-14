@@ -174,31 +174,70 @@ body{
     }
 }
 
+/* LINKER WEIHNACHTSBAUM */
+
+.side-tree{
+    position:absolute;
+
+    left:1vw;
+    bottom:15vh;
+
+    z-index:5;
+
+    font-size:clamp(2rem,5vw,5rem);
+
+    filter:
+        drop-shadow(0 0 10px rgba(0,255,120,0.4));
+
+    animation:
+        sideTreeGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes sideTreeGlow{
+
+    0%{
+        transform:scale(1);
+    }
+
+    100%{
+        transform:scale(1.08);
+    }
+}
+
 /* DORF */
 
 .village{
     position:absolute;
 
-    left:2vw;
-    right:24vw;
-    bottom:12vh;
+    left:8vw;
+    right:22vw;
+
+    bottom:14vh;
 
     display:flex;
     justify-content:space-evenly;
     align-items:flex-end;
 
-    gap:clamp(8px,2vw,24px);
+    gap:clamp(4px,1vw,20px);
 
     z-index:4;
+
+    overflow:visible;
+
+    flex-wrap:nowrap;
 }
+
+/* HÄUSER */
 
 .house{
     position:relative;
 
     flex-shrink:0;
 
-    width:clamp(60px,8vw,100px);
-    height:clamp(50px,7vw,85px);
+    width:clamp(34px,7vw,100px);
+    height:clamp(30px,6vw,85px);
+
+    min-width:34px;
 
     border-radius:6px;
 
@@ -206,6 +245,8 @@ body{
 
     box-shadow:
         0 0 12px rgba(255,255,255,0.12);
+
+    overflow:visible;
 }
 
 .house:nth-child(1){
@@ -245,9 +286,18 @@ body{
     width:0;
     height:0;
 
-    border-left:calc(clamp(60px,8vw,100px) / 2) solid transparent;
-    border-right:calc(clamp(60px,8vw,100px) / 2) solid transparent;
-    border-bottom:clamp(28px,4vw,45px) solid #5c1f12;
+    border-left-width:calc(clamp(34px,7vw,100px) / 2);
+    border-right-width:calc(clamp(34px,7vw,100px) / 2);
+
+    border-left-style:solid;
+    border-right-style:solid;
+
+    border-left-color:transparent;
+    border-right-color:transparent;
+
+    border-bottom:
+        clamp(16px,4vw,45px)
+        solid #5c1f12;
 }
 
 .house::after{
@@ -282,6 +332,8 @@ body{
     background:#663300;
 
     border-radius:2px;
+
+    z-index:3;
 }
 
 /* RAUCH */
@@ -293,14 +345,16 @@ body{
     height:12px;
 
     background:
-        rgba(255,255,255,0.4);
+        rgba(255,255,255,0.45);
 
     border-radius:50%;
 
-    top:-45px;
-    right:8px;
+    top:-42px;
+    right:4px;
 
     filter:blur(4px);
+
+    z-index:2;
 
     animation:
         smokeUp 5s linear infinite;
@@ -325,8 +379,8 @@ body{
         opacity:0;
     }
 
-    20%{
-        opacity:0.6;
+    15%{
+        opacity:0.65;
     }
 
     100%{
@@ -380,7 +434,7 @@ body{
 .tree{
     position:absolute;
 
-    right:5vw;
+    right:3vw;
     bottom:13vh;
 
     width:var(--tree-size);
@@ -391,6 +445,8 @@ body{
     align-items:center;
 
     z-index:5;
+
+    transform-origin:bottom center;
 }
 
 .star{
@@ -435,7 +491,7 @@ body{
     border-radius:6px;
 }
 
-/* SICHTBARE LICHTERKETTE */
+/* LICHTERKETTE */
 
 .garland{
     position:absolute;
@@ -470,8 +526,8 @@ body{
 .light{
     position:absolute;
 
-    width:14px;
-    height:14px;
+    width:clamp(8px,1vw,14px);
+    height:clamp(8px,1vw,14px);
 
     border-radius:50%;
 
@@ -560,11 +616,19 @@ body{
 
 .gifts{
     position:absolute;
-    width:220px;
-    height:100px;
-    bottom:-65px;
+
+    width:150px;
+    height:80px;
+
+    bottom:-8px;
+
     left:50%;
-    transform:translateX(-50%);
+
+    transform:
+        translateX(-50%)
+        scale(.85);
+
+    overflow:visible;
 }
 
 .gift{
@@ -605,43 +669,43 @@ body{
 }
 
 .g1{
-    width:36px;
-    height:36px;
+    width:32px;
+    height:32px;
     background:crimson;
     left:0;
-    bottom:10px;
+    bottom:8px;
 }
 
 .g2{
-    width:28px;
-    height:28px;
+    width:24px;
+    height:24px;
     background:royalblue;
-    left:45px;
+    left:32px;
     bottom:0;
 }
 
 .g3{
-    width:42px;
-    height:30px;
+    width:36px;
+    height:28px;
     background:seagreen;
-    left:80px;
-    bottom:14px;
+    left:58px;
+    bottom:12px;
 }
 
 .g4{
-    width:26px;
-    height:26px;
+    width:22px;
+    height:22px;
     background:orange;
-    left:135px;
-    bottom:6px;
+    left:94px;
+    bottom:4px;
 }
 
 .g5{
-    width:34px;
-    height:34px;
+    width:28px;
+    height:28px;
     background:purple;
-    left:170px;
-    bottom:18px;
+    left:118px;
+    bottom:14px;
 }
 
 /* TEXT */
@@ -650,7 +714,7 @@ h1{
     position:relative;
     z-index:10;
 
-    font-size:clamp(2rem,8vw,5rem);
+    font-size:clamp(1.4rem,8vw,5rem);
     line-height:1.2;
 
     padding-inline:12px;
@@ -723,7 +787,7 @@ h1{
 @media (max-width:900px){
 
     .village{
-        right:30vw;
+        right:26vw;
     }
 
     .tree{
@@ -734,28 +798,47 @@ h1{
 @media (max-width:700px){
 
     .village{
-        right:34vw;
-        gap:8px;
+        right:30vw;
+        gap:4px;
     }
 
-    .house:nth-child(6){
-        display:none;
+    :root{
+        --tree-size: clamp(90px,16vw,140px);
+    }
+
+    .gifts{
+        transform:
+            translateX(-50%)
+            scale(.65);
+
+        bottom:-10px;
     }
 }
 
 @media (max-width:520px){
 
     .village{
-        right:38vw;
+        right:32vw;
+        gap:3px;
     }
 
-    .house:nth-child(5),
-    .house:nth-child(6){
-        display:none;
+    .house{
+        width:30px;
+        height:28px;
+
+        min-width:30px;
     }
 
-    .tree{
-        width:110px;
+    :root{
+        --tree-size: 92px;
+    }
+
+    .gifts{
+        transform:
+            translateX(-50%)
+            scale(.5);
+
+        bottom:-6px;
     }
 }
 
@@ -770,6 +853,10 @@ h1{
 <div class="santa">🦌🦌🦌🎅🛷</div>
 
 <div class="snowGround"></div>
+
+<!-- LINKER WEIHNACHTSBAUM -->
+
+<div class="side-tree">🎄</div>
 
 <!-- DORF -->
 
@@ -840,8 +927,6 @@ h1{
 
     <div class="tree-body"></div>
     <div class="trunk"></div>
-
-    <!-- SICHTBARE LICHTERKETTE -->
 
     <div class="garland">
 
