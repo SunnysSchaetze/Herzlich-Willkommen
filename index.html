@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+/>
 
 <title>Animation Loader</title>
 
@@ -10,17 +15,23 @@
 
 html,
 body{
+
     margin:0;
     padding:0;
+
     width:100%;
     height:100%;
+
     overflow:hidden;
+
     background:#000;
 }
 
 iframe{
+
     width:100%;
     height:100%;
+
     border:none;
 }
 
@@ -29,7 +40,7 @@ iframe{
 
 <body>
 
-<iframe id="frame"></iframe>
+<iframe id="animationFrame"></iframe>
 
 <script>
 
@@ -37,12 +48,17 @@ iframe{
    DATUM + UHRZEIT
 ========================= */
 
-const now = new Date();
+const now =
+    new Date();
 
-const hour = now.getHours();
+const hour =
+    now.getHours();
 
-const day = now.getDate();
-const month = now.getMonth() + 1;
+const day =
+    now.getDate();
+
+const month =
+    now.getMonth() + 1;
 
 /* =========================
    OSTERN BERECHNEN
@@ -53,42 +69,91 @@ function getEaster(year){
     const f = Math.floor;
 
     const G = year % 19;
-    const C = f(year / 100);
-    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;
-    const I = H - f(H / 28) * (1 - f(H / 28) * f(29 / (H + 1)) * f((21 - G) / 11));
-    const J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7;
-    const L = I - J;
-    const easterMonth = 3 + f((L + 40) / 44);
-    const easterDay = L + 28 - 31 * f(easterMonth / 4);
+
+    const C =
+        f(year / 100);
+
+    const H =
+        (
+            C -
+            f(C / 4) -
+            f((8 * C + 13) / 25) +
+            19 * G +
+            15
+        ) % 30;
+
+    const I =
+        H -
+        f(H / 28) *
+        (
+            1 -
+            f(H / 28) *
+            f(29 / (H + 1)) *
+            f((21 - G) / 11)
+        );
+
+    const J =
+        (
+            year +
+            f(year / 4) +
+            I +
+            2 -
+            C +
+            f(C / 4)
+        ) % 7;
+
+    const L =
+        I - J;
+
+    const easterMonth =
+        3 +
+        f((L + 40) / 44);
+
+    const easterDay =
+        L +
+        28 -
+        31 *
+        f(easterMonth / 4);
 
     return {
-        day:easterDay,
-        month:easterMonth
+
+        day:
+            easterDay,
+
+        month:
+            easterMonth
     };
 }
 
 const easter =
-    getEaster(now.getFullYear());
+    getEaster(
+        now.getFullYear()
+    );
 
 /* =========================
-   STANDARD
+   START
 ========================= */
 
-let page = "abend.html";
+let page = "";
 
 /* =========================
    WEIHNACHTEN
 ========================= */
 
 if(
+
     month === 12 &&
+
     (
         day === 24 ||
         day === 25 ||
         day === 26
     )
+
 ){
-    page = "weihnachten.html";
+
+    page =
+        "Christmas.html";
 }
 
 /* =========================
@@ -96,10 +161,14 @@ if(
 ========================= */
 
 else if(
+
     month === 10 &&
     day === 31
+
 ){
-    page = "halloween.html";
+
+    page =
+        "Halloween.html";
 }
 
 /* =========================
@@ -107,10 +176,14 @@ else if(
 ========================= */
 
 else if(
+
     month === 12 &&
     day === 31
+
 ){
-    page = "silvester.html";
+
+    page =
+        "newyear_eve.html";
 }
 
 /* =========================
@@ -118,10 +191,14 @@ else if(
 ========================= */
 
 else if(
+
     month === 1 &&
     day === 1
+
 ){
-    page = "neujahr.html";
+
+    page =
+        "newyear_day.html";
 }
 
 /* =========================
@@ -129,10 +206,14 @@ else if(
 ========================= */
 
 else if(
+
     month === easter.month &&
     day === easter.day
+
 ){
-    page = "ostern.html";
+
+    page =
+        "Easter.html";
 }
 
 /* =========================
@@ -141,28 +222,43 @@ else if(
 
 else{
 
-    if(hour >= 5 && hour < 12){
+    if(
 
-        page = "morgen.html";
+        hour >= 5 &&
+        hour < 12
+
+    ){
+
+        page =
+            "Morning.html";
     }
 
-    else if(hour >= 12 && hour < 18){
+    else if(
 
-        page = "tag.html";
+        hour >= 12 &&
+        hour < 18
+
+    ){
+
+        page =
+            "Day.html";
     }
 
     else{
 
-        page = "abend.html";
+        page =
+            "Evening.html";
     }
 }
 
 /* =========================
-   LADEN
+   ANIMATION LADEN
 ========================= */
 
 document
-    .getElementById("frame")
+    .getElementById(
+        "animationFrame"
+    )
     .src = page;
 
 </script>
