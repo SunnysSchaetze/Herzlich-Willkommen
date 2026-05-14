@@ -63,7 +63,7 @@ body{
 
     position:absolute;
 
-    top:50%;
+    top:45%;
     left:50%;
 
     transform:
@@ -76,6 +76,8 @@ body{
     z-index:20;
 
     padding:20px;
+
+    padding-top:40px;
 
     font-size:
         clamp(2rem,6vw,5rem);
@@ -111,7 +113,7 @@ body{
 
     width:100%;
 
-    padding:0.1em 0;
+    padding:0.15em 0;
 
     white-space:nowrap;
 
@@ -660,19 +662,14 @@ if(starCanvas && shootCanvas){
     const starCtx =
         starCanvas.getContext("2d");
 
-    const shootCtx =
-        shootCanvas.getContext("2d");
-
     let stars = [];
 
     function resizeCanvas(){
 
         starCanvas.width =
-            shootCanvas.width =
             window.innerWidth;
 
         starCanvas.height =
-            shootCanvas.height =
             window.innerHeight;
 
         createStars();
