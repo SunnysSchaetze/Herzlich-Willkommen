@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-/>
-
-<title>Tageszeiten + Weihnachten</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tageszeiten Animation</title>
 
 <style>
-
-/* =========================================
-   RESET
-========================================= */
 
 *{
     margin:0;
@@ -25,65 +15,61 @@
 
 html,
 body{
-
     width:100%;
     height:100%;
-
     overflow:hidden;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family:Arial,sans-serif;
     background:#000;
 }
 
-/* =========================================
-   SCREEN
-========================================= */
-
-.screen{
-
+body{
     position:relative;
-
-    width:100%;
-    height:100vh;
-
-    overflow:hidden;
-
-    display:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* =========================================
-   TITEL
-========================================= */
+/* ALLE SCENES */
 
-.title{
-
+.scene{
     position:absolute;
+    inset:0;
+    display:none;
+    overflow:hidden;
+}
 
-    top:45%;
+.scene.active{
+    display:block;
+}
+
+/* TEXT */
+
+.centerText{
+    position:absolute;
+    top:50%;
     left:50%;
-
-    transform:
-        translate(-50%,-50%);
-
+    transform:translate(-50%,-50%);
+    z-index:100;
     width:100%;
-
-    text-align:center;
-
-    z-index:20;
-
     padding:20px;
+    text-align:center;
+}
 
-    padding-top:40px;
+.row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    flex-wrap:nowrap;
+}
 
-    font-size:
-        clamp(2rem,6vw,5rem);
+.row.bottom{
+    margin-top:14px;
+}
 
-    line-height:1.3;
-
+.word,
+.emoji{
+    font-size:clamp(2rem,7vw,5rem);
     font-weight:bold;
 
     background:
@@ -103,152 +89,99 @@ body{
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
-    animation:
-        rainbowFlow 20s linear infinite;
+    animation:rainbow 20s linear infinite;
 }
 
-.title-line{
-
-    display:block;
-
-    width:100%;
-
-    padding:0.15em 0;
-
-    white-space:nowrap;
-}
-
-@keyframes rainbowFlow{
-
-    0%{
-        background-position:0% 0%;
-    }
-
+@keyframes rainbow{
     100%{
         background-position:100% 100%;
     }
 }
 
-/* =========================================
+/* =========================
    MORGEN
-========================================= */
+========================= */
 
 #morning{
-
     background:
         linear-gradient(
             to bottom,
-            #000000 0%,
-            #000000 45%,
-            #08263d 70%,
-            #145b82 100%
+            #02111d,
+            #145b82
         );
 }
 
 .sun{
-
     position:absolute;
 
-    width:180px;
-    height:180px;
+    width:clamp(120px,18vw,220px);
+    height:clamp(120px,18vw,220px);
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            #ffff66,
+            #ffff99,
             #ffcc00
         );
 
     box-shadow:
-        0 0 40px yellow,
-        0 0 80px orange;
+        0 0 60px gold;
 
-    bottom:-90px;
-    left:-90px;
+    bottom:-100px;
+    left:-100px;
 
     animation:
-        rise 10s ease-in-out forwards;
+        sunrise 12s linear forwards;
+}
+
+@keyframes sunrise{
+
+    100%{
+        transform:
+            translate(
+                calc(100vw - 120px),
+                calc(-100vh + 120px)
+            );
+    }
 }
 
 .sea{
-
     position:absolute;
-
     bottom:0;
-
     width:100%;
     height:35vh;
 
     background:
         linear-gradient(
             to bottom,
-            rgba(0,180,255,0.15),
-            rgba(0,70,160,0.9)
+            #0d5ea8,
+            #02233d
         );
 }
 
-.wave{
-
-    position:absolute;
-
-    width:250%;
-    left:-60%;
-
-    border-radius:45%;
-
-    opacity:0.35;
-}
-
-.wave1{
-
-    height:180px;
-    bottom:-70px;
-
-    background:
-        rgba(0,180,255,0.25);
-
-    animation:
-        waveMove 8s linear infinite;
-}
-
-.wave2{
-
-    height:220px;
-    bottom:-100px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    animation:
-        waveMoveReverse 14s linear infinite;
-}
-
-/* =========================================
+/* =========================
    TAG
-========================================= */
+========================= */
 
 #day{
-
     background:
         linear-gradient(
             to bottom,
-            #000000 0%,
-            #10283d 70%,
-            #1d5f87 100%
+            #1e3c72,
+            #2a5298
         );
 }
 
-.day-sun{
-
+.daySun{
     position:absolute;
 
-    top:20px;
-    right:20px;
+    top:30px;
+    right:30px;
 
-    width:160px;
-    height:160px;
+    width:clamp(110px,16vw,180px);
+    height:clamp(110px,16vw,180px);
 
     border-radius:50%;
 
@@ -260,93 +193,75 @@ body{
         );
 
     box-shadow:
-        0 0 50px #ffeb3b,
-        0 0 100px orange;
+        0 0 80px gold;
 
     animation:
-        sunFloat 6s ease-in-out infinite;
+        pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse{
+
+    50%{
+        transform:scale(1.08);
+    }
 }
 
 .cloud{
-
     position:absolute;
 
     width:180px;
-    height:55px;
+    height:60px;
 
     border-radius:999px;
 
     background:
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,0.12);
 
-    filter:blur(2px);
-}
-
-.cloud::before,
-.cloud::after{
-
-    content:"";
-
-    position:absolute;
-
-    background:inherit;
-
-    border-radius:inherit;
+    animation:
+        cloudMove linear infinite;
 }
 
 .cloud1{
-
-    top:15%;
-    left:-250px;
-
-    animation:
-        cloudMove 70s linear infinite;
+    top:20%;
+    left:-220px;
+    animation-duration:40s;
 }
 
 .cloud2{
-
-    top:35%;
-    left:-350px;
-
-    animation:
-        cloudMove 95s linear infinite;
+    top:40%;
+    left:-320px;
+    animation-duration:60s;
 }
 
-/* =========================================
+@keyframes cloudMove{
+
+    100%{
+        transform:
+            translateX(calc(100vw + 500px));
+    }
+}
+
+/* =========================
    ABEND
-========================================= */
+========================= */
 
 #evening{
-
-    background:#000;
+    background:#000814;
 }
 
 #stars-canvas,
 #shooting-stars{
-
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
-    pointer-events:none;
-}
-
-#stars-canvas{
-    z-index:0;
-}
-
-#shooting-stars{
-    z-index:1;
 }
 
 .moon{
-
     position:absolute;
 
-    width:180px;
-    height:180px;
+    width:clamp(120px,18vw,220px);
+    height:clamp(120px,18vw,220px);
 
     border-radius:50%;
 
@@ -358,497 +273,39 @@ body{
         );
 
     box-shadow:
-        0 0 40px #7fe7ff,
-        0 0 100px #33ccff;
+        0 0 80px cyan;
 
-    bottom:-90px;
-    left:-90px;
+    bottom:-100px;
+    left:-100px;
 
     animation:
-        floatMoon 12s ease-in-out forwards;
+        moonrise 12s linear forwards;
+}
+
+@keyframes moonrise{
+
+    100%{
+        transform:
+            translate(
+                calc(100vw - 120px),
+                calc(-100vh + 120px)
+            );
+    }
 }
 
 .ufo{
-
     position:absolute;
 
-    font-size:4rem;
-
-    filter:
-        drop-shadow(0 0 10px cyan);
+    font-size:clamp(2rem,5vw,4rem);
 
     animation:
         ufoFly 28s linear infinite;
 }
 
-/* =========================================
-   WEIHNACHTEN
-========================================= */
-
-#christmas{
-
-    background:
-        linear-gradient(
-            to bottom,
-            #000000 0%,
-            #02131f 40%,
-            #072c44 100%
-        );
-}
-
-.aurora,
-.aurora2{
-
-    position:absolute;
-
-    pointer-events:none;
-}
-
-.aurora{
-
-    top:-20%;
-    left:-10%;
-
-    width:140%;
-    height:70%;
-
-    background:
-        radial-gradient(
-            ellipse at top,
-            rgba(0,255,180,0.18) 0%,
-            rgba(0,255,120,0.08) 25%,
-            rgba(0,150,255,0.06) 45%,
-            transparent 70%
-        );
-
-    filter:blur(35px);
-
-    animation:
-        auroraMove 18s ease-in-out infinite alternate;
-
-    z-index:1;
-}
-
-.aurora2{
-
-    top:-15%;
-    left:-20%;
-
-    width:160%;
-    height:65%;
-
-    background:
-        radial-gradient(
-            ellipse at top,
-            rgba(180,0,255,0.14) 0%,
-            rgba(0,255,255,0.08) 30%,
-            transparent 75%
-        );
-
-    filter:blur(45px);
-
-    animation:
-        auroraMove2 24s ease-in-out infinite alternate;
-
-    z-index:1;
-}
-
-.snowGround{
-
-    position:absolute;
-
-    bottom:0;
-    left:0;
-
-    width:100%;
-    height:22vh;
-
-    background:
-        linear-gradient(
-            to top,
-            #ffffff 0%,
-            rgba(255,255,255,0.9) 40%,
-            transparent 100%
-        );
-
-    z-index:2;
-}
-
-.santa{
-
-    position:absolute;
-
-    top:8vh;
-    right:-45vw;
-
-    font-size:
-        clamp(1.5rem,3vw,2.5rem);
-
-    white-space:nowrap;
-
-    z-index:6;
-
-    animation:
-        santaFly 24s linear infinite,
-        santaFloat 3s ease-in-out infinite alternate;
-}
-
-.village{
-
-    position:absolute;
-
-    left:2vw;
-    right:24vw;
-
-    bottom:12vh;
-
-    display:flex;
-
-    justify-content:space-evenly;
-
-    align-items:flex-end;
-
-    gap:20px;
-
-    z-index:4;
-}
-
-.house{
-
-    position:relative;
-
-    width:
-        clamp(60px,8vw,100px);
-
-    height:
-        clamp(50px,7vw,85px);
-
-    border-radius:6px;
-
-    background:#8b3f1f;
-}
-
-.house::before{
-
-    content:"";
-
-    position:absolute;
-
-    left:50%;
-    top:-34%;
-
-    transform:
-        translateX(-50%);
-
-    width:0;
-    height:0;
-
-    border-left:40px solid transparent;
-    border-right:40px solid transparent;
-
-    border-bottom:35px solid #5c1f12;
-}
-
-.roof-snow{
-
-    position:absolute;
-
-    top:-34%;
-    left:50%;
-
-    transform:
-        translateX(-50%);
-
-    width:110%;
-    height:10px;
-
-    background:#fff;
-
-    border-radius:999px;
-}
-
-.chimney{
-
-    position:absolute;
-
-    width:12%;
-    height:28%;
-
-    top:-26%;
-    right:16%;
-
-    background:#663300;
-}
-
-.window{
-
-    position:absolute;
-
-    width:16%;
-    height:18%;
-
-    background:#ffe680;
-
-    box-shadow:
-        0 0 10px rgba(255,240,120,0.9);
-}
-
-.w1{
-    top:26%;
-    left:18%;
-}
-
-.w2{
-    top:26%;
-    right:18%;
-}
-
-.w3{
-    bottom:24%;
-    left:18%;
-}
-
-.w4{
-    bottom:24%;
-    right:18%;
-}
-
-.tree{
-
-    position:absolute;
-
-    right:5vw;
-    bottom:13vh;
-
-    width:160px;
-    height:240px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-    z-index:5;
-}
-
-.star{
-
-    position:absolute;
-
-    top:-24px;
-
-    font-size:30px;
-
-    color:gold;
-
-    animation:
-        starGlow 2s ease-in-out infinite alternate;
-}
-
-.tree-body{
-
-    width:0;
-    height:0;
-
-    border-left:80px solid transparent;
-    border-right:80px solid transparent;
-
-    border-bottom:180px solid #0a8f3d;
-}
-
-.trunk{
-
-    width:18%;
-    height:16%;
-
-    background:#5c3317;
-}
-
-.ball{
-
-    position:absolute;
-
-    width:12px;
-    height:12px;
-
-    border-radius:50%;
-
-    animation:
-        blink 2s infinite alternate;
-}
-
-.ball1{
-    background:red;
-    top:28%;
-    left:38%;
-}
-
-.ball2{
-    background:gold;
-    top:40%;
-    right:34%;
-}
-
-.ball3{
-    background:cyan;
-    top:52%;
-    left:30%;
-}
-
-.ball4{
-    background:magenta;
-    top:65%;
-    right:28%;
-}
-
-.ball5{
-    background:lime;
-    top:58%;
-    left:52%;
-}
-
-.ball6{
-    background:orange;
-    top:44%;
-    left:58%;
-}
-
-.gifts{
-
-    position:absolute;
-
-    bottom:-42px;
-
-    display:flex;
-
-    gap:8px;
-}
-
-.gift1{
-    width:36px;
-    height:36px;
-    background:crimson;
-}
-
-.gift2{
-    width:30px;
-    height:30px;
-    background:royalblue;
-}
-
-.gift3{
-    width:42px;
-    height:26px;
-    background:seagreen;
-}
-
-.gift{
-
-    border-radius:6px;
-}
-
-.snowflake{
-
-    position:absolute;
-
-    top:-10px;
-
-    background:#fff;
-
-    border-radius:50%;
-
-    opacity:0.8;
-
-    pointer-events:none;
-
-    animation:
-        fall linear infinite;
-}
-
-/* =========================================
-   ANIMATIONEN
-========================================= */
-
-@keyframes rise{
-
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - 120px),
-                calc(-100vh + 120px)
-            );
-    }
-}
-
-@keyframes floatMoon{
-
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - 120px),
-                calc(-100vh + 120px)
-            );
-    }
-}
-
-@keyframes waveMove{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(20%);
-    }
-}
-
-@keyframes waveMoveReverse{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(-20%);
-    }
-}
-
-@keyframes cloudMove{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:
-            translateX(
-                calc(100vw + 500px)
-            );
-    }
-}
-
-@keyframes sunFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-12px);
-    }
-}
-
 @keyframes ufoFly{
 
     0%{
-        left:-20%;
+        left:-15%;
         top:80%;
     }
 
@@ -859,50 +316,82 @@ body{
 
     50%{
         left:80%;
-        top:40%;
+        top:30%;
     }
 
     75%{
         left:40%;
-        top:10%;
+        top:70%;
     }
 
     100%{
-        left:-20%;
+        left:-15%;
         top:80%;
     }
 }
 
-@keyframes auroraMove{
+/* =========================
+   WEIHNACHTEN
+========================= */
 
-    0%{
-        transform:
-            translateX(-5%)
-            rotate(-2deg);
-    }
-
-    100%{
-        transform:
-            translateX(5%)
-            translateY(20px)
-            rotate(2deg);
-    }
+#christmas{
+    background:#03121f;
 }
 
-@keyframes auroraMove2{
+.snowGround{
+    position:absolute;
 
-    0%{
-        transform:
-            translateX(8%)
-            rotate(3deg);
-    }
+    bottom:0;
+    width:100%;
+    height:20vh;
 
-    100%{
-        transform:
-            translateX(-8%)
-            translateY(25px)
-            rotate(-3deg);
-    }
+    background:
+        linear-gradient(
+            to top,
+            #fff,
+            transparent
+        );
+}
+
+.tree{
+    position:absolute;
+
+    right:5vw;
+    bottom:12vh;
+
+    z-index:10;
+}
+
+.treeBody{
+    width:0;
+    height:0;
+
+    border-left:90px solid transparent;
+    border-right:90px solid transparent;
+    border-bottom:180px solid #0a8f3d;
+}
+
+.star{
+    position:absolute;
+
+    top:-25px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:2rem;
+}
+
+.santa{
+    position:absolute;
+
+    top:10vh;
+    right:-40vw;
+
+    font-size:2rem;
+
+    animation:
+        santaFly 25s linear infinite;
 }
 
 @keyframes santaFly{
@@ -913,34 +402,24 @@ body{
     }
 }
 
-@keyframes santaFloat{
+.snowflake{
+    position:absolute;
 
-    100%{
-        margin-top:2vh;
-    }
-}
+    top:-10px;
 
-@keyframes starGlow{
+    border-radius:50%;
 
-    100%{
-        transform:scale(1.15);
-    }
-}
+    background:#fff;
 
-@keyframes blink{
+    opacity:0.8;
 
-    100%{
-        transform:scale(1.3);
-
-        box-shadow:
-            0 0 15px currentColor;
-    }
+    animation:
+        fall linear infinite;
 }
 
 @keyframes fall{
 
     100%{
-
         transform:
             translateY(110vh)
             translateX(30px);
@@ -949,41 +428,17 @@ body{
     }
 }
 
-/* =========================================
-   MOBILE
-========================================= */
+/* RESPONSIVE */
 
-@media (max-width:600px){
+@media (max-width:768px){
 
-    .title{
-
-        font-size:
-            clamp(1.8rem,8vw,3rem);
+    .word,
+    .emoji{
+        font-size:clamp(1.7rem,9vw,3rem);
     }
 
-    .sun,
-    .moon,
-    .day-sun{
-
-        width:120px;
-        height:120px;
-    }
-
-    .sun,
-    .moon{
-
-        bottom:-60px;
-        left:-60px;
-    }
-
-    .ufo{
-
-        font-size:3rem;
-    }
-
-    .tree{
-
-        width:110px;
+    .row{
+        gap:10px;
     }
 }
 
@@ -992,179 +447,145 @@ body{
 
 <body>
 
-<!-- =====================================
-     WEIHNACHTEN
-===================================== -->
+<!-- MORGEN -->
 
-<div id="christmas" class="screen">
-
-    <div class="aurora"></div>
-    <div class="aurora2"></div>
-
-    <div class="santa">
-        🦌🦌🦌🎅🛷
-    </div>
-
-    <div class="snowGround"></div>
-
-    <div class="village">
-
-        <div class="house">
-            <div class="chimney"></div>
-            <div class="roof-snow"></div>
-
-            <div class="window w1"></div>
-            <div class="window w2"></div>
-            <div class="window w3"></div>
-            <div class="window w4"></div>
-        </div>
-
-        <div class="house" style="background:#5c4b8a;">
-            <div class="chimney"></div>
-            <div class="roof-snow"></div>
-
-            <div class="window w1"></div>
-            <div class="window w2"></div>
-        </div>
-
-        <div class="house" style="background:#2f6b55;">
-            <div class="chimney"></div>
-            <div class="roof-snow"></div>
-
-            <div class="window w1"></div>
-            <div class="window w2"></div>
-            <div class="window w3"></div>
-        </div>
-
-    </div>
-
-    <div class="tree">
-
-        <div class="star">⭐</div>
-
-        <div class="tree-body"></div>
-        <div class="trunk"></div>
-
-        <div class="ball ball1"></div>
-        <div class="ball ball2"></div>
-        <div class="ball ball3"></div>
-        <div class="ball ball4"></div>
-        <div class="ball ball5"></div>
-        <div class="ball ball6"></div>
-
-        <div class="gifts">
-            <div class="gift gift1"></div>
-            <div class="gift gift2"></div>
-            <div class="gift gift3"></div>
-        </div>
-
-    </div>
-
-    <h1 class="title">
-
-        <div class="title-line">
-            🎄 Frohe 🎄
-        </div>
-
-        <div class="title-line">
-            🎅 Weihnachten 🎅
-        </div>
-
-    </h1>
-
-</div>
-
-<!-- =====================================
-     MORGEN
-===================================== -->
-
-<div id="morning" class="screen">
+<div class="scene" id="morning">
 
     <div class="sun"></div>
 
-    <div class="sea">
+    <div class="sea"></div>
 
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
+    <div class="centerText">
+
+        <div class="row top">
+
+            <span class="emoji">☀️</span>
+            <span class="word">Guten</span>
+            <span class="emoji">☀️</span>
+
+        </div>
+
+        <div class="row bottom">
+
+            <span class="emoji">☕</span>
+            <span class="word">Morgen</span>
+            <span class="emoji">☕</span>
+
+        </div>
 
     </div>
 
-    <h1 class="title">
-
-        <div class="title-line">
-            ☀️ Guten ☀️
-        </div>
-
-        <div class="title-line">
-            ☕ Morgen ☕
-        </div>
-
-    </h1>
-
 </div>
 
-<!-- =====================================
-     TAG
-===================================== -->
+<!-- TAG -->
 
-<div id="day" class="screen">
+<div class="scene" id="day">
 
-    <div class="day-sun"></div>
+    <div class="daySun"></div>
 
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
 
-    <h1 class="title">
+    <div class="centerText">
 
-        <div class="title-line">
-            🌼 Schönen 🌼
+        <div class="row top">
+
+            <span class="emoji">🌼</span>
+            <span class="word">Schönen</span>
+            <span class="emoji">🌼</span>
+
         </div>
 
-        <div class="title-line">
-            🔆 Guten Tag 🔆
+        <div class="row bottom">
+
+            <span class="emoji">🔆</span>
+            <span class="word">Guten Tag</span>
+            <span class="emoji">🔆</span>
+
         </div>
 
-    </h1>
+    </div>
 
 </div>
 
-<!-- =====================================
-     ABEND
-===================================== -->
+<!-- ABEND -->
 
-<div id="evening" class="screen">
+<div class="scene" id="evening">
 
     <canvas id="stars-canvas"></canvas>
     <canvas id="shooting-stars"></canvas>
 
     <div class="moon"></div>
 
-    <div class="ufo">
-        🛸
+    <div class="ufo">🛸</div>
+
+    <div class="centerText">
+
+        <div class="row top">
+
+            <span class="emoji">🌙</span>
+            <span class="word">Guten</span>
+            <span class="emoji">🌙</span>
+
+        </div>
+
+        <div class="row bottom">
+
+            <span class="emoji">⭐</span>
+            <span class="word">Abend</span>
+            <span class="emoji">⭐</span>
+
+        </div>
+
     </div>
 
-    <h1 class="title">
+</div>
 
-        <div class="title-line">
-            🌙 Guten 🌙
+<!-- WEIHNACHTEN -->
+
+<div class="scene" id="christmas">
+
+    <div class="santa">🦌🦌🦌🎅🛷</div>
+
+    <div class="snowGround"></div>
+
+    <div class="tree">
+
+        <div class="star">⭐</div>
+
+        <div class="treeBody"></div>
+
+    </div>
+
+    <div class="centerText">
+
+        <div class="row top">
+
+            <span class="emoji">🎄</span>
+            <span class="word">Frohe</span>
+            <span class="emoji">🎄</span>
+
         </div>
 
-        <div class="title-line">
-            ⭐ Abend ⭐
+        <div class="row bottom">
+
+            <span class="emoji">🎅</span>
+            <span class="word">Weihnachten</span>
+            <span class="emoji">🎅</span>
+
         </div>
 
-    </h1>
+    </div>
 
 </div>
 
 <script>
 
-/* =====================================
-   DATUM & ZEIT
-===================================== */
+/* =========================
+   ZEIT + DATUM
+========================= */
 
-const now =
-    new Date();
+const now = new Date();
 
 const hour =
     now.getHours();
@@ -1175,140 +596,152 @@ const day =
 const month =
     now.getMonth() + 1;
 
-/* =====================================
-   WEIHNACHTEN
-===================================== */
-
-if(
+const isChristmas =
     month === 12 &&
-    (day === 24 || day === 25 || day === 26)
-){
-
-    document
-        .getElementById("christmas")
-        .style.display = "block";
-}
-
-/* =====================================
-   MORGEN
-===================================== */
-
-else if(hour >= 5 && hour < 12){
-
-    document
-        .getElementById("morning")
-        .style.display = "block";
-}
-
-/* =====================================
-   TAG
-===================================== */
-
-else if(hour >= 12 && hour < 18){
-
-    document
-        .getElementById("day")
-        .style.display = "block";
-}
-
-/* =====================================
-   ABEND
-===================================== */
-
-else{
-
-    document
-        .getElementById("evening")
-        .style.display = "block";
-}
-
-/* =====================================
-   SCHNEE
-===================================== */
-
-function createSnowflake(){
-
-    const s =
-        document.createElement("div");
-
-    s.className =
-        "snowflake";
-
-    const size =
-        Math.random() * 5 + 2;
-
-    s.style.width =
-        size + "px";
-
-    s.style.height =
-        size + "px";
-
-    s.style.left =
-        Math.random() *
-        window.innerWidth + "px";
-
-    s.style.animationDuration =
-        (Math.random() * 4 + 5) + "s";
-
-    document.body.appendChild(s);
-
-    setTimeout(() => {
-
-        s.remove();
-
-    },10000);
-}
-
-setInterval(
-    createSnowflake,
-    150
-);
-
-/* =====================================
-   STERNE
-===================================== */
-
-const starCanvas =
-    document.getElementById(
-        "stars-canvas"
+    (
+        day === 24 ||
+        day === 25 ||
+        day === 26
     );
 
-if(starCanvas){
+/* =========================
+   SCENES
+========================= */
+
+const morning =
+    document.getElementById("morning");
+
+const dayScene =
+    document.getElementById("day");
+
+const evening =
+    document.getElementById("evening");
+
+const christmas =
+    document.getElementById("christmas");
+
+/* =========================
+   AKTIVE SCENE
+========================= */
+
+if(isChristmas){
+
+    christmas.classList.add("active");
+
+}else if(hour >= 5 && hour < 12){
+
+    morning.classList.add("active");
+
+}else if(hour >= 12 && hour < 18){
+
+    dayScene.classList.add("active");
+
+}else{
+
+    evening.classList.add("active");
+
+    startNightSky();
+}
+
+/* =========================
+   SCHNEE
+========================= */
+
+if(isChristmas){
+
+    function createSnowflake(){
+
+        const s =
+            document.createElement("div");
+
+        s.className =
+            "snowflake";
+
+        const size =
+            Math.random() * 5 + 2;
+
+        s.style.width =
+            size + "px";
+
+        s.style.height =
+            size + "px";
+
+        s.style.left =
+            Math.random() *
+            window.innerWidth + "px";
+
+        s.style.animationDuration =
+            (Math.random() * 4 + 5) + "s";
+
+        christmas.appendChild(s);
+
+        setTimeout(() => {
+
+            s.remove();
+
+        },10000);
+    }
+
+    setInterval(createSnowflake,150);
+}
+
+/* =========================
+   STERNE
+========================= */
+
+function startNightSky(){
+
+    const starCanvas =
+        document.getElementById("stars-canvas");
 
     const starCtx =
         starCanvas.getContext("2d");
 
+    const shootCanvas =
+        document.getElementById("shooting-stars");
+
+    const shootCtx =
+        shootCanvas.getContext("2d");
+
     let stars = [];
+    let shootingStars = [];
 
     function resizeCanvas(){
 
         starCanvas.width =
+            shootCanvas.width =
             window.innerWidth;
 
         starCanvas.height =
+            shootCanvas.height =
             window.innerHeight;
 
         createStars();
+        createShootingStars();
     }
 
     function createStars(){
 
         stars = [];
 
-        for(let i = 0; i < 100; i++){
+        for(let i = 0; i < 120; i++){
 
             stars.push({
 
                 x:
                     Math.random() *
-                    window.innerWidth,
+                    starCanvas.width,
 
                 y:
                     Math.random() *
-                    window.innerHeight,
+                    starCanvas.height,
 
                 size:
-                    Math.random() * 2
+                    Math.random() * 2,
+
+                phase:
+                    Math.random() *
+                    Math.PI * 2
             });
         }
     }
@@ -1318,21 +751,30 @@ if(starCanvas){
         starCtx.clearRect(
             0,
             0,
-            window.innerWidth,
-            window.innerHeight
+            starCanvas.width,
+            starCanvas.height
         );
 
-        stars.forEach(star => {
+        stars.forEach(s => {
+
+            const alpha =
+                0.3 +
+                Math.abs(
+                    Math.sin(
+                        s.phase +
+                        performance.now() / 1500
+                    )
+                ) * 0.7;
 
             starCtx.beginPath();
 
             starCtx.fillStyle =
-                "white";
+                `rgba(255,255,255,${alpha})`;
 
             starCtx.arc(
-                star.x,
-                star.y,
-                star.size,
+                s.x,
+                s.y,
+                s.size,
                 0,
                 Math.PI * 2
             );
@@ -1340,19 +782,157 @@ if(starCanvas){
             starCtx.fill();
         });
 
+        requestAnimationFrame(drawStars);
+    }
+
+    class ShootingStar{
+
+        constructor(){
+
+            this.reset();
+        }
+
+        reset(){
+
+            this.x =
+                Math.random() *
+                shootCanvas.width;
+
+            this.y =
+                Math.random() *
+                -shootCanvas.height;
+
+            this.len =
+                80 +
+                Math.random() * 120;
+
+            this.speed =
+                2 +
+                Math.random() * 2;
+
+            this.angle =
+                Math.PI / 4;
+        }
+
+        update(){
+
+            this.x -=
+                Math.cos(this.angle) *
+                this.speed;
+
+            this.y +=
+                Math.sin(this.angle) *
+                this.speed;
+
+            if(
+                this.x < -this.len ||
+                this.y >
+                shootCanvas.height +
+                this.len
+            ){
+                this.reset();
+            }
+        }
+
+        draw(){
+
+            const endX =
+                this.x;
+
+            const endY =
+                this.y;
+
+            const startX =
+                endX +
+                Math.cos(this.angle) *
+                this.len;
+
+            const startY =
+                endY -
+                Math.sin(this.angle) *
+                this.len;
+
+            const grad =
+                shootCtx.createLinearGradient(
+                    startX,
+                    startY,
+                    endX,
+                    endY
+                );
+
+            grad.addColorStop(
+                0,
+                "rgba(255,255,255,0)"
+            );
+
+            grad.addColorStop(
+                1,
+                "rgba(255,255,255,1)"
+            );
+
+            shootCtx.beginPath();
+
+            shootCtx.moveTo(
+                startX,
+                startY
+            );
+
+            shootCtx.lineTo(
+                endX,
+                endY
+            );
+
+            shootCtx.strokeStyle =
+                grad;
+
+            shootCtx.lineWidth = 2;
+
+            shootCtx.stroke();
+        }
+    }
+
+    function createShootingStars(){
+
+        shootingStars = [];
+
+        for(let i = 0; i < 5; i++){
+
+            shootingStars.push(
+                new ShootingStar()
+            );
+        }
+    }
+
+    function animateShooting(){
+
+        shootCtx.clearRect(
+            0,
+            0,
+            shootCanvas.width,
+            shootCanvas.height
+        );
+
+        shootingStars.forEach(s => {
+
+            s.update();
+            s.draw();
+        });
+
         requestAnimationFrame(
-            drawStars
+            animateShooting
         );
     }
 
     resizeCanvas();
 
-    drawStars();
-
     window.addEventListener(
         "resize",
         resizeCanvas
     );
+
+    drawStars();
+
+    animateShooting();
 }
 
 </script>
