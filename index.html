@@ -71,13 +71,16 @@ body{
 
     width:100%;
 
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
     text-align:center;
 
     z-index:20;
 
     padding:20px;
-
-    padding-top:40px;
 
     font-size:
         clamp(2rem,6vw,5rem);
@@ -109,15 +112,18 @@ body{
 
 .title-line{
 
-    display:block;
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:0.4em;
 
     width:100%;
 
     padding:0.15em 0;
 
     white-space:nowrap;
-
-    overflow:visible;
 }
 
 /* =========================================
@@ -162,6 +168,29 @@ body{
     animation:
         rise 10s ease-in-out forwards;
 }
+
+/* STRAND */
+
+.beach{
+
+    position:absolute;
+
+    bottom:30vh;
+
+    width:100%;
+    height:10vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #f7d794,
+            #d2a86d
+        );
+
+    z-index:2;
+}
+
+/* MEER */
 
 .sea{
 
@@ -214,6 +243,39 @@ body{
 
     animation:
         waveMoveReverse 14s linear infinite;
+}
+
+/* DELFINE */
+
+.dolphin{
+
+    position:absolute;
+
+    font-size:clamp(2rem,4vw,4rem);
+
+    z-index:5;
+
+    filter:
+        drop-shadow(0 0 10px rgba(255,255,255,0.4));
+
+    animation:
+        dolphinJump 6s linear infinite;
+}
+
+.dolphin1{
+
+    left:15%;
+    bottom:20vh;
+
+    animation-delay:0s;
+}
+
+.dolphin2{
+
+    left:55%;
+    bottom:18vh;
+
+    animation-delay:3s;
 }
 
 /* =========================================
@@ -507,6 +569,51 @@ body{
     }
 }
 
+/* DELFIN BACKFLIP */
+
+@keyframes dolphinJump{
+
+    0%{
+
+        transform:
+            translateX(0)
+            translateY(0)
+            rotate(0deg);
+    }
+
+    15%{
+
+        transform:
+            translateX(60px)
+            translateY(-120px)
+            rotate(120deg);
+    }
+
+    30%{
+
+        transform:
+            translateX(120px)
+            translateY(-180px)
+            rotate(240deg);
+    }
+
+    50%{
+
+        transform:
+            translateX(180px)
+            translateY(-80px)
+            rotate(360deg);
+    }
+
+    100%{
+
+        transform:
+            translateX(320px)
+            translateY(0)
+            rotate(720deg);
+    }
+}
+
 /* =========================================
    MOBILE
 ========================================= */
@@ -545,13 +652,13 @@ body{
 
 <body>
 
-<!-- =====================================
-     MORGEN
-===================================== -->
+<!-- MORGEN -->
 
 <div id="morning" class="screen">
 
     <div class="sun"></div>
+
+    <div class="beach"></div>
 
     <div class="sea">
 
@@ -560,23 +667,28 @@ body{
 
     </div>
 
+    <div class="dolphin dolphin1">🐬</div>
+    <div class="dolphin dolphin2">🐬</div>
+
     <h1 class="title">
 
         <div class="title-line">
-            ☀️ Guten ☀️
+            <span>☀️</span>
+            <span>Guten</span>
+            <span>☀️</span>
         </div>
 
         <div class="title-line">
-            ☕ Morgen ☕
+            <span>☕</span>
+            <span>Morgen</span>
+            <span>☕</span>
         </div>
 
     </h1>
 
 </div>
 
-<!-- =====================================
-     TAG
-===================================== -->
+<!-- TAG -->
 
 <div id="day" class="screen">
 
@@ -588,20 +700,22 @@ body{
     <h1 class="title">
 
         <div class="title-line">
-            🌼 Schönen 🌼
+            <span>🌼</span>
+            <span>Schönen</span>
+            <span>🌼</span>
         </div>
 
         <div class="title-line">
-            🔆 Guten Tag 🔆
+            <span>🔆</span>
+            <span>Guten Tag</span>
+            <span>🔆</span>
         </div>
 
     </h1>
 
 </div>
 
-<!-- =====================================
-     ABEND
-===================================== -->
+<!-- ABEND -->
 
 <div id="evening" class="screen">
 
@@ -617,11 +731,15 @@ body{
     <h1 class="title">
 
         <div class="title-line">
-            🌙 Guten 🌙
+            <span>🌙</span>
+            <span>Guten</span>
+            <span>🌙</span>
         </div>
 
         <div class="title-line">
-            ⭐ Abend ⭐
+            <span>⭐</span>
+            <span>Abend</span>
+            <span>⭐</span>
         </div>
 
     </h1>
@@ -630,9 +748,7 @@ body{
 
 <script>
 
-/* =====================================
-   ZEIT
-===================================== */
+/* ZEIT */
 
 const hour =
     new Date().getHours();
@@ -656,302 +772,6 @@ else{
     document
         .getElementById("evening")
         .style.display = "block";
-}
-
-/* =====================================
-   ABEND STERNE + GLOW + STERNSCHNUPPEN
-===================================== */
-
-const starCanvas =
-    document.getElementById(
-        "stars-canvas"
-    );
-
-const shootCanvas =
-    document.getElementById(
-        "shooting-stars"
-    );
-
-if(starCanvas && shootCanvas){
-
-    const starCtx =
-        starCanvas.getContext("2d");
-
-    const shootCtx =
-        shootCanvas.getContext("2d");
-
-    let stars = [];
-    let shootingStars = [];
-
-    function resizeCanvas(){
-
-        starCanvas.width =
-            shootCanvas.width =
-            window.innerWidth;
-
-        starCanvas.height =
-            shootCanvas.height =
-            window.innerHeight;
-
-        createStars();
-        createShootingStars();
-    }
-
-    /* =================================
-       STERNE
-    ================================= */
-
-    function createStars(){
-
-        stars = [];
-
-        const count =
-            window.innerWidth < 600
-            ? 50
-            : 120;
-
-        for(let i = 0; i < count; i++){
-
-            stars.push({
-
-                x:
-                    Math.random() *
-                    window.innerWidth,
-
-                y:
-                    Math.random() *
-                    window.innerHeight,
-
-                size:
-                    Math.random() * 2.5 + 0.5,
-
-                glow:
-                    Math.random() * 4 + 2,
-
-                alpha:
-                    Math.random()
-            });
-        }
-    }
-
-    function drawStars(){
-
-        starCtx.clearRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
-
-        stars.forEach(star => {
-
-            /* FUNKELN */
-
-            const twinkle =
-                0.35 +
-                Math.abs(
-                    Math.sin(
-                        Date.now() * 0.0015 +
-                        star.alpha * 10
-                    )
-                ) * 0.65;
-
-            starCtx.beginPath();
-
-            /* MINIMALER GLOW */
-
-            starCtx.fillStyle =
-                `rgba(255,255,255,${twinkle})`;
-
-            starCtx.shadowColor =
-                "rgba(255,255,255,0.5)";
-
-            starCtx.shadowBlur = 4;
-
-            starCtx.arc(
-                star.x,
-                star.y,
-                star.size,
-                0,
-                Math.PI * 2
-            );
-
-            starCtx.fill();
-        });
-
-        requestAnimationFrame(
-            drawStars
-        );
-    }
-
-    /* =================================
-       STERNSCHNUPPEN
-    ================================= */
-
-    class ShootingStar{
-
-        constructor(){
-
-            this.reset();
-        }
-
-        reset(){
-
-            this.x =
-                Math.random() *
-                window.innerWidth;
-
-            this.y =
-                Math.random() *
-                -window.innerHeight;
-
-            this.len =
-                80 +
-                Math.random() * 120;
-
-            this.speed =
-                4 +
-                Math.random() * 4;
-
-            this.size =
-                1 +
-                Math.random() * 2;
-
-            this.angle =
-                Math.PI / 4;
-        }
-
-        update(){
-
-            this.x -=
-                Math.cos(this.angle) *
-                this.speed;
-
-            this.y +=
-                Math.sin(this.angle) *
-                this.speed;
-
-            if(
-                this.x < -200 ||
-                this.y >
-                window.innerHeight + 200
-            ){
-                this.reset();
-            }
-        }
-
-        draw(){
-
-            const tailX =
-                this.x +
-                Math.cos(this.angle) *
-                this.len;
-
-            const tailY =
-                this.y -
-                Math.sin(this.angle) *
-                this.len;
-
-            const gradient =
-                shootCtx.createLinearGradient(
-                    tailX,
-                    tailY,
-                    this.x,
-                    this.y
-                );
-
-            gradient.addColorStop(
-                0,
-                "rgba(255,255,255,0)"
-            );
-
-            gradient.addColorStop(
-                0.5,
-                "rgba(255,255,255,0.6)"
-            );
-
-            gradient.addColorStop(
-                1,
-                "rgba(255,255,255,1)"
-            );
-
-            shootCtx.beginPath();
-
-            shootCtx.moveTo(
-                tailX,
-                tailY
-            );
-
-            shootCtx.lineTo(
-                this.x,
-                this.y
-            );
-
-            shootCtx.strokeStyle =
-                gradient;
-
-            shootCtx.lineWidth =
-                this.size;
-
-            shootCtx.lineCap =
-                "round";
-
-            shootCtx.shadowColor =
-                "white";
-
-            shootCtx.shadowBlur = 20;
-
-            shootCtx.stroke();
-        }
-    }
-
-    function createShootingStars(){
-
-        shootingStars = [];
-
-        const count =
-            window.innerWidth < 600
-            ? 2
-            : 5;
-
-        for(let i = 0; i < count; i++){
-
-            shootingStars.push(
-                new ShootingStar()
-            );
-        }
-    }
-
-    function animateShooting(){
-
-        shootCtx.clearRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
-
-        shootingStars.forEach(star => {
-
-            star.update();
-            star.draw();
-        });
-
-        requestAnimationFrame(
-            animateShooting
-        );
-    }
-
-    resizeCanvas();
-
-    drawStars();
-
-    animateShooting();
-
-    window.addEventListener(
-        "resize",
-        resizeCanvas
-    );
 }
 
 </script>
