@@ -365,11 +365,15 @@ body{
 
     font-size:4rem;
 
+    z-index:5;
+
     filter:
-        drop-shadow(0 0 10px cyan);
+        drop-shadow(0 0 10px cyan)
+        drop-shadow(0 0 25px white);
 
     animation:
-        ufoFly 28s linear infinite;
+        ufoFly 28s linear infinite,
+        ufoFloat 3s ease-in-out infinite;
 }
 
 /* =========================================
@@ -489,6 +493,17 @@ body{
     100%{
         left:-20%;
         top:80%;
+    }
+}
+
+@keyframes ufoFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px);
     }
 }
 
@@ -644,7 +659,7 @@ else{
 }
 
 /* =====================================
-   STERNE
+   ABEND STERNE + GLOW + STERNSCHNUPPEN
 ===================================== */
 
 const starCanvas =
@@ -662,24 +677,40 @@ if(starCanvas && shootCanvas){
     const starCtx =
         starCanvas.getContext("2d");
 
+    const shootCtx =
+        shootCanvas.getContext("2d");
+
     let stars = [];
+    let shootingStars = [];
 
     function resizeCanvas(){
 
         starCanvas.width =
+            shootCanvas.width =
             window.innerWidth;
 
         starCanvas.height =
+            shootCanvas.height =
             window.innerHeight;
 
         createStars();
+        createShootingStars();
     }
+
+    /* =================================
+       STERNE
+    ================================= */
 
     function createStars(){
 
         stars = [];
 
-        for(let i = 0; i < 100; i++){
+        const count =
+            window.innerWidth < 600
+            ? 50
+            : 120;
+
+        for(let i = 0; i < count; i++){
 
             stars.push({
 
@@ -692,7 +723,13 @@ if(starCanvas && shootCanvas){
                     window.innerHeight,
 
                 size:
-                    Math.random() * 2
+                    Math.random() * 2.5 + 0.5,
+
+                glow:
+                    Math.random() * 20 + 10,
+
+                alpha:
+                    Math.random()
             });
         }
     }
@@ -708,10 +745,25 @@ if(starCanvas && shootCanvas){
 
         stars.forEach(star => {
 
+            const pulse =
+                0.5 +
+                Math.sin(
+                    Date.now() * 0.001 +
+                    star.x
+                ) * 0.5;
+
             starCtx.beginPath();
 
             starCtx.fillStyle =
+                `rgba(255,255,255,${
+                    0.4 + pulse * 0.6
+                })`;
+
+            starCtx.shadowColor =
                 "white";
+
+            starCtx.shadowBlur =
+                star.glow;
 
             starCtx.arc(
                 star.x,
@@ -729,9 +781,169 @@ if(starCanvas && shootCanvas){
         );
     }
 
+    /* =================================
+       STERNSCHNUPPEN
+    ================================= */
+
+    class ShootingStar{
+
+        constructor(){
+
+            this.reset();
+        }
+
+        reset(){
+
+            this.x =
+                Math.random() *
+                window.innerWidth;
+
+            this.y =
+                Math.random() *
+                -window.innerHeight;
+
+            this.len =
+                80 +
+                Math.random() * 120;
+
+            this.speed =
+                4 +
+                Math.random() * 4;
+
+            this.size =
+                1 +
+                Math.random() * 2;
+
+            this.angle =
+                Math.PI / 4;
+        }
+
+        update(){
+
+            this.x -=
+                Math.cos(this.angle) *
+                this.speed;
+
+            this.y +=
+                Math.sin(this.angle) *
+                this.speed;
+
+            if(
+                this.x < -200 ||
+                this.y >
+                window.innerHeight + 200
+            ){
+                this.reset();
+            }
+        }
+
+        draw(){
+
+            const tailX =
+                this.x +
+                Math.cos(this.angle) *
+                this.len;
+
+            const tailY =
+                this.y -
+                Math.sin(this.angle) *
+                this.len;
+
+            const gradient =
+                shootCtx.createLinearGradient(
+                    tailX,
+                    tailY,
+                    this.x,
+                    this.y
+                );
+
+            gradient.addColorStop(
+                0,
+                "rgba(255,255,255,0)"
+            );
+
+            gradient.addColorStop(
+                0.5,
+                "rgba(255,255,255,0.6)"
+            );
+
+            gradient.addColorStop(
+                1,
+                "rgba(255,255,255,1)"
+            );
+
+            shootCtx.beginPath();
+
+            shootCtx.moveTo(
+                tailX,
+                tailY
+            );
+
+            shootCtx.lineTo(
+                this.x,
+                this.y
+            );
+
+            shootCtx.strokeStyle =
+                gradient;
+
+            shootCtx.lineWidth =
+                this.size;
+
+            shootCtx.lineCap =
+                "round";
+
+            shootCtx.shadowColor =
+                "white";
+
+            shootCtx.shadowBlur = 20;
+
+            shootCtx.stroke();
+        }
+    }
+
+    function createShootingStars(){
+
+        shootingStars = [];
+
+        const count =
+            window.innerWidth < 600
+            ? 2
+            : 5;
+
+        for(let i = 0; i < count; i++){
+
+            shootingStars.push(
+                new ShootingStar()
+            );
+        }
+    }
+
+    function animateShooting(){
+
+        shootCtx.clearRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+        );
+
+        shootingStars.forEach(star => {
+
+            star.update();
+            star.draw();
+        });
+
+        requestAnimationFrame(
+            animateShooting
+        );
+    }
+
     resizeCanvas();
 
     drawStars();
+
+    animateShooting();
 
     window.addEventListener(
         "resize",
