@@ -9,770 +9,227 @@
     content="width=device-width, initial-scale=1.0"
 />
 
-<title>Tageszeiten Animation</title>
+<title>Master Animation Loader</title>
 
 <style>
 
-/* =========================================
-   RESET
-========================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 html,
 body{
+
+    margin:0;
+    padding:0;
 
     width:100%;
     height:100%;
 
     overflow:hidden;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
     background:#000;
 }
 
-/* =========================================
-   SCREEN
-========================================= */
-
-.screen{
-
-    position:relative;
+iframe{
 
     width:100%;
     height:100vh;
 
-    overflow:hidden;
+    border:none;
 
-    display:none;
+    display:block;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<iframe id="animationFrame"></iframe>
+
+<script>
+
+/* =========================================
+   HIER DEINE GITHUB LINKS EINTRAGEN
+========================================= */
+
+const morningURL =
+"https://DEINNAME.github.io/animationen/morgen.html";
+
+const dayURL =
+"https://DEINNAME.github.io/animationen/tag.html";
+
+const eveningURL =
+"https://DEINNAME.github.io/animationen/abend.html";
+
+const christmasURL =
+"https://DEINNAME.github.io/animationen/weihnachten.html";
+
+const halloweenURL =
+"https://DEINNAME.github.io/animationen/halloween.html";
+
+const newYearEveURL =
+"https://DEINNAME.github.io/animationen/silvester.html";
+
+const newYearURL =
+"https://DEINNAME.github.io/animationen/neujahr.html";
+
+const easterURL =
+"https://DEINNAME.github.io/animationen/ostern.html";
+
+/* =========================================
+   DATUM + UHRZEIT
+========================================= */
+
+const now =
+    new Date();
+
+const day =
+    now.getDate();
+
+const month =
+    now.getMonth() + 1;
+
+const hour =
+    now.getHours();
+
+/* =========================================
+   OSTERDATEN
+   HIER SPÄTER ERWEITERN
+========================================= */
+
+const easterDates = [
+
+    "2026-04-05",
+    "2027-03-28",
+    "2028-04-16",
+    "2029-04-01",
+    "2030-04-21"
+];
+
+const today =
+    `${now.getFullYear()}-${
+        String(month).padStart(2,"0")
+    }-${
+        String(day).padStart(2,"0")
+    }`;
+
+/* =========================================
+   STANDARD
+========================================= */
+
+let targetURL =
+    eveningURL;
+
+/* =========================================
+   WEIHNACHTEN
+========================================= */
+
+if(
+    month === 12 &&
+    (
+        day === 24 ||
+        day === 25 ||
+        day === 26
+    )
+){
+
+    targetURL =
+        christmasURL;
 }
 
 /* =========================================
-   TITEL
+   HALLOWEEN
 ========================================= */
 
-.title{
+else if(
+    month === 10 &&
+    day === 31
+){
 
-    position:absolute;
-
-    top:45%;
-    left:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    width:100%;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    z-index:20;
-
-    padding:20px;
-
-    font-size:
-        clamp(2rem,6vw,5rem);
-
-    line-height:1.3;
-
-    font-weight:bold;
-
-    background:
-        linear-gradient(
-            135deg,
-            red,
-            orange,
-            yellow,
-            green,
-            blue,
-            indigo,
-            violet
-        );
-
-    background-size:700% 700%;
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    animation:
-        rainbowFlow 20s linear infinite;
+    targetURL =
+        halloweenURL;
 }
 
-.title-line{
+/* =========================================
+   SILVESTER
+========================================= */
 
-    display:flex;
+else if(
+    month === 12 &&
+    day === 31
+){
 
-    justify-content:center;
-    align-items:center;
+    targetURL =
+        newYearEveURL;
+}
 
-    gap:0.4em;
+/* =========================================
+   NEUJAHR
+========================================= */
 
-    width:100%;
+else if(
+    month === 1 &&
+    day === 1
+){
 
-    padding:0.15em 0;
+    targetURL =
+        newYearURL;
+}
 
-    white-space:nowrap;
+/* =========================================
+   OSTERN
+========================================= */
+
+else if(
+    easterDates.includes(today)
+){
+
+    targetURL =
+        easterURL;
 }
 
 /* =========================================
    MORGEN
 ========================================= */
 
-#morning{
+else if(
+    hour >= 5 &&
+    hour < 12
+){
 
-    background:
-        linear-gradient(
-            to bottom,
-            #000000 0%,
-            #000000 45%,
-            #08263d 70%,
-            #145b82 100%
-        );
-}
-
-.sun{
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #ffff66,
-            #ffcc00
-        );
-
-    box-shadow:
-        0 0 40px yellow,
-        0 0 80px orange;
-
-    bottom:-90px;
-    left:-90px;
-
-    animation:
-        rise 10s ease-in-out forwards;
-}
-
-/* STRAND */
-
-.beach{
-
-    position:absolute;
-
-    bottom:30vh;
-
-    width:100%;
-    height:10vh;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #f7d794,
-            #d2a86d
-        );
-
-    z-index:2;
-}
-
-/* MEER */
-
-.sea{
-
-    position:absolute;
-
-    bottom:0;
-
-    width:100%;
-    height:35vh;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,180,255,0.15),
-            rgba(0,70,160,0.9)
-        );
-}
-
-.wave{
-
-    position:absolute;
-
-    width:250%;
-    left:-60%;
-
-    border-radius:45%;
-
-    opacity:0.35;
-}
-
-.wave1{
-
-    height:180px;
-    bottom:-70px;
-
-    background:
-        rgba(0,180,255,0.25);
-
-    animation:
-        waveMove 8s linear infinite;
-}
-
-.wave2{
-
-    height:220px;
-    bottom:-100px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    animation:
-        waveMoveReverse 14s linear infinite;
-}
-
-/* DELFINE */
-
-.dolphin{
-
-    position:absolute;
-
-    font-size:clamp(2rem,4vw,4rem);
-
-    z-index:5;
-
-    filter:
-        drop-shadow(0 0 10px rgba(255,255,255,0.4));
-
-    animation:
-        dolphinJump 6s linear infinite;
-}
-
-.dolphin1{
-
-    left:15%;
-    bottom:20vh;
-
-    animation-delay:0s;
-}
-
-.dolphin2{
-
-    left:55%;
-    bottom:18vh;
-
-    animation-delay:3s;
+    targetURL =
+        morningURL;
 }
 
 /* =========================================
    TAG
 ========================================= */
 
-#day{
+else if(
+    hour >= 12 &&
+    hour < 18
+){
 
-    background:
-        linear-gradient(
-            to bottom,
-            #000000 0%,
-            #10283d 70%,
-            #1d5f87 100%
-        );
-}
-
-.day-sun{
-
-    position:absolute;
-
-    top:20px;
-    right:20px;
-
-    width:160px;
-    height:160px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff176,
-            #ff9800
-        );
-
-    box-shadow:
-        0 0 50px #ffeb3b,
-        0 0 100px orange;
-
-    animation:
-        sunFloat 6s ease-in-out infinite;
-}
-
-.cloud{
-
-    position:absolute;
-
-    width:180px;
-    height:55px;
-
-    border-radius:999px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    filter:blur(2px);
-}
-
-.cloud::before,
-.cloud::after{
-
-    content:"";
-
-    position:absolute;
-
-    background:inherit;
-
-    border-radius:inherit;
-}
-
-.cloud1{
-
-    top:15%;
-    left:-250px;
-
-    animation:
-        cloudMove 70s linear infinite;
-}
-
-.cloud2{
-
-    top:35%;
-    left:-350px;
-
-    animation:
-        cloudMove 95s linear infinite;
+    targetURL =
+        dayURL;
 }
 
 /* =========================================
    ABEND
 ========================================= */
 
-#evening{
-
-    background:#000;
-}
-
-#stars-canvas,
-#shooting-stars{
-
-    position:absolute;
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    pointer-events:none;
-}
-
-#stars-canvas{
-    z-index:0;
-}
-
-#shooting-stars{
-    z-index:1;
-}
-
-.moon{
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #d8f7ff,
-            #53d9ff
-        );
-
-    box-shadow:
-        0 0 40px #7fe7ff,
-        0 0 100px #33ccff;
-
-    bottom:-90px;
-    left:-90px;
-
-    animation:
-        floatMoon 12s ease-in-out forwards;
-}
-
-.ufo{
-
-    position:absolute;
-
-    font-size:4rem;
-
-    z-index:5;
-
-    filter:
-        drop-shadow(0 0 10px cyan)
-        drop-shadow(0 0 25px white);
-
-    animation:
-        ufoFly 28s linear infinite,
-        ufoFloat 3s ease-in-out infinite;
-}
-
-/* =========================================
-   ANIMATIONEN
-========================================= */
-
-@keyframes rainbowFlow{
-
-    0%{
-        background-position:0% 0%;
-    }
-
-    100%{
-        background-position:100% 100%;
-    }
-}
-
-@keyframes rise{
-
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - 120px),
-                calc(-100vh + 120px)
-            );
-    }
-}
-
-@keyframes floatMoon{
-
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - 120px),
-                calc(-100vh + 120px)
-            );
-    }
-}
-
-@keyframes waveMove{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(20%);
-    }
-}
-
-@keyframes waveMoveReverse{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(-20%);
-    }
-}
-
-@keyframes cloudMove{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:
-            translateX(
-                calc(100vw + 500px)
-            );
-    }
-}
-
-@keyframes sunFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-12px);
-    }
-}
-
-@keyframes ufoFly{
-
-    0%{
-        left:-20%;
-        top:80%;
-    }
-
-    25%{
-        left:20%;
-        top:20%;
-    }
-
-    50%{
-        left:80%;
-        top:40%;
-    }
-
-    75%{
-        left:40%;
-        top:10%;
-    }
-
-    100%{
-        left:-20%;
-        top:80%;
-    }
-}
-
-@keyframes ufoFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-15px);
-    }
-}
-
-/* DELFIN BACKFLIP */
-
-@keyframes dolphinJump{
-
-    0%{
-
-        transform:
-            translateX(0)
-            translateY(0)
-            rotate(0deg);
-    }
-
-    15%{
-
-        transform:
-            translateX(60px)
-            translateY(-120px)
-            rotate(120deg);
-    }
-
-    30%{
-
-        transform:
-            translateX(120px)
-            translateY(-180px)
-            rotate(240deg);
-    }
-
-    50%{
-
-        transform:
-            translateX(180px)
-            translateY(-80px)
-            rotate(360deg);
-    }
-
-    100%{
-
-        transform:
-            translateX(320px)
-            translateY(0)
-            rotate(720deg);
-    }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width:600px){
-
-    .title{
-
-        font-size:
-            clamp(1.8rem,8vw,3rem);
-    }
-
-    .sun,
-    .moon,
-    .day-sun{
-
-        width:120px;
-        height:120px;
-    }
-
-    .sun,
-    .moon{
-
-        bottom:-60px;
-        left:-60px;
-    }
-
-    .ufo{
-
-        font-size:3rem;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- MORGEN -->
-
-<div id="morning" class="screen">
-
-    <div class="sun"></div>
-
-    <div class="beach"></div>
-
-    <div class="sea">
-
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-
-    </div>
-
-    <div class="dolphin dolphin1">🐬</div>
-    <div class="dolphin dolphin2">🐬</div>
-
-    <h1 class="title">
-
-        <div class="title-line">
-            <span>☀️</span>
-            <span>Guten</span>
-            <span>☀️</span>
-        </div>
-
-        <div class="title-line">
-            <span>☕</span>
-            <span>Morgen</span>
-            <span>☕</span>
-        </div>
-
-    </h1>
-
-</div>
-
-<!-- TAG -->
-
-<div id="day" class="screen">
-
-    <div class="day-sun"></div>
-
-    <div class="cloud cloud1"></div>
-    <div class="cloud cloud2"></div>
-
-    <h1 class="title">
-
-        <div class="title-line">
-            <span>🌼</span>
-            <span>Schönen</span>
-            <span>🌼</span>
-        </div>
-
-        <div class="title-line">
-            <span>🔆</span>
-            <span>Guten Tag</span>
-            <span>🔆</span>
-        </div>
-
-    </h1>
-
-</div>
-
-<!-- ABEND -->
-
-<div id="evening" class="screen">
-
-    <canvas id="stars-canvas"></canvas>
-    <canvas id="shooting-stars"></canvas>
-
-    <div class="moon"></div>
-
-    <div class="ufo">
-        🛸
-    </div>
-
-    <h1 class="title">
-
-        <div class="title-line">
-            <span>🌙</span>
-            <span>Guten</span>
-            <span>🌙</span>
-        </div>
-
-        <div class="title-line">
-            <span>⭐</span>
-            <span>Abend</span>
-            <span>⭐</span>
-        </div>
-
-    </h1>
-
-</div>
-
-<script>
-
-/* ZEIT */
-
-const hour =
-    new Date().getHours();
-
-if(hour >= 4 && hour < 12){
-
-    document
-        .getElementById("morning")
-        .style.display = "block";
-}
-
-else if(hour >= 12 && hour < 18){
-
-    document
-        .getElementById("day")
-        .style.display = "block";
-}
-
 else{
 
-    document
-        .getElementById("evening")
-        .style.display = "block";
+    targetURL =
+        eveningURL;
 }
+
+/* =========================================
+   IFRAME LADEN
+========================================= */
+
+document
+    .getElementById("animationFrame")
+    .src = targetURL;
 
 </script>
 
