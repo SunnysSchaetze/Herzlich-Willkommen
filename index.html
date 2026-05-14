@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+/>
+
 <title>Tageszeiten Animation</title>
 
 <style>
+
+/* =========================================
+   RESET
+========================================= */
 
 *{
     margin:0;
@@ -15,61 +25,65 @@
 
 html,
 body{
+
     width:100%;
     height:100%;
+
     overflow:hidden;
-    font-family:Arial,sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     background:#000;
 }
 
-body{
+/* =========================================
+   SCREEN
+========================================= */
+
+.screen{
+
     position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
 
-/* ALLE SCENES */
-
-.scene{
-    position:absolute;
-    inset:0;
-    display:none;
-    overflow:hidden;
-}
-
-.scene.active{
-    display:block;
-}
-
-/* TEXT */
-
-.centerText{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    z-index:100;
     width:100%;
-    padding:20px;
+    height:100vh;
+
+    overflow:hidden;
+
+    display:none;
+}
+
+/* =========================================
+   TITEL
+========================================= */
+
+.title{
+
+    position:absolute;
+
+    top:45%;
+    left:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:100%;
+
     text-align:center;
-}
 
-.row{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:14px;
-    flex-wrap:nowrap;
-}
+    z-index:20;
 
-.row.bottom{
-    margin-top:14px;
-}
+    padding:20px;
 
-.word,
-.emoji{
-    font-size:clamp(2rem,7vw,5rem);
+    padding-top:40px;
+
+    font-size:
+        clamp(2rem,6vw,5rem);
+
+    line-height:1.3;
+
     font-weight:bold;
 
     background:
@@ -89,99 +103,143 @@ body{
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
-    animation:rainbow 20s linear infinite;
+    animation:
+        rainbowFlow 20s linear infinite;
 }
 
-@keyframes rainbow{
-    100%{
-        background-position:100% 100%;
-    }
+.title-line{
+
+    display:block;
+
+    width:100%;
+
+    padding:0.15em 0;
+
+    white-space:nowrap;
+
+    overflow:visible;
 }
 
-/* =========================
+/* =========================================
    MORGEN
-========================= */
+========================================= */
 
 #morning{
+
     background:
         linear-gradient(
             to bottom,
-            #02111d,
-            #145b82
+            #000000 0%,
+            #000000 45%,
+            #08263d 70%,
+            #145b82 100%
         );
 }
 
 .sun{
+
     position:absolute;
 
-    width:clamp(120px,18vw,220px);
-    height:clamp(120px,18vw,220px);
+    width:180px;
+    height:180px;
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            #ffff99,
+            #ffff66,
             #ffcc00
         );
 
     box-shadow:
-        0 0 60px gold;
+        0 0 40px yellow,
+        0 0 80px orange;
 
-    bottom:-100px;
-    left:-100px;
+    bottom:-90px;
+    left:-90px;
 
     animation:
-        sunrise 12s linear forwards;
-}
-
-@keyframes sunrise{
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - 120px),
-                calc(-100vh + 120px)
-            );
-    }
+        rise 10s ease-in-out forwards;
 }
 
 .sea{
+
     position:absolute;
+
     bottom:0;
+
     width:100%;
     height:35vh;
 
     background:
         linear-gradient(
             to bottom,
-            #0d5ea8,
-            #02233d
+            rgba(0,180,255,0.15),
+            rgba(0,70,160,0.9)
         );
 }
 
-/* =========================
+.wave{
+
+    position:absolute;
+
+    width:250%;
+    left:-60%;
+
+    border-radius:45%;
+
+    opacity:0.35;
+}
+
+.wave1{
+
+    height:180px;
+    bottom:-70px;
+
+    background:
+        rgba(0,180,255,0.25);
+
+    animation:
+        waveMove 8s linear infinite;
+}
+
+.wave2{
+
+    height:220px;
+    bottom:-100px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    animation:
+        waveMoveReverse 14s linear infinite;
+}
+
+/* =========================================
    TAG
-========================= */
+========================================= */
 
 #day{
+
     background:
         linear-gradient(
             to bottom,
-            #1e3c72,
-            #2a5298
+            #000000 0%,
+            #10283d 70%,
+            #1d5f87 100%
         );
 }
 
-.daySun{
+.day-sun{
+
     position:absolute;
 
-    top:30px;
-    right:30px;
+    top:20px;
+    right:20px;
 
-    width:clamp(110px,16vw,180px);
-    height:clamp(110px,16vw,180px);
+    width:160px;
+    height:160px;
 
     border-radius:50%;
 
@@ -193,75 +251,93 @@ body{
         );
 
     box-shadow:
-        0 0 80px gold;
+        0 0 50px #ffeb3b,
+        0 0 100px orange;
 
     animation:
-        pulse 4s ease-in-out infinite;
-}
-
-@keyframes pulse{
-
-    50%{
-        transform:scale(1.08);
-    }
+        sunFloat 6s ease-in-out infinite;
 }
 
 .cloud{
+
     position:absolute;
 
     width:180px;
-    height:60px;
+    height:55px;
 
     border-radius:999px;
 
     background:
-        rgba(255,255,255,0.12);
+        rgba(255,255,255,0.08);
 
-    animation:
-        cloudMove linear infinite;
+    filter:blur(2px);
+}
+
+.cloud::before,
+.cloud::after{
+
+    content:"";
+
+    position:absolute;
+
+    background:inherit;
+
+    border-radius:inherit;
 }
 
 .cloud1{
-    top:20%;
-    left:-220px;
-    animation-duration:40s;
+
+    top:15%;
+    left:-250px;
+
+    animation:
+        cloudMove 70s linear infinite;
 }
 
 .cloud2{
-    top:40%;
-    left:-320px;
-    animation-duration:60s;
+
+    top:35%;
+    left:-350px;
+
+    animation:
+        cloudMove 95s linear infinite;
 }
 
-@keyframes cloudMove{
-
-    100%{
-        transform:
-            translateX(calc(100vw + 500px));
-    }
-}
-
-/* =========================
+/* =========================================
    ABEND
-========================= */
+========================================= */
 
 #evening{
-    background:#000814;
+
+    background:#000;
 }
 
 #stars-canvas,
 #shooting-stars{
+
     position:absolute;
     inset:0;
+
     width:100%;
     height:100%;
+
+    pointer-events:none;
+}
+
+#stars-canvas{
+    z-index:0;
+}
+
+#shooting-stars{
+    z-index:1;
 }
 
 .moon{
+
     position:absolute;
 
-    width:clamp(120px,18vw,220px);
-    height:clamp(120px,18vw,220px);
+    width:180px;
+    height:180px;
 
     border-radius:50%;
 
@@ -273,16 +349,49 @@ body{
         );
 
     box-shadow:
-        0 0 80px cyan;
+        0 0 40px #7fe7ff,
+        0 0 100px #33ccff;
 
-    bottom:-100px;
-    left:-100px;
+    bottom:-90px;
+    left:-90px;
 
     animation:
-        moonrise 12s linear forwards;
+        floatMoon 12s ease-in-out forwards;
 }
 
-@keyframes moonrise{
+.ufo{
+
+    position:absolute;
+
+    font-size:4rem;
+
+    filter:
+        drop-shadow(0 0 10px cyan);
+
+    animation:
+        ufoFly 28s linear infinite;
+}
+
+/* =========================================
+   ANIMATIONEN
+========================================= */
+
+@keyframes rainbowFlow{
+
+    0%{
+        background-position:0% 0%;
+    }
+
+    100%{
+        background-position:100% 100%;
+    }
+}
+
+@keyframes rise{
+
+    0%{
+        transform:translate(0,0);
+    }
 
     100%{
         transform:
@@ -293,19 +402,72 @@ body{
     }
 }
 
-.ufo{
-    position:absolute;
+@keyframes floatMoon{
 
-    font-size:clamp(2rem,5vw,4rem);
+    0%{
+        transform:translate(0,0);
+    }
 
-    animation:
-        ufoFly 28s linear infinite;
+    100%{
+        transform:
+            translate(
+                calc(100vw - 120px),
+                calc(-100vh + 120px)
+            );
+    }
+}
+
+@keyframes waveMove{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(20%);
+    }
+}
+
+@keyframes waveMoveReverse{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(-20%);
+    }
+}
+
+@keyframes cloudMove{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:
+            translateX(
+                calc(100vw + 500px)
+            );
+    }
+}
+
+@keyframes sunFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
 }
 
 @keyframes ufoFly{
 
     0%{
-        left:-15%;
+        left:-20%;
         top:80%;
     }
 
@@ -316,129 +478,50 @@ body{
 
     50%{
         left:80%;
-        top:30%;
+        top:40%;
     }
 
     75%{
         left:40%;
-        top:70%;
+        top:10%;
     }
 
     100%{
-        left:-15%;
+        left:-20%;
         top:80%;
     }
 }
 
-/* =========================
-   WEIHNACHTEN
-========================= */
+/* =========================================
+   MOBILE
+========================================= */
 
-#christmas{
-    background:#03121f;
-}
+@media (max-width:600px){
 
-.snowGround{
-    position:absolute;
+    .title{
 
-    bottom:0;
-    width:100%;
-    height:20vh;
-
-    background:
-        linear-gradient(
-            to top,
-            #fff,
-            transparent
-        );
-}
-
-.tree{
-    position:absolute;
-
-    right:5vw;
-    bottom:12vh;
-
-    z-index:10;
-}
-
-.treeBody{
-    width:0;
-    height:0;
-
-    border-left:90px solid transparent;
-    border-right:90px solid transparent;
-    border-bottom:180px solid #0a8f3d;
-}
-
-.star{
-    position:absolute;
-
-    top:-25px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    font-size:2rem;
-}
-
-.santa{
-    position:absolute;
-
-    top:10vh;
-    right:-40vw;
-
-    font-size:2rem;
-
-    animation:
-        santaFly 25s linear infinite;
-}
-
-@keyframes santaFly{
-
-    100%{
-        transform:
-            translateX(-160vw);
-    }
-}
-
-.snowflake{
-    position:absolute;
-
-    top:-10px;
-
-    border-radius:50%;
-
-    background:#fff;
-
-    opacity:0.8;
-
-    animation:
-        fall linear infinite;
-}
-
-@keyframes fall{
-
-    100%{
-        transform:
-            translateY(110vh)
-            translateX(30px);
-
-        opacity:0.2;
-    }
-}
-
-/* RESPONSIVE */
-
-@media (max-width:768px){
-
-    .word,
-    .emoji{
-        font-size:clamp(1.7rem,9vw,3rem);
+        font-size:
+            clamp(1.8rem,8vw,3rem);
     }
 
-    .row{
-        gap:10px;
+    .sun,
+    .moon,
+    .day-sun{
+
+        width:120px;
+        height:120px;
+    }
+
+    .sun,
+    .moon{
+
+        bottom:-60px;
+        left:-60px;
+    }
+
+    .ufo{
+
+        font-size:3rem;
     }
 }
 
@@ -447,301 +530,169 @@ body{
 
 <body>
 
-<!-- MORGEN -->
+<!-- =====================================
+     MORGEN
+===================================== -->
 
-<div class="scene" id="morning">
+<div id="morning" class="screen">
 
     <div class="sun"></div>
 
-    <div class="sea"></div>
+    <div class="sea">
 
-    <div class="centerText">
-
-        <div class="row top">
-
-            <span class="emoji">☀️</span>
-            <span class="word">Guten</span>
-            <span class="emoji">☀️</span>
-
-        </div>
-
-        <div class="row bottom">
-
-            <span class="emoji">☕</span>
-            <span class="word">Morgen</span>
-            <span class="emoji">☕</span>
-
-        </div>
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
 
     </div>
 
+    <h1 class="title">
+
+        <div class="title-line">
+            ☀️ Guten ☀️
+        </div>
+
+        <div class="title-line">
+            ☕ Morgen ☕
+        </div>
+
+    </h1>
+
 </div>
 
-<!-- TAG -->
+<!-- =====================================
+     TAG
+===================================== -->
 
-<div class="scene" id="day">
+<div id="day" class="screen">
 
-    <div class="daySun"></div>
+    <div class="day-sun"></div>
 
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
 
-    <div class="centerText">
+    <h1 class="title">
 
-        <div class="row top">
-
-            <span class="emoji">🌼</span>
-            <span class="word">Schönen</span>
-            <span class="emoji">🌼</span>
-
+        <div class="title-line">
+            🌼 Schönen 🌼
         </div>
 
-        <div class="row bottom">
-
-            <span class="emoji">🔆</span>
-            <span class="word">Guten Tag</span>
-            <span class="emoji">🔆</span>
-
+        <div class="title-line">
+            🔆 Guten Tag 🔆
         </div>
 
-    </div>
+    </h1>
 
 </div>
 
-<!-- ABEND -->
+<!-- =====================================
+     ABEND
+===================================== -->
 
-<div class="scene" id="evening">
+<div id="evening" class="screen">
 
     <canvas id="stars-canvas"></canvas>
     <canvas id="shooting-stars"></canvas>
 
     <div class="moon"></div>
 
-    <div class="ufo">🛸</div>
-
-    <div class="centerText">
-
-        <div class="row top">
-
-            <span class="emoji">🌙</span>
-            <span class="word">Guten</span>
-            <span class="emoji">🌙</span>
-
-        </div>
-
-        <div class="row bottom">
-
-            <span class="emoji">⭐</span>
-            <span class="word">Abend</span>
-            <span class="emoji">⭐</span>
-
-        </div>
-
+    <div class="ufo">
+        🛸
     </div>
 
-</div>
+    <h1 class="title">
 
-<!-- WEIHNACHTEN -->
-
-<div class="scene" id="christmas">
-
-    <div class="santa">🦌🦌🦌🎅🛷</div>
-
-    <div class="snowGround"></div>
-
-    <div class="tree">
-
-        <div class="star">⭐</div>
-
-        <div class="treeBody"></div>
-
-    </div>
-
-    <div class="centerText">
-
-        <div class="row top">
-
-            <span class="emoji">🎄</span>
-            <span class="word">Frohe</span>
-            <span class="emoji">🎄</span>
-
+        <div class="title-line">
+            🌙 Guten 🌙
         </div>
 
-        <div class="row bottom">
-
-            <span class="emoji">🎅</span>
-            <span class="word">Weihnachten</span>
-            <span class="emoji">🎅</span>
-
+        <div class="title-line">
+            ⭐ Abend ⭐
         </div>
 
-    </div>
+    </h1>
 
 </div>
 
 <script>
 
-/* =========================
-   ZEIT + DATUM
-========================= */
-
-const now = new Date();
+/* =====================================
+   ZEIT
+===================================== */
 
 const hour =
-    now.getHours();
+    new Date().getHours();
 
-const day =
-    now.getDate();
+if(hour >= 5 && hour < 12){
 
-const month =
-    now.getMonth() + 1;
+    document
+        .getElementById("morning")
+        .style.display = "block";
+}
 
-const isChristmas =
-    month === 12 &&
-    (
-        day === 24 ||
-        day === 25 ||
-        day === 26
+else if(hour >= 12 && hour < 18){
+
+    document
+        .getElementById("day")
+        .style.display = "block";
+}
+
+else{
+
+    document
+        .getElementById("evening")
+        .style.display = "block";
+}
+
+/* =====================================
+   STERNE
+===================================== */
+
+const starCanvas =
+    document.getElementById(
+        "stars-canvas"
     );
 
-/* =========================
-   SCENES
-========================= */
+const shootCanvas =
+    document.getElementById(
+        "shooting-stars"
+    );
 
-const morning =
-    document.getElementById("morning");
-
-const dayScene =
-    document.getElementById("day");
-
-const evening =
-    document.getElementById("evening");
-
-const christmas =
-    document.getElementById("christmas");
-
-/* =========================
-   AKTIVE SCENE
-========================= */
-
-if(isChristmas){
-
-    christmas.classList.add("active");
-
-}else if(hour >= 5 && hour < 12){
-
-    morning.classList.add("active");
-
-}else if(hour >= 12 && hour < 18){
-
-    dayScene.classList.add("active");
-
-}else{
-
-    evening.classList.add("active");
-
-    startNightSky();
-}
-
-/* =========================
-   SCHNEE
-========================= */
-
-if(isChristmas){
-
-    function createSnowflake(){
-
-        const s =
-            document.createElement("div");
-
-        s.className =
-            "snowflake";
-
-        const size =
-            Math.random() * 5 + 2;
-
-        s.style.width =
-            size + "px";
-
-        s.style.height =
-            size + "px";
-
-        s.style.left =
-            Math.random() *
-            window.innerWidth + "px";
-
-        s.style.animationDuration =
-            (Math.random() * 4 + 5) + "s";
-
-        christmas.appendChild(s);
-
-        setTimeout(() => {
-
-            s.remove();
-
-        },10000);
-    }
-
-    setInterval(createSnowflake,150);
-}
-
-/* =========================
-   STERNE
-========================= */
-
-function startNightSky(){
-
-    const starCanvas =
-        document.getElementById("stars-canvas");
+if(starCanvas && shootCanvas){
 
     const starCtx =
         starCanvas.getContext("2d");
 
-    const shootCanvas =
-        document.getElementById("shooting-stars");
-
-    const shootCtx =
-        shootCanvas.getContext("2d");
-
     let stars = [];
-    let shootingStars = [];
 
     function resizeCanvas(){
 
         starCanvas.width =
-            shootCanvas.width =
             window.innerWidth;
 
         starCanvas.height =
-            shootCanvas.height =
             window.innerHeight;
 
         createStars();
-        createShootingStars();
     }
 
     function createStars(){
 
         stars = [];
 
-        for(let i = 0; i < 120; i++){
+        for(let i = 0; i < 100; i++){
 
             stars.push({
 
                 x:
                     Math.random() *
-                    starCanvas.width,
+                    window.innerWidth,
 
                 y:
                     Math.random() *
-                    starCanvas.height,
+                    window.innerHeight,
 
                 size:
-                    Math.random() * 2,
-
-                phase:
-                    Math.random() *
-                    Math.PI * 2
+                    Math.random() * 2
             });
         }
     }
@@ -751,30 +702,21 @@ function startNightSky(){
         starCtx.clearRect(
             0,
             0,
-            starCanvas.width,
-            starCanvas.height
+            window.innerWidth,
+            window.innerHeight
         );
 
-        stars.forEach(s => {
-
-            const alpha =
-                0.3 +
-                Math.abs(
-                    Math.sin(
-                        s.phase +
-                        performance.now() / 1500
-                    )
-                ) * 0.7;
+        stars.forEach(star => {
 
             starCtx.beginPath();
 
             starCtx.fillStyle =
-                `rgba(255,255,255,${alpha})`;
+                "white";
 
             starCtx.arc(
-                s.x,
-                s.y,
-                s.size,
+                star.x,
+                star.y,
+                star.size,
                 0,
                 Math.PI * 2
             );
@@ -782,157 +724,19 @@ function startNightSky(){
             starCtx.fill();
         });
 
-        requestAnimationFrame(drawStars);
-    }
-
-    class ShootingStar{
-
-        constructor(){
-
-            this.reset();
-        }
-
-        reset(){
-
-            this.x =
-                Math.random() *
-                shootCanvas.width;
-
-            this.y =
-                Math.random() *
-                -shootCanvas.height;
-
-            this.len =
-                80 +
-                Math.random() * 120;
-
-            this.speed =
-                2 +
-                Math.random() * 2;
-
-            this.angle =
-                Math.PI / 4;
-        }
-
-        update(){
-
-            this.x -=
-                Math.cos(this.angle) *
-                this.speed;
-
-            this.y +=
-                Math.sin(this.angle) *
-                this.speed;
-
-            if(
-                this.x < -this.len ||
-                this.y >
-                shootCanvas.height +
-                this.len
-            ){
-                this.reset();
-            }
-        }
-
-        draw(){
-
-            const endX =
-                this.x;
-
-            const endY =
-                this.y;
-
-            const startX =
-                endX +
-                Math.cos(this.angle) *
-                this.len;
-
-            const startY =
-                endY -
-                Math.sin(this.angle) *
-                this.len;
-
-            const grad =
-                shootCtx.createLinearGradient(
-                    startX,
-                    startY,
-                    endX,
-                    endY
-                );
-
-            grad.addColorStop(
-                0,
-                "rgba(255,255,255,0)"
-            );
-
-            grad.addColorStop(
-                1,
-                "rgba(255,255,255,1)"
-            );
-
-            shootCtx.beginPath();
-
-            shootCtx.moveTo(
-                startX,
-                startY
-            );
-
-            shootCtx.lineTo(
-                endX,
-                endY
-            );
-
-            shootCtx.strokeStyle =
-                grad;
-
-            shootCtx.lineWidth = 2;
-
-            shootCtx.stroke();
-        }
-    }
-
-    function createShootingStars(){
-
-        shootingStars = [];
-
-        for(let i = 0; i < 5; i++){
-
-            shootingStars.push(
-                new ShootingStar()
-            );
-        }
-    }
-
-    function animateShooting(){
-
-        shootCtx.clearRect(
-            0,
-            0,
-            shootCanvas.width,
-            shootCanvas.height
-        );
-
-        shootingStars.forEach(s => {
-
-            s.update();
-            s.draw();
-        });
-
         requestAnimationFrame(
-            animateShooting
+            drawStars
         );
     }
 
     resizeCanvas();
 
+    drawStars();
+
     window.addEventListener(
         "resize",
         resizeCanvas
     );
-
-    drawStars();
-
-    animateShooting();
 }
 
 </script>
