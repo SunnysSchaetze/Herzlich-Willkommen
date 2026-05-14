@@ -18,9 +18,10 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#000;
     font-family:Arial,sans-serif;
 }
+
+/* HINTERGRUND */
 
 body{
     display:flex;
@@ -28,7 +29,15 @@ body{
     align-items:center;
     text-align:center;
     position:relative;
-    background:#000;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #000000 0%,
+            #050510 35%,
+            #101030 65%,
+            #1a1a40 100%
+        );
 }
 
 /* MOND */
@@ -217,16 +226,24 @@ h1{
     }
 }
 
+/* BÄUME */
+
+.tree{
+    position:absolute;
+
+    z-index:5;
+
+    line-height:1;
+}
+
 /* BLUMEN */
 
 .flower{
     position:absolute;
 
-    bottom:clamp(20px,4vh,40px);
+    z-index:5;
 
-    font-size:clamp(1rem,2vw,1.8rem);
-
-    z-index:4;
+    line-height:1;
 }
 
 /* OSTEREIER */
@@ -238,7 +255,7 @@ h1{
 
     font-size:clamp(1.3rem,2.5vw,2rem);
 
-    z-index:5;
+    z-index:6;
 }
 
 /* HASEN */
@@ -246,23 +263,21 @@ h1{
 .bunny-container{
     position:absolute;
 
-    bottom:clamp(10px,2vh,25px);
+    bottom:0;
     left:0;
 
     width:100%;
-    height:clamp(90px,15vh,140px);
+    height:clamp(120px,20vh,220px);
 
-    overflow:hidden;
+    overflow:visible;
 
-    z-index:6;
+    z-index:8;
 
     pointer-events:none;
 }
 
 .bunny{
     position:absolute;
-
-    bottom:0;
 
     font-size:clamp(2rem,4vw,4rem);
 
@@ -276,7 +291,7 @@ h1{
 @keyframes bunnyRun{
 
     0%{
-        transform:translateX(120vw);
+        transform:translateX(110vw);
     }
 
     100%{
@@ -356,7 +371,7 @@ h1{
     }
 
     .bunny-container{
-        height:110px;
+        height:22vh;
     }
 }
 
@@ -375,20 +390,35 @@ h1{
 
 <div class="grass"></div>
 
-<div class="flower" style="left:8%;">🌷</div>
-<div class="flower" style="left:18%;">🌼</div>
-<div class="flower" style="left:30%;">🌸</div>
-<div class="flower" style="left:72%;">🌻</div>
-<div class="flower" style="left:84%;">🌺</div>
+<!-- BÄUME -->
+
+<div class="tree" style="left:6%; bottom:20px; font-size:4.5rem;">🌳</div>
+<div class="tree" style="left:18%; bottom:18px; font-size:3.8rem;">🌲</div>
+<div class="tree" style="left:32%; bottom:15px; font-size:5rem;">🌳</div>
+<div class="tree" style="left:67%; bottom:18px; font-size:4rem;">🌲</div>
+<div class="tree" style="left:84%; bottom:12px; font-size:5.2rem;">🌳</div>
+
+<!-- BLUMEN -->
+
+<div class="flower" style="left:8%; bottom:28px; font-size:1.8rem;">🌻</div>
+<div class="flower" style="left:28%; bottom:22px; font-size:1.4rem;">🌼</div>
+<div class="flower" style="left:50%; bottom:18px; font-size:1.7rem;">🌷</div>
+<div class="flower" style="left:76%; bottom:26px; font-size:1.6rem;">🌹</div>
+
+<!-- EIER -->
 
 <div class="egg" style="left:12%;">🥚</div>
 <div class="egg" style="left:24%;">🪺</div>
 <div class="egg" style="left:78%;">🥚</div>
 <div class="egg" style="left:90%;">🪺</div>
 
+<!-- HASEN -->
+
 <div class="bunny-container" id="bunnyContainer"></div>
 
 <script>
+
+/* STERNE */
 
 for(let i = 0; i < 120; i++){
 
@@ -415,6 +445,8 @@ for(let i = 0; i < 120; i++){
     document.body.appendChild(star);
 }
 
+/* GLÜHWÜRMCHEN */
+
 for(let i = 0; i < 18; i++){
 
     const fly =
@@ -437,6 +469,8 @@ for(let i = 0; i < 18; i++){
     document.body.appendChild(fly);
 }
 
+/* HASEN */
+
 const bunnyContainer =
     document.getElementById("bunnyContainer");
 
@@ -448,6 +482,12 @@ function spawnBunny(){
     bunny.className = "bunny";
 
     bunny.innerText = "🐇";
+
+    bunny.style.left =
+        "100vw";
+
+    bunny.style.bottom =
+        (15 + Math.random() * 55) + "px";
 
     bunny.style.animationDuration =
         (10 + Math.random() * 6) + "s, 0.7s";
@@ -468,12 +508,12 @@ spawnBunny();
 
 setInterval(() => {
 
-    if(document.querySelectorAll(".bunny").length < 2){
+    if(document.querySelectorAll(".bunny").length < 3){
 
         spawnBunny();
     }
 
-},4000);
+},3500);
 
 </script>
 
