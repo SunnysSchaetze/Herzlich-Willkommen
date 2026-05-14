@@ -726,7 +726,7 @@ if(starCanvas && shootCanvas){
                     Math.random() * 2.5 + 0.5,
 
                 glow:
-                    Math.random() * 20 + 10,
+                    Math.random() * 4 + 2,
 
                 alpha:
                     Math.random()
@@ -745,25 +745,28 @@ if(starCanvas && shootCanvas){
 
         stars.forEach(star => {
 
-            const pulse =
-                0.5 +
-                Math.sin(
-                    Date.now() * 0.001 +
-                    star.x
-                ) * 0.5;
+            /* FUNKELN */
+
+            const twinkle =
+                0.35 +
+                Math.abs(
+                    Math.sin(
+                        Date.now() * 0.0015 +
+                        star.alpha * 10
+                    )
+                ) * 0.65;
 
             starCtx.beginPath();
 
+            /* MINIMALER GLOW */
+
             starCtx.fillStyle =
-                `rgba(255,255,255,${
-                    0.4 + pulse * 0.6
-                })`;
+                `rgba(255,255,255,${twinkle})`;
 
             starCtx.shadowColor =
-                "white";
+                "rgba(255,255,255,0.5)";
 
-            starCtx.shadowBlur =
-                star.glow;
+            starCtx.shadowBlur = 4;
 
             starCtx.arc(
                 star.x,
