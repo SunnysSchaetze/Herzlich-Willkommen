@@ -206,11 +206,7 @@ body{
 
     box-shadow:
         0 0 12px rgba(255,255,255,0.12);
-
-    transition:transform 0.3s ease;
 }
-
-/* HÄUSER VERSCHIEDEN HOCH */
 
 .house:nth-child(1){
     transform:translateY(0);
@@ -272,26 +268,6 @@ body{
     border-radius:3px 3px 0 0;
 }
 
-/* SCHNEE AUF DACH */
-
-.roof-snow{
-    position:absolute;
-
-    top:-34%;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:110%;
-    height:12%;
-
-    background:#fff;
-
-    border-radius:999px;
-
-    filter:blur(1px);
-}
-
 /* SCHORNSTEIN */
 
 .chimney{
@@ -306,6 +282,61 @@ body{
     background:#663300;
 
     border-radius:2px;
+}
+
+/* RAUCH */
+
+.smoke{
+    position:absolute;
+
+    width:12px;
+    height:12px;
+
+    background:
+        rgba(255,255,255,0.4);
+
+    border-radius:50%;
+
+    top:-45px;
+    right:8px;
+
+    filter:blur(4px);
+
+    animation:
+        smokeUp 5s linear infinite;
+}
+
+.smoke:nth-child(2){
+    animation-delay:1s;
+}
+
+.smoke:nth-child(3){
+    animation-delay:2s;
+}
+
+@keyframes smokeUp{
+
+    0%{
+        transform:
+            translateY(0)
+            translateX(0)
+            scale(0.6);
+
+        opacity:0;
+    }
+
+    20%{
+        opacity:0.6;
+    }
+
+    100%{
+        transform:
+            translateY(-80px)
+            translateX(20px)
+            scale(1.8);
+
+        opacity:0;
+    }
 }
 
 /* FENSTER */
@@ -404,32 +435,124 @@ body{
     border-radius:6px;
 }
 
-/* KUGELN */
+/* SICHTBARE LICHTERKETTE */
 
-.ball{
+.garland{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.garland-wire{
+    position:absolute;
+    width:70%;
+    height:2px;
+    background:rgba(255,255,255,0.25);
+    border-radius:999px;
+    left:15%;
+}
+
+.gw1{
+    top:30%;
+    transform:rotate(-8deg);
+}
+
+.gw2{
+    top:46%;
+    transform:rotate(6deg);
+}
+
+.gw3{
+    top:62%;
+    transform:rotate(-5deg);
+}
+
+.light{
     position:absolute;
 
-    width:clamp(8px,1vw,12px);
-    height:clamp(8px,1vw,12px);
+    width:14px;
+    height:14px;
 
     border-radius:50%;
 
-    animation:blink 2s infinite alternate;
+    animation:
+        glow 1.4s infinite alternate;
+
+    box-shadow:
+        0 0 10px currentColor,
+        0 0 22px currentColor;
 }
 
-.ball1{ background:red; top:28%; left:38%; }
-.ball2{ background:gold; top:40%; right:34%; }
-.ball3{ background:cyan; top:52%; left:30%; }
-.ball4{ background:magenta; top:65%; right:28%; }
-.ball5{ background:lime; top:58%; left:52%; }
-.ball6{ background:orange; top:44%; left:58%; }
+.light1{
+    background:red;
+    color:red;
+    top:26%;
+    left:24%;
+}
 
-@keyframes blink{
+.light2{
+    background:gold;
+    color:gold;
+    top:30%;
+    left:44%;
+}
+
+.light3{
+    background:cyan;
+    color:cyan;
+    top:35%;
+    left:62%;
+}
+
+.light4{
+    background:lime;
+    color:lime;
+    top:44%;
+    left:28%;
+}
+
+.light5{
+    background:orange;
+    color:orange;
+    top:48%;
+    left:52%;
+}
+
+.light6{
+    background:magenta;
+    color:magenta;
+    top:53%;
+    left:70%;
+}
+
+.light7{
+    background:deepskyblue;
+    color:deepskyblue;
+    top:60%;
+    left:34%;
+}
+
+.light8{
+    background:yellow;
+    color:yellow;
+    top:65%;
+    left:58%;
+}
+
+@keyframes glow{
+
+    0%{
+        transform:scale(1);
+        opacity:0.8;
+    }
+
     100%{
-        transform:scale(1.3);
+        transform:scale(1.45);
+        opacity:1;
 
         box-shadow:
-            0 0 15px currentColor;
+            0 0 18px currentColor,
+            0 0 35px currentColor;
     }
 }
 
@@ -437,14 +560,15 @@ body{
 
 .gifts{
     position:absolute;
-    bottom:-42px;
-
-    display:flex;
-    gap:8px;
+    width:220px;
+    height:100px;
+    bottom:-65px;
+    left:50%;
+    transform:translateX(-50%);
 }
 
 .gift{
-    position:relative;
+    position:absolute;
 
     border-radius:6px;
 
@@ -460,12 +584,13 @@ body{
     left:50%;
     top:0;
 
-    width:5px;
+    width:4px;
     height:100%;
 
     transform:translateX(-50%);
 
-    background:rgba(255,255,255,0.8);
+    background:
+        rgba(255,255,255,0.8);
 }
 
 .gift::after{
@@ -473,28 +598,50 @@ body{
 
     position:absolute;
 
-    top:-14px;
+    top:-12px;
     left:50%;
 
     transform:translateX(-50%);
 }
 
-.gift1{
+.g1{
     width:36px;
     height:36px;
     background:crimson;
+    left:0;
+    bottom:10px;
 }
 
-.gift2{
-    width:30px;
-    height:30px;
+.g2{
+    width:28px;
+    height:28px;
     background:royalblue;
+    left:45px;
+    bottom:0;
 }
 
-.gift3{
+.g3{
     width:42px;
-    height:26px;
+    height:30px;
     background:seagreen;
+    left:80px;
+    bottom:14px;
+}
+
+.g4{
+    width:26px;
+    height:26px;
+    background:orange;
+    left:135px;
+    bottom:6px;
+}
+
+.g5{
+    width:34px;
+    height:34px;
+    background:purple;
+    left:170px;
+    bottom:18px;
 }
 
 /* TEXT */
@@ -571,7 +718,7 @@ h1{
     }
 }
 
-/* MOBILE OPTIMIERUNG */
+/* MOBILE */
 
 @media (max-width:900px){
 
@@ -630,7 +777,9 @@ h1{
 
     <div class="house">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
+        <div class="smoke"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -640,7 +789,8 @@ h1{
 
     <div class="house" style="background:#5c4b8a;">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -648,7 +798,7 @@ h1{
 
     <div class="house" style="background:#2f6b55;">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -657,7 +807,7 @@ h1{
 
     <div class="house" style="background:#8a2f4a;">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -665,7 +815,7 @@ h1{
 
     <div class="house" style="background:#355c8a;">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -674,7 +824,7 @@ h1{
 
     <div class="house" style="background:#7b5a2c;">
         <div class="chimney"></div>
-        <div class="roof-snow"></div>
+        <div class="smoke"></div>
 
         <div class="window w1"></div>
         <div class="window w2"></div>
@@ -691,17 +841,33 @@ h1{
     <div class="tree-body"></div>
     <div class="trunk"></div>
 
-    <div class="ball ball1"></div>
-    <div class="ball ball2"></div>
-    <div class="ball ball3"></div>
-    <div class="ball ball4"></div>
-    <div class="ball ball5"></div>
-    <div class="ball ball6"></div>
+    <!-- SICHTBARE LICHTERKETTE -->
+
+    <div class="garland">
+
+        <div class="garland-wire gw1"></div>
+        <div class="garland-wire gw2"></div>
+        <div class="garland-wire gw3"></div>
+
+        <div class="light light1"></div>
+        <div class="light light2"></div>
+        <div class="light light3"></div>
+        <div class="light light4"></div>
+        <div class="light light5"></div>
+        <div class="light light6"></div>
+        <div class="light light7"></div>
+        <div class="light light8"></div>
+
+    </div>
+
+    <!-- GESCHENKE -->
 
     <div class="gifts">
-        <div class="gift gift1"></div>
-        <div class="gift gift2"></div>
-        <div class="gift gift3"></div>
+        <div class="gift g1"></div>
+        <div class="gift g2"></div>
+        <div class="gift g3"></div>
+        <div class="gift g4"></div>
+        <div class="gift g5"></div>
     </div>
 
 </div>
