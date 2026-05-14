@@ -6,16 +6,16 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0"
 />
 
 <title>Tageszeiten Animation</title>
 
 <style>
 
-/* =========================================================
+/* =========================================
    RESET
-========================================================= */
+========================================= */
 
 *{
     margin:0;
@@ -39,44 +39,25 @@ body{
     background:#000;
 }
 
-/* =========================================================
-   ROOT
-========================================================= */
-
-:root{
-
-    --sun-size:
-        clamp(120px,18vw,260px);
-
-    --moon-size:
-        clamp(120px,18vw,240px);
-
-    --sea-height:
-        clamp(180px,34vh,420px);
-
-    --beach-height:
-        clamp(45px,8vh,80px);
-}
-
-/* =========================================================
+/* =========================================
    SCREEN
-========================================================= */
+========================================= */
 
 .screen{
 
-    width:100%;
-    height:100dvh;
-
     position:relative;
+
+    width:100%;
+    height:100vh;
 
     overflow:hidden;
 
     display:none;
 }
 
-/* =========================================================
-   RESPONSIVE TITLE
-========================================================= */
+/* =========================================
+   TITEL
+========================================= */
 
 .title{
 
@@ -88,25 +69,20 @@ body{
     transform:
         translate(-50%,-50%);
 
-    width:min(96vw,1200px);
-
-    display:flex;
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
+    width:100%;
 
     text-align:center;
 
     z-index:20;
 
-    padding:
-        clamp(10px,2vw,20px);
+    padding:20px;
 
     font-size:
         clamp(2rem,6vw,5rem);
 
-    line-height:1.2;
+    line-height:1.3;
+
+    font-weight:bold;
 
     background:
         linear-gradient(
@@ -129,65 +105,24 @@ body{
         rainbowFlow 20s linear infinite;
 }
 
-.title-row{
+.title-line{
 
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    flex-wrap:nowrap;
-
-    gap:
-        clamp(6px,1vw,14px);
+    display:block;
 
     width:100%;
 
-    padding-inline:10px;
-}
-
-.word{
-
-    display:inline-block;
+    padding:0.1em 0;
 
     white-space:nowrap;
 
-    line-height:1.1;
+    overflow:visible;
 }
 
-.emoji{
-
-    display:inline-flex;
-
-    justify-content:center;
-    align-items:center;
-
-    flex-shrink:0;
-
-    line-height:1;
-
-    font-size:
-        clamp(1.5rem,5vw,4rem);
-
-    filter:
-        drop-shadow(
-            0 0 10px rgba(255,255,255,0.45)
-        );
-}
-
-/* =========================================================
+/* =========================================
    MORGEN
-========================================================= */
+========================================= */
 
 #morning{
-
-    background:#000;
-}
-
-#morning .sky{
-
-    position:absolute;
-    inset:0;
 
     background:
         linear-gradient(
@@ -199,130 +134,12 @@ body{
         );
 }
 
-#morning .sea{
+.sun{
 
     position:absolute;
 
-    bottom:0;
-    left:0;
-
-    width:100%;
-    height:var(--sea-height);
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,180,255,0.15) 0%,
-            rgba(0,120,210,0.4) 30%,
-            rgba(0,70,160,0.9) 100%
-        );
-
-    overflow:hidden;
-
-    z-index:2;
-}
-
-#morning .wave{
-
-    position:absolute;
-
-    width:340%;
-
-    left:-150%;
-
-    border-radius:45%;
-
-    opacity:0.45;
-}
-
-#morning .wave1{
-
+    width:180px;
     height:180px;
-    bottom:-70px;
-
-    background:
-        rgba(0,180,255,0.22);
-
-    animation:
-        waveMove 8s linear infinite;
-}
-
-#morning .wave2{
-
-    height:220px;
-    bottom:-110px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    animation:
-        waveMoveReverse 13s linear infinite;
-}
-
-#morning .wave3{
-
-    height:250px;
-    bottom:-150px;
-
-    background:
-        rgba(0,120,255,0.18);
-
-    animation:
-        waveMove 18s linear infinite;
-}
-
-#morning .wave4{
-
-    height:150px;
-    bottom:-40px;
-
-    background:
-        rgba(255,255,255,0.05);
-
-    animation:
-        waveMoveReverse 7s linear infinite;
-}
-
-#morning .beach{
-
-    position:absolute;
-
-    bottom:0;
-    left:0;
-
-    width:100%;
-    height:var(--beach-height);
-
-    background:
-        linear-gradient(
-            to bottom,
-            #f6d28d,
-            #d5a96a
-        );
-
-    z-index:5;
-}
-
-#morning .sun{
-
-    position:absolute;
-
-    width:var(--sun-size);
-    height:var(--sun-size);
-
-    bottom:calc(var(--sun-size) / -2);
-    left:calc(var(--sun-size) / -2);
-
-    z-index:3;
-
-    animation:
-        rise 10s ease-in-out forwards;
-}
-
-#morning .sun-core{
-
-    position:absolute;
-    inset:0;
 
     border-radius:50%;
 
@@ -334,153 +151,128 @@ body{
         );
 
     box-shadow:
-        0 0 30px yellow,
-        0 0 60px orange,
-        0 0 100px gold;
-}
+        0 0 40px yellow,
+        0 0 80px orange;
 
-#morning .rays{
-
-    position:absolute;
-    inset:0;
+    bottom:-90px;
+    left:-90px;
 
     animation:
-        rotateRays 10s linear infinite;
+        rise 10s ease-in-out forwards;
 }
 
-#morning .rays span{
+.sea{
 
     position:absolute;
 
-    top:50%;
-    left:50%;
+    bottom:0;
 
-    width:clamp(4px,0.7vw,8px);
-    height:clamp(60px,10vw,130px);
-
-    margin-left:-4px;
-    margin-top:-120px;
+    width:100%;
+    height:35vh;
 
     background:
         linear-gradient(
-            to top,
-            orange,
-            yellow
+            to bottom,
+            rgba(0,180,255,0.15),
+            rgba(0,70,160,0.9)
         );
-
-    border-radius:999px;
-
-    transform-origin:center 120px;
-
-    box-shadow:
-        0 0 20px yellow;
 }
 
-/* =========================================================
-   TAG
-========================================================= */
-
-#day{
-
-    background:#000;
-}
-
-#day .sky{
+.wave{
 
     position:absolute;
-    inset:0;
+
+    width:250%;
+    left:-60%;
+
+    border-radius:45%;
+
+    opacity:0.35;
+}
+
+.wave1{
+
+    height:180px;
+    bottom:-70px;
+
+    background:
+        rgba(0,180,255,0.25);
+
+    animation:
+        waveMove 8s linear infinite;
+}
+
+.wave2{
+
+    height:220px;
+    bottom:-100px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    animation:
+        waveMoveReverse 14s linear infinite;
+}
+
+/* =========================================
+   TAG
+========================================= */
+
+#day{
 
     background:
         linear-gradient(
             to bottom,
             #000000 0%,
-            #050505 40%,
-            #10283d 75%,
+            #10283d 70%,
             #1d5f87 100%
         );
 }
 
-#day .sun{
+.day-sun{
 
     position:absolute;
 
-    width:var(--sun-size);
-    height:var(--sun-size);
+    top:20px;
+    right:20px;
 
-    top:10px;
-    right:10px;
+    width:160px;
+    height:160px;
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            #fff176 0%,
-            #ffeb3b 35%,
-            #ff9800 70%,
-            rgba(255,140,0,0.1) 100%
+            #fff176,
+            #ff9800
         );
 
     box-shadow:
-        0 0 40px #ffeb3b,
-        0 0 80px #ff9800,
-        0 0 140px rgba(255,180,0,0.8);
+        0 0 50px #ffeb3b,
+        0 0 100px orange;
 
     animation:
-        sunPulse 4s ease-in-out infinite,
-        sunFloat 8s ease-in-out infinite;
+        sunFloat 6s ease-in-out infinite;
 }
 
-#day .sun-rays{
-
-    position:absolute;
-    inset:-25px;
-
-    border-radius:50%;
-
-    animation:
-        rotateRays 20s linear infinite;
-}
-
-#day .sun-rays span{
+.cloud{
 
     position:absolute;
 
-    width:clamp(4px,0.7vw,8px);
-    height:clamp(40px,6vw,60px);
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(255,140,0,0),
-            #ffeb3b
-        );
-
-    left:50%;
-    top:50%;
-
-    margin-left:-3px;
-    margin-top:-95px;
+    width:180px;
+    height:55px;
 
     border-radius:999px;
-
-    transform-origin:center 95px;
-}
-
-#day .cloud{
-
-    position:absolute;
 
     background:
         rgba(255,255,255,0.08);
 
-    border-radius:999px;
-
     filter:blur(2px);
 }
 
-#day .cloud::before,
-#day .cloud::after{
+.cloud::before,
+.cloud::after{
 
     content:"";
 
@@ -491,35 +283,27 @@ body{
     border-radius:inherit;
 }
 
-#day .cloud1{
+.cloud1{
 
-    width:clamp(100px,18vw,180px);
-    height:clamp(35px,5vw,55px);
-
-    top:12%;
-    left:-300px;
+    top:15%;
+    left:-250px;
 
     animation:
         cloudMove 70s linear infinite;
 }
 
-#day .cloud2{
+.cloud2{
 
-    width:clamp(140px,24vw,240px);
-    height:clamp(45px,6vw,70px);
-
-    top:30%;
+    top:35%;
     left:-350px;
-
-    opacity:0.5;
 
     animation:
         cloudMove 95s linear infinite;
 }
 
-/* =========================================================
+/* =========================================
    ABEND
-========================================================= */
+========================================= */
 
 #evening{
 
@@ -546,68 +330,49 @@ body{
     z-index:1;
 }
 
-#evening .moon{
+.moon{
 
     position:absolute;
 
-    width:var(--moon-size);
-    height:var(--moon-size);
-
-    bottom:calc(var(--moon-size) / -2);
-    left:calc(var(--moon-size) / -2);
+    width:180px;
+    height:180px;
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            #d8f7ff 0%,
-            #8be8ff 45%,
-            #53d9ff 100%
+            #d8f7ff,
+            #53d9ff
         );
 
     box-shadow:
         0 0 40px #7fe7ff,
-        0 0 80px #55dfff,
-        0 0 120px #33ccff;
+        0 0 100px #33ccff;
+
+    bottom:-90px;
+    left:-90px;
 
     animation:
         floatMoon 12s ease-in-out forwards;
-
-    z-index:2;
-}
-
-.ufo-zone{
-
-    position:absolute;
-    inset:0;
-
-    overflow:hidden;
-
-    z-index:6;
-
-    pointer-events:none;
 }
 
 .ufo{
 
     position:absolute;
 
-    font-size:
-        clamp(2rem,5vw,4rem);
+    font-size:4rem;
 
     filter:
-        drop-shadow(0 0 10px cyan)
-        drop-shadow(0 0 25px white);
+        drop-shadow(0 0 10px cyan);
 
     animation:
-        ufoFly 28s linear infinite,
-        ufoFloat 2s ease-in-out infinite;
+        ufoFly 28s linear infinite;
 }
 
-/* =========================================================
+/* =========================================
    ANIMATIONEN
-========================================================= */
+========================================= */
 
 @keyframes rainbowFlow{
 
@@ -629,20 +394,24 @@ body{
     100%{
         transform:
             translate(
-                calc(100vw - var(--sun-size) * 0.7),
-                calc(-100vh + var(--sun-size) * 0.7)
+                calc(100vw - 120px),
+                calc(-100vh + 120px)
             );
     }
 }
 
-@keyframes rotateRays{
+@keyframes floatMoon{
 
     0%{
-        transform:rotate(0deg);
+        transform:translate(0,0);
     }
 
     100%{
-        transform:rotate(360deg);
+        transform:
+            translate(
+                calc(100vw - 120px),
+                calc(-100vh + 120px)
+            );
     }
 }
 
@@ -675,18 +444,10 @@ body{
     }
 
     100%{
-        transform:translateX(calc(100vw + 600px));
-    }
-}
-
-@keyframes sunPulse{
-
-    0%,100%{
-        scale:1;
-    }
-
-    50%{
-        scale:1.08;
+        transform:
+            translateX(
+                calc(100vw + 500px)
+            );
     }
 }
 
@@ -697,96 +458,68 @@ body{
     }
 
     50%{
-        transform:translateY(-15px);
-    }
-}
-
-@keyframes floatMoon{
-
-    0%{
-        transform:translate(0,0);
-    }
-
-    100%{
-        transform:
-            translate(
-                calc(100vw - var(--moon-size) * 0.7),
-                calc(-100vh + var(--moon-size) * 0.7)
-            );
+        transform:translateY(-12px);
     }
 }
 
 @keyframes ufoFly{
 
     0%{
-        left:-15%;
+        left:-20%;
         top:80%;
-        transform:rotate(0deg);
     }
 
-    20%{
-        left:30%;
+    25%{
+        left:20%;
         top:20%;
-        transform:rotate(10deg);
-    }
-
-    40%{
-        left:85%;
-        top:50%;
-        transform:rotate(-12deg);
-    }
-
-    60%{
-        left:25%;
-        top:60%;
-        transform:rotate(-6deg);
-    }
-
-    80%{
-        left:60%;
-        top:10%;
-        transform:rotate(-10deg);
-    }
-
-    100%{
-        left:-15%;
-        top:80%;
-        transform:rotate(0deg);
-    }
-}
-
-@keyframes ufoFloat{
-
-    0%,100%{
-        margin-top:0;
     }
 
     50%{
-        margin-top:-15px;
+        left:80%;
+        top:40%;
+    }
+
+    75%{
+        left:40%;
+        top:10%;
+    }
+
+    100%{
+        left:-20%;
+        top:80%;
     }
 }
 
-/* =========================================================
+/* =========================================
    MOBILE
-========================================================= */
+========================================= */
 
-@media (max-width:480px){
+@media (max-width:600px){
 
     .title{
 
         font-size:
-            clamp(1.6rem,8vw,2.8rem);
+            clamp(1.8rem,8vw,3rem);
     }
 
-    .emoji{
+    .sun,
+    .moon,
+    .day-sun{
 
-        font-size:
-            clamp(1.2rem,6vw,2.3rem);
+        width:120px;
+        height:120px;
     }
 
-    .title-row{
+    .sun,
+    .moon{
 
-        gap:6px;
+        bottom:-60px;
+        left:-60px;
+    }
+
+    .ufo{
+
+        font-size:3rem;
     }
 }
 
@@ -795,143 +528,63 @@ body{
 
 <body>
 
-<!-- ======================================================
+<!-- =====================================
      MORGEN
-====================================================== -->
+===================================== -->
 
 <div id="morning" class="screen">
 
-    <div class="sky"></div>
+    <div class="sun"></div>
 
     <div class="sea">
 
         <div class="wave wave1"></div>
         <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
-        <div class="wave wave4"></div>
-
-    </div>
-
-    <div class="beach"></div>
-
-    <div class="sun">
-
-        <div class="rays">
-
-            <span style="transform:rotate(0deg);"></span>
-            <span style="transform:rotate(30deg);"></span>
-            <span style="transform:rotate(60deg);"></span>
-            <span style="transform:rotate(90deg);"></span>
-            <span style="transform:rotate(120deg);"></span>
-            <span style="transform:rotate(150deg);"></span>
-            <span style="transform:rotate(180deg);"></span>
-            <span style="transform:rotate(210deg);"></span>
-            <span style="transform:rotate(240deg);"></span>
-            <span style="transform:rotate(270deg);"></span>
-            <span style="transform:rotate(300deg);"></span>
-            <span style="transform:rotate(330deg);"></span>
-
-        </div>
-
-        <div class="sun-core"></div>
 
     </div>
 
     <h1 class="title">
 
-        <div class="title-row">
-
-            <span class="emoji">☀️</span>
-
-            <span class="word">
-                Guten
-            </span>
-
-            <span class="emoji">☀️</span>
-
+        <div class="title-line">
+            ☀️ Guten ☀️
         </div>
 
-        <div class="title-row">
-
-            <span class="emoji">☕</span>
-
-            <span class="word">
-                Morgen
-            </span>
-
-            <span class="emoji">☕</span>
-
+        <div class="title-line">
+            ☕ Morgen ☕
         </div>
 
     </h1>
 
 </div>
 
-<!-- ======================================================
+<!-- =====================================
      TAG
-====================================================== -->
+===================================== -->
 
 <div id="day" class="screen">
 
-    <div class="sky"></div>
-
-    <div class="sun">
-
-        <div class="sun-rays">
-
-            <span style="transform:rotate(0deg);"></span>
-            <span style="transform:rotate(30deg);"></span>
-            <span style="transform:rotate(60deg);"></span>
-            <span style="transform:rotate(90deg);"></span>
-            <span style="transform:rotate(120deg);"></span>
-            <span style="transform:rotate(150deg);"></span>
-            <span style="transform:rotate(180deg);"></span>
-            <span style="transform:rotate(210deg);"></span>
-            <span style="transform:rotate(240deg);"></span>
-            <span style="transform:rotate(270deg);"></span>
-            <span style="transform:rotate(300deg);"></span>
-            <span style="transform:rotate(330deg);"></span>
-
-        </div>
-
-    </div>
+    <div class="day-sun"></div>
 
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
 
     <h1 class="title">
 
-        <div class="title-row">
-
-            <span class="emoji">🌼</span>
-
-            <span class="word">
-                Schönen
-            </span>
-
-            <span class="emoji">🌼</span>
-
+        <div class="title-line">
+            🌼 Schönen 🌼
         </div>
 
-        <div class="title-row">
-
-            <span class="emoji">🔆</span>
-
-            <span class="word">
-                Guten Tag
-            </span>
-
-            <span class="emoji">🔆</span>
-
+        <div class="title-line">
+            🔆 Guten Tag 🔆
         </div>
 
     </h1>
 
 </div>
 
-<!-- ======================================================
+<!-- =====================================
      ABEND
-====================================================== -->
+===================================== -->
 
 <div id="evening" class="screen">
 
@@ -940,34 +593,18 @@ body{
 
     <div class="moon"></div>
 
-    <div class="ufo-zone">
-        <div class="ufo">🛸</div>
+    <div class="ufo">
+        🛸
     </div>
 
     <h1 class="title">
 
-        <div class="title-row">
-
-            <span class="emoji">🌙</span>
-
-            <span class="word">
-                Guten
-            </span>
-
-            <span class="emoji">🌙</span>
-
+        <div class="title-line">
+            🌙 Guten 🌙
         </div>
 
-        <div class="title-row">
-
-            <span class="emoji">⭐</span>
-
-            <span class="word">
-                Abend
-            </span>
-
-            <span class="emoji">⭐</span>
-
+        <div class="title-line">
+            ⭐ Abend ⭐
         </div>
 
     </h1>
@@ -976,9 +613,9 @@ body{
 
 <script>
 
-/* ======================================================
-   ZEITSTEUERUNG
-====================================================== */
+/* =====================================
+   ZEIT
+===================================== */
 
 const hour =
     new Date().getHours();
@@ -1004,9 +641,9 @@ else{
         .style.display = "block";
 }
 
-/* ======================================================
-   ABEND STERNE
-====================================================== */
+/* =====================================
+   STERNE
+===================================== */
 
 const starCanvas =
     document.getElementById(
@@ -1027,7 +664,6 @@ if(starCanvas && shootCanvas){
         shootCanvas.getContext("2d");
 
     let stars = [];
-    let shootingStars = [];
 
     function resizeCanvas(){
 
@@ -1040,43 +676,26 @@ if(starCanvas && shootCanvas){
             window.innerHeight;
 
         createStars();
-        createShootingStars();
     }
-
-    window.addEventListener(
-        "resize",
-        resizeCanvas
-    );
 
     function createStars(){
 
         stars = [];
 
-        const count =
-            window.innerWidth < 600
-                ? 45
-                : window.innerWidth < 1200
-                ? 75
-                : 120;
-
-        for(let i = 0; i < count; i++){
+        for(let i = 0; i < 100; i++){
 
             stars.push({
 
                 x:
                     Math.random() *
-                    starCanvas.width,
+                    window.innerWidth,
 
                 y:
                     Math.random() *
-                    starCanvas.height,
+                    window.innerHeight,
 
                 size:
-                    Math.random() * 2 + 0.5,
-
-                phase:
-                    Math.random() *
-                    Math.PI * 2
+                    Math.random() * 2
             });
         }
     }
@@ -1086,30 +705,16 @@ if(starCanvas && shootCanvas){
         starCtx.clearRect(
             0,
             0,
-            starCanvas.width,
-            starCanvas.height
+            window.innerWidth,
+            window.innerHeight
         );
 
         stars.forEach(star => {
 
-            const alpha =
-                0.2 +
-                Math.abs(
-                    Math.sin(
-                        star.phase +
-                        performance.now() / 1500
-                    )
-                ) * 0.8;
-
             starCtx.beginPath();
 
             starCtx.fillStyle =
-                `rgba(255,255,255,${alpha})`;
-
-            starCtx.shadowColor =
-                `rgba(255,255,255,${alpha})`;
-
-            starCtx.shadowBlur = 10;
+                "white";
 
             starCtx.arc(
                 star.x,
@@ -1127,163 +732,14 @@ if(starCanvas && shootCanvas){
         );
     }
 
-    class ShootingStar{
-
-        constructor(){
-            this.reset();
-        }
-
-        reset(){
-
-            this.x =
-                Math.random() *
-                shootCanvas.width;
-
-            this.y =
-                Math.random() *
-                -shootCanvas.height;
-
-            this.len =
-                80 +
-                Math.random() * 120;
-
-            this.speed =
-                2 +
-                Math.random() * 3;
-
-            this.angle =
-                Math.PI / 4;
-
-            this.size =
-                1 +
-                Math.random() * 1.5;
-        }
-
-        update(){
-
-            this.x -=
-                Math.cos(this.angle) *
-                this.speed;
-
-            this.y +=
-                Math.sin(this.angle) *
-                this.speed;
-
-            if(
-                this.x < -this.len ||
-                this.y >
-                shootCanvas.height + this.len
-            ){
-                this.reset();
-            }
-        }
-
-        draw(){
-
-            const endX = this.x;
-            const endY = this.y;
-
-            const startX =
-                endX +
-                Math.cos(this.angle) *
-                this.len;
-
-            const startY =
-                endY -
-                Math.sin(this.angle) *
-                this.len;
-
-            const grad =
-                shootCtx.createLinearGradient(
-                    startX,
-                    startY,
-                    endX,
-                    endY
-                );
-
-            grad.addColorStop(
-                0,
-                "rgba(255,255,255,0)"
-            );
-
-            grad.addColorStop(
-                1,
-                "rgba(255,255,255,1)"
-            );
-
-            shootCtx.beginPath();
-
-            shootCtx.moveTo(
-                startX,
-                startY
-            );
-
-            shootCtx.lineTo(
-                endX,
-                endY
-            );
-
-            shootCtx.strokeStyle =
-                grad;
-
-            shootCtx.lineWidth =
-                this.size;
-
-            shootCtx.lineCap =
-                "round";
-
-            shootCtx.shadowColor =
-                "white";
-
-            shootCtx.shadowBlur =
-                15;
-
-            shootCtx.stroke();
-        }
-    }
-
-    function createShootingStars(){
-
-        shootingStars = [];
-
-        const count =
-            window.innerWidth < 700
-                ? 2
-                : 5;
-
-        for(let i = 0; i < count; i++){
-
-            shootingStars.push(
-                new ShootingStar()
-            );
-        }
-    }
-
-    function animateShooting(){
-
-        shootCtx.clearRect(
-            0,
-            0,
-            shootCanvas.width,
-            shootCanvas.height
-        );
-
-        shootingStars.forEach(star => {
-
-            star.update();
-            star.draw();
-        });
-
-        requestAnimationFrame(
-            animateShooting
-        );
-    }
-
     resizeCanvas();
 
     drawStars();
 
-    animateShooting();
+    window.addEventListener(
+        "resize",
+        resizeCanvas
+    );
 }
 
 </script>
