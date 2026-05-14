@@ -2,14 +2,14 @@
 <html lang="de">
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 />
 
-<title>Tageszeiten Animation Responsive</title>
+<title>Tageszeiten Animation</title>
 
 <style>
 
@@ -45,17 +45,11 @@ body{
 
 :root{
 
-    --text-size:
-        clamp(2rem,6vw,5rem);
-
     --sun-size:
         clamp(120px,18vw,260px);
 
     --moon-size:
         clamp(120px,18vw,240px);
-
-    --wave-width:
-        clamp(240%,280%,360%);
 
     --sea-height:
         clamp(180px,34vh,420px);
@@ -94,28 +88,25 @@ body{
     transform:
         translate(-50%,-50%);
 
-    width:min(92vw,1200px);
+    width:min(95vw,1200px);
 
     display:flex;
-    flex-wrap:wrap;
+    flex-direction:column;
 
     justify-content:center;
     align-items:center;
 
-    gap:
-        clamp(4px,1vw,12px);
-
     text-align:center;
-
-    font-size:
-        clamp(2rem,6vw,5rem);
-
-    line-height:1.2;
 
     z-index:20;
 
     padding:
         clamp(10px,2vw,20px);
+
+    font-size:
+        clamp(2rem,6vw,5rem);
+
+    line-height:1.2;
 
     background:
         linear-gradient(
@@ -138,30 +129,19 @@ body{
         rainbowFlow 20s linear infinite;
 }
 
-.line-break{
+.title-row{
 
-    flex-basis:100%;
-    height:0;
-}
+    display:flex;
 
-.emoji{
-
-    display:inline-flex;
-
-    align-items:center;
     justify-content:center;
+    align-items:center;
 
-    font-size:
-        clamp(1.6rem,5vw,4rem);
+    flex-wrap:nowrap;
 
-    line-height:1;
+    gap:
+        clamp(6px,1vw,14px);
 
-    flex-shrink:0;
-
-    filter:
-        drop-shadow(
-            0 0 10px rgba(255,255,255,0.4)
-        );
+    width:100%;
 }
 
 .word{
@@ -171,6 +151,26 @@ body{
     white-space:nowrap;
 
     line-height:1.1;
+}
+
+.emoji{
+
+    display:inline-flex;
+
+    justify-content:center;
+    align-items:center;
+
+    flex-shrink:0;
+
+    line-height:1;
+
+    font-size:
+        clamp(1.5rem,5vw,4rem);
+
+    filter:
+        drop-shadow(
+            0 0 10px rgba(255,255,255,0.45)
+        );
 }
 
 /* =========================================================
@@ -224,9 +224,9 @@ body{
 
     position:absolute;
 
-    width:var(--wave-width);
+    width:340%;
 
-    left:-130%;
+    left:-150%;
 
     border-radius:45%;
 
@@ -405,8 +405,8 @@ body{
     width:var(--sun-size);
     height:var(--sun-size);
 
-    top:max(10px, env(safe-area-inset-top));
-    right:max(10px, env(safe-area-inset-right));
+    top:10px;
+    right:10px;
 
     border-radius:50%;
 
@@ -768,78 +768,23 @@ body{
    MOBILE
 ========================================================= */
 
-@media (max-width:768px){
-
-    .title{
-
-        width:95vw;
-
-        font-size:
-            clamp(1.8rem,7vw,3.5rem);
-
-        gap:8px;
-    }
-
-    .emoji{
-
-        font-size:
-            clamp(1.4rem,5vw,3rem);
-    }
-
-    #morning .wave{
-
-        width:340%;
-        left:-150%;
-    }
-}
-
 @media (max-width:480px){
 
     .title{
 
-        width:96vw;
+        font-size:
+            clamp(1.6rem,8vw,2.8rem);
+    }
+
+    .emoji{
 
         font-size:
-            clamp(1.5rem,8vw,2.8rem);
+            clamp(1.2rem,6vw,2.3rem);
+    }
 
-        line-height:1.15;
+    .title-row{
 
         gap:6px;
-
-        padding:10px;
-    }
-
-    .emoji{
-
-        font-size:
-            clamp(1.2rem,6vw,2.2rem);
-    }
-
-    .word{
-        white-space:normal;
-    }
-
-    #morning .wave{
-
-        width:380%;
-        left:-170%;
-    }
-}
-
-@media (max-height:500px){
-
-    .title{
-
-        top:45%;
-
-        font-size:
-            clamp(1.3rem,5vw,2rem);
-    }
-
-    .emoji{
-
-        font-size:
-            clamp(1rem,4vw,1.8rem);
     }
 }
 
@@ -892,15 +837,21 @@ body{
 
     <h1 class="title">
 
-        <span class="emoji">☀️</span>
-        <span class="word">Guten</span>
-        <span class="emoji">☀️</span>
+        <div class="title-row">
 
-        <span class="line-break"></span>
+            <span class="emoji">☀️</span>
+            <span class="word">Guten</span>
+            <span class="emoji">☀️</span>
 
-        <span class="emoji">☕</span>
-        <span class="word">Morgen</span>
-        <span class="emoji">☕</span>
+        </div>
+
+        <div class="title-row">
+
+            <span class="emoji">☕</span>
+            <span class="word">Morgen</span>
+            <span class="emoji">☕</span>
+
+        </div>
 
     </h1>
 
@@ -940,15 +891,21 @@ body{
 
     <h1 class="title">
 
-        <span class="emoji">🌼</span>
-        <span class="word">Schönen</span>
-        <span class="emoji">🌼</span>
+        <div class="title-row">
 
-        <span class="line-break"></span>
+            <span class="emoji">🌼</span>
+            <span class="word">Schönen</span>
+            <span class="emoji">🌼</span>
 
-        <span class="emoji">🔆</span>
-        <span class="word">Guten Tag</span>
-        <span class="emoji">🔆</span>
+        </div>
+
+        <div class="title-row">
+
+            <span class="emoji">🔆</span>
+            <span class="word">Guten Tag</span>
+            <span class="emoji">🔆</span>
+
+        </div>
 
     </h1>
 
@@ -971,15 +928,21 @@ body{
 
     <h1 class="title">
 
-        <span class="emoji">🌙</span>
-        <span class="word">Guten</span>
-        <span class="emoji">🌙</span>
+        <div class="title-row">
 
-        <span class="line-break"></span>
+            <span class="emoji">🌙</span>
+            <span class="word">Guten</span>
+            <span class="emoji">🌙</span>
 
-        <span class="emoji">⭐</span>
-        <span class="word">Abend</span>
-        <span class="emoji">⭐</span>
+        </div>
+
+        <div class="title-row">
+
+            <span class="emoji">⭐</span>
+            <span class="word">Abend</span>
+            <span class="emoji">⭐</span>
+
+        </div>
 
     </h1>
 
