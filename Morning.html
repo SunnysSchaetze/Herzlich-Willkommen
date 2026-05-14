@@ -260,13 +260,40 @@ body{
     font-size:clamp(4rem,7vw,6.5rem);
 }
 
-/* GROßE INSEL */
+/* STRAND OBJEKTE */
+
+.beach-item{
+    position:absolute;
+
+    z-index:7;
+
+    pointer-events:none;
+
+    filter:
+        drop-shadow(0 0 8px rgba(255,255,255,0.25));
+
+    animation:
+        beachGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes beachGlow{
+
+    0%{
+        transform:scale(1);
+    }
+
+    100%{
+        transform:scale(1.08);
+    }
+}
+
+/* INSEL */
 
 .island{
     position:absolute;
 
     right:2vw;
-    bottom:14vh;
+    bottom:18vh;
 
     font-size:clamp(8rem,16vw,15rem);
 
@@ -297,6 +324,25 @@ body{
 
     animation:
         dolphinFlip 2s linear forwards;
+}
+
+/* KRABBE */
+
+.crab{
+    position:absolute;
+
+    bottom:2vh;
+    left:-80px;
+
+    font-size:clamp(2rem,4vw,3rem);
+
+    z-index:8;
+
+    pointer-events:none;
+
+    animation:
+        crabWalk 14s linear infinite,
+        crabBounce 0.5s ease-in-out infinite alternate;
 }
 
 /* TEXT */
@@ -546,6 +592,45 @@ h1{
     }
 }
 
+@keyframes crabWalk{
+
+    0%{
+        left:-80px;
+        transform:scaleX(1);
+    }
+
+    49%{
+        left:calc(100vw - 60px);
+        transform:scaleX(1);
+    }
+
+    50%{
+        left:calc(100vw - 60px);
+        transform:scaleX(-1);
+    }
+
+    99%{
+        left:-80px;
+        transform:scaleX(-1);
+    }
+
+    100%{
+        left:-80px;
+        transform:scaleX(1);
+    }
+}
+
+@keyframes crabBounce{
+
+    0%{
+        margin-bottom:0;
+    }
+
+    100%{
+        margin-bottom:6px;
+    }
+}
+
 @media (max-width:768px){
 
     .sea{
@@ -616,6 +701,17 @@ h1{
 <div class="palm-tree palm4">🌴</div>
 <div class="palm-tree palm5">🌴</div>
 
+<!-- STRAND OBJEKTE -->
+
+<div class="beach-item" style="left:16%; bottom:2vh; font-size:1.4rem;">🐚</div>
+<div class="beach-item" style="left:60%; bottom:1.2vh; font-size:1.8rem;">🐚</div>
+
+<div class="beach-item" style="right:3%; bottom:4vh; font-size:2rem;">🪨</div>
+
+<!-- KRABBE -->
+
+<div class="crab">🦀</div>
+
 <!-- INSEL -->
 
 <div class="island">🏝️</div>
@@ -658,9 +754,6 @@ function createDolphin(){
 
     dolphin.innerHTML = "🐬";
 
-    const side =
-        Math.random() > 0.5 ? "left" : "right";
-
     const x =
         Math.random() * (window.innerWidth - 100);
 
@@ -669,11 +762,6 @@ function createDolphin(){
 
     dolphin.style.left = x + "px";
     dolphin.style.bottom = y + "vh";
-
-    if(side === "right"){
-        dolphin.style.transform =
-            "rotateY(180deg)";
-    }
 
     document.body.appendChild(dolphin);
 
