@@ -1,127 +1,84 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-/>
-
-<title>Master Animation Loader</title>
+<title>Animation Loader</title>
 
 <style>
 
 html,
 body{
-
     margin:0;
     padding:0;
-
     width:100%;
     height:100%;
-
     overflow:hidden;
-
     background:#000;
 }
 
 iframe{
-
     width:100%;
-    height:100vh;
-
+    height:100%;
     border:none;
-
-    display:block;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<iframe id="animationFrame"></iframe>
+<iframe id="frame"></iframe>
 
 <script>
 
-/* =========================================
-   HIER DEINE GITHUB LINKS EINTRAGEN
-========================================= */
-
-const morningURL =
-"https://DEINNAME.github.io/animationen/morgen.html";
-
-const dayURL =
-"https://DEINNAME.github.io/animationen/tag.html";
-
-const eveningURL =
-https://sunnysschaetze.github.io/Morgen-Animation/;
-
-const christmasURL =
-"https://DEINNAME.github.io/animationen/weihnachten.html";
-
-const halloweenURL =
-"https://DEINNAME.github.io/animationen/halloween.html";
-
-const newYearEveURL =
-"https://DEINNAME.github.io/animationen/silvester.html";
-
-const newYearURL =
-"https://DEINNAME.github.io/animationen/neujahr.html";
-
-const easterURL =
-"https://DEINNAME.github.io/animationen/ostern.html";
-
-/* =========================================
+/* =========================
    DATUM + UHRZEIT
-========================================= */
+========================= */
 
-const now =
-    new Date();
+const now = new Date();
 
-const day =
-    now.getDate();
+const hour = now.getHours();
 
-const month =
-    now.getMonth() + 1;
+const day = now.getDate();
+const month = now.getMonth() + 1;
 
-const hour =
-    now.getHours();
+/* =========================
+   OSTERN BERECHNEN
+========================= */
 
-/* =========================================
-   OSTERDATEN
-   HIER SPÄTER ERWEITERN
-========================================= */
+function getEaster(year){
 
-const easterDates = [
+    const f = Math.floor;
 
-    "2026-04-05",
-    "2027-03-28",
-    "2028-04-16",
-    "2029-04-01",
-    "2030-04-21"
-];
+    const G = year % 19;
+    const C = f(year / 100);
+    const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;
+    const I = H - f(H / 28) * (1 - f(H / 28) * f(29 / (H + 1)) * f((21 - G) / 11));
+    const J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7;
+    const L = I - J;
+    const easterMonth = 3 + f((L + 40) / 44);
+    const easterDay = L + 28 - 31 * f(easterMonth / 4);
 
-const today =
-    `${now.getFullYear()}-${
-        String(month).padStart(2,"0")
-    }-${
-        String(day).padStart(2,"0")
-    }`;
+    return {
+        day:easterDay,
+        month:easterMonth
+    };
+}
 
-/* =========================================
+const easter =
+    getEaster(now.getFullYear());
+
+/* =========================
    STANDARD
-========================================= */
+========================= */
 
-let targetURL =
-    eveningURL;
+let page = "abend.html";
 
-/* =========================================
+/* =========================
    WEIHNACHTEN
-========================================= */
+========================= */
 
 if(
     month === 12 &&
@@ -131,105 +88,82 @@ if(
         day === 26
     )
 ){
-
-    targetURL =
-        christmasURL;
+    page = "weihnachten.html";
 }
 
-/* =========================================
+/* =========================
    HALLOWEEN
-========================================= */
+========================= */
 
 else if(
     month === 10 &&
     day === 31
 ){
-
-    targetURL =
-        halloweenURL;
+    page = "halloween.html";
 }
 
-/* =========================================
+/* =========================
    SILVESTER
-========================================= */
+========================= */
 
 else if(
     month === 12 &&
     day === 31
 ){
-
-    targetURL =
-        newYearEveURL;
+    page = "silvester.html";
 }
 
-/* =========================================
+/* =========================
    NEUJAHR
-========================================= */
+========================= */
 
 else if(
     month === 1 &&
     day === 1
 ){
-
-    targetURL =
-        newYearURL;
+    page = "neujahr.html";
 }
 
-/* =========================================
+/* =========================
    OSTERN
-========================================= */
+========================= */
 
 else if(
-    easterDates.includes(today)
+    month === easter.month &&
+    day === easter.day
 ){
-
-    targetURL =
-        easterURL;
+    page = "ostern.html";
 }
 
-/* =========================================
-   MORGEN
-========================================= */
-
-else if(
-    hour >= 5 &&
-    hour < 12
-){
-
-    targetURL =
-        morningURL;
-}
-
-/* =========================================
-   TAG
-========================================= */
-
-else if(
-    hour >= 12 &&
-    hour < 18
-){
-
-    targetURL =
-        dayURL;
-}
-
-/* =========================================
-   ABEND
-========================================= */
+/* =========================
+   TAGESZEITEN
+========================= */
 
 else{
 
-    targetURL =
-        eveningURL;
+    if(hour >= 5 && hour < 12){
+
+        page = "morgen.html";
+    }
+
+    else if(hour >= 12 && hour < 18){
+
+        page = "tag.html";
+    }
+
+    else{
+
+        page = "abend.html";
+    }
 }
 
-/* =========================================
-   IFRAME LADEN
-========================================= */
+/* =========================
+   LADEN
+========================= */
 
 document
-    .getElementById("animationFrame")
-    .src = targetURL;
+    .getElementById("frame")
+    .src = page;
 
 </script>
 
