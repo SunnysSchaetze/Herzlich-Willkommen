@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+/>
 
 <title>Tageszeiten Animation Responsive</title>
 
@@ -20,9 +25,12 @@
 
 html,
 body{
+
     width:100%;
     height:100%;
+
     overflow:hidden;
+
     font-family:
         Arial,
         Helvetica,
@@ -32,38 +40,36 @@ body{
 }
 
 /* =========================================================
-   ROOT RESPONSIVE VARS
+   ROOT
 ========================================================= */
 
 :root{
 
     --text-size:
-        clamp(2rem, 6vw, 5rem);
+        clamp(2rem,6vw,5rem);
 
     --sun-size:
-        clamp(120px, 18vw, 260px);
+        clamp(120px,18vw,260px);
 
     --moon-size:
-        clamp(120px, 18vw, 240px);
+        clamp(120px,18vw,240px);
 
     --wave-width:
-        clamp(220%, 260%, 340%);
-
-    --safe-padding:
-        clamp(12px, 3vw, 30px);
-
-    --beach-height:
-        clamp(45px, 8vh, 80px);
+        clamp(240%,280%,360%);
 
     --sea-height:
-        clamp(180px, 34vh, 420px);
+        clamp(180px,34vh,420px);
+
+    --beach-height:
+        clamp(45px,8vh,80px);
 }
 
 /* =========================================================
-   BASIS
+   SCREEN
 ========================================================= */
 
 .screen{
+
     width:100%;
     height:100dvh;
 
@@ -72,15 +78,14 @@ body{
     overflow:hidden;
 
     display:none;
-
-    isolation:isolate;
 }
 
 /* =========================================================
-   GEMEINSAME TEXTE
+   RESPONSIVE TITLE
 ========================================================= */
 
-h1{
+.title{
+
     position:absolute;
 
     top:50%;
@@ -89,20 +94,28 @@ h1{
     transform:
         translate(-50%,-50%);
 
-    width:min(92vw, 1200px);
+    width:min(92vw,1200px);
+
+    display:flex;
+    flex-wrap:wrap;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:
+        clamp(4px,1vw,12px);
 
     text-align:center;
 
-    font-size:var(--text-size);
+    font-size:
+        clamp(2rem,6vw,5rem);
 
     line-height:1.2;
 
     z-index:20;
 
     padding:
-        env(safe-area-inset-top)
-        var(--safe-padding)
-        env(safe-area-inset-bottom);
+        clamp(10px,2vw,20px);
 
     background:
         linear-gradient(
@@ -125,16 +138,39 @@ h1{
         rainbowFlow 20s linear infinite;
 }
 
-.line{
-    display:block;
-    margin:0.3em 0;
+.line-break{
+
+    flex-basis:100%;
+    height:0;
 }
 
 .emoji{
-    display:inline-block;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:
+        clamp(1.6rem,5vw,4rem);
+
+    line-height:1;
+
+    flex-shrink:0;
 
     filter:
-        drop-shadow(0 0 10px rgba(255,255,255,0.4));
+        drop-shadow(
+            0 0 10px rgba(255,255,255,0.4)
+        );
+}
+
+.word{
+
+    display:inline-block;
+
+    white-space:nowrap;
+
+    line-height:1.1;
 }
 
 /* =========================================================
@@ -142,10 +178,12 @@ h1{
 ========================================================= */
 
 #morning{
+
     background:#000;
 }
 
 #morning .sky{
+
     position:absolute;
     inset:0;
 
@@ -160,6 +198,7 @@ h1{
 }
 
 #morning .sea{
+
     position:absolute;
 
     bottom:0;
@@ -182,11 +221,12 @@ h1{
 }
 
 #morning .wave{
+
     position:absolute;
 
     width:var(--wave-width);
 
-    left:-120%;
+    left:-130%;
 
     border-radius:45%;
 
@@ -194,6 +234,7 @@ h1{
 }
 
 #morning .wave1{
+
     height:180px;
     bottom:-70px;
 
@@ -205,6 +246,7 @@ h1{
 }
 
 #morning .wave2{
+
     height:220px;
     bottom:-110px;
 
@@ -216,6 +258,7 @@ h1{
 }
 
 #morning .wave3{
+
     height:250px;
     bottom:-150px;
 
@@ -227,6 +270,7 @@ h1{
 }
 
 #morning .wave4{
+
     height:150px;
     bottom:-40px;
 
@@ -238,6 +282,7 @@ h1{
 }
 
 #morning .beach{
+
     position:absolute;
 
     bottom:0;
@@ -257,6 +302,7 @@ h1{
 }
 
 #morning .sun{
+
     position:absolute;
 
     width:var(--sun-size);
@@ -272,6 +318,7 @@ h1{
 }
 
 #morning .sun-core{
+
     position:absolute;
     inset:0;
 
@@ -291,6 +338,7 @@ h1{
 }
 
 #morning .rays{
+
     position:absolute;
     inset:0;
 
@@ -299,6 +347,7 @@ h1{
 }
 
 #morning .rays span{
+
     position:absolute;
 
     top:50%;
@@ -330,10 +379,12 @@ h1{
 ========================================================= */
 
 #day{
+
     background:#000;
 }
 
 #day .sky{
+
     position:absolute;
     inset:0;
 
@@ -348,6 +399,7 @@ h1{
 }
 
 #day .sun{
+
     position:absolute;
 
     width:var(--sun-size);
@@ -378,6 +430,7 @@ h1{
 }
 
 #day .sun-rays{
+
     position:absolute;
     inset:-25px;
 
@@ -388,6 +441,7 @@ h1{
 }
 
 #day .sun-rays span{
+
     position:absolute;
 
     width:clamp(4px,0.7vw,8px);
@@ -412,6 +466,7 @@ h1{
 }
 
 #day .cloud{
+
     position:absolute;
 
     background:
@@ -424,6 +479,7 @@ h1{
 
 #day .cloud::before,
 #day .cloud::after{
+
     content:"";
 
     position:absolute;
@@ -434,6 +490,7 @@ h1{
 }
 
 #day .cloud1{
+
     width:clamp(100px,18vw,180px);
     height:clamp(35px,5vw,55px);
 
@@ -445,6 +502,7 @@ h1{
 }
 
 #day .cloud2{
+
     width:clamp(140px,24vw,240px);
     height:clamp(45px,6vw,70px);
 
@@ -462,11 +520,13 @@ h1{
 ========================================================= */
 
 #evening{
+
     background:#000;
 }
 
 #stars-canvas,
 #shooting-stars{
+
     position:absolute;
     inset:0;
 
@@ -485,6 +545,7 @@ h1{
 }
 
 #evening .moon{
+
     position:absolute;
 
     width:var(--moon-size);
@@ -515,6 +576,7 @@ h1{
 }
 
 .ufo-zone{
+
     position:absolute;
     inset:0;
 
@@ -526,6 +588,7 @@ h1{
 }
 
 .ufo{
+
     position:absolute;
 
     font-size:
@@ -702,62 +765,81 @@ h1{
 }
 
 /* =========================================================
-   MOBILE OPTIMIERUNG
+   MOBILE
 ========================================================= */
 
 @media (max-width:768px){
 
-    h1{
+    .title{
+
         width:95vw;
+
+        font-size:
+            clamp(1.8rem,7vw,3.5rem);
+
+        gap:8px;
+    }
+
+    .emoji{
+
+        font-size:
+            clamp(1.4rem,5vw,3rem);
     }
 
     #morning .wave{
+
         width:340%;
-        left:-140%;
+        left:-150%;
     }
 }
 
 @media (max-width:480px){
 
-    :root{
+    .title{
 
-        --text-size:
-            clamp(1.8rem, 9vw, 3rem);
+        width:96vw;
 
-        --beach-height:
-            50px;
+        font-size:
+            clamp(1.5rem,8vw,2.8rem);
+
+        line-height:1.15;
+
+        gap:6px;
+
+        padding:10px;
     }
 
-    h1{
-        top:46%;
+    .emoji{
+
+        font-size:
+            clamp(1.2rem,6vw,2.2rem);
+    }
+
+    .word{
+        white-space:normal;
     }
 
     #morning .wave{
+
         width:380%;
-        left:-160%;
+        left:-170%;
     }
 }
-
-/* =========================================================
-   HÖHE KLEIN
-========================================================= */
 
 @media (max-height:500px){
 
-    h1{
-        top:42%;
-        font-size:clamp(1.5rem,5vw,2.5rem);
+    .title{
+
+        top:45%;
+
+        font-size:
+            clamp(1.3rem,5vw,2rem);
     }
-}
 
-/* =========================================================
-   ULTRA WIDE
-========================================================= */
+    .emoji{
 
-@media (min-width:1800px){
-
-    h1{
-        max-width:1400px;
+        font-size:
+            clamp(1rem,4vw,1.8rem);
     }
 }
 
@@ -808,16 +890,16 @@ h1{
 
     </div>
 
-    <h1>
+    <h1 class="title">
 
         <span class="emoji">☀️</span>
-        Guten
+        <span class="word">Guten</span>
         <span class="emoji">☀️</span>
 
-        <span class="line"></span>
+        <span class="line-break"></span>
 
         <span class="emoji">☕</span>
-        Morgen
+        <span class="word">Morgen</span>
         <span class="emoji">☕</span>
 
     </h1>
@@ -856,16 +938,16 @@ h1{
     <div class="cloud cloud1"></div>
     <div class="cloud cloud2"></div>
 
-    <h1>
+    <h1 class="title">
 
         <span class="emoji">🌼</span>
-        Schönen
+        <span class="word">Schönen</span>
         <span class="emoji">🌼</span>
 
-        <span class="line"></span>
+        <span class="line-break"></span>
 
         <span class="emoji">🔆</span>
-        Guten Tag
+        <span class="word">Guten Tag</span>
         <span class="emoji">🔆</span>
 
     </h1>
@@ -887,16 +969,16 @@ h1{
         <div class="ufo">🛸</div>
     </div>
 
-    <h1>
+    <h1 class="title">
 
         <span class="emoji">🌙</span>
-        Guten
+        <span class="word">Guten</span>
         <span class="emoji">🌙</span>
 
-        <span class="line"></span>
+        <span class="line-break"></span>
 
         <span class="emoji">⭐</span>
-        Abend
+        <span class="word">Abend</span>
         <span class="emoji">⭐</span>
 
     </h1>
@@ -914,24 +996,27 @@ const hour =
 
 if(hour >= 5 && hour < 12){
 
-    document.getElementById("morning")
+    document
+        .getElementById("morning")
         .style.display = "block";
 }
 
 else if(hour >= 12 && hour < 18){
 
-    document.getElementById("day")
+    document
+        .getElementById("day")
         .style.display = "block";
 }
 
 else{
 
-    document.getElementById("evening")
+    document
+        .getElementById("evening")
         .style.display = "block";
 }
 
 /* ======================================================
-   ABEND ANIMATION
+   ABEND STERNE
 ====================================================== */
 
 const starCanvas =
@@ -971,10 +1056,6 @@ window.addEventListener(
     "resize",
     resizeCanvas
 );
-
-/* ======================================================
-   STERNE
-====================================================== */
 
 function createStars(){
 
@@ -1054,10 +1135,6 @@ function drawStars(){
         drawStars
     );
 }
-
-/* ======================================================
-   STERNSCHNUPPEN
-====================================================== */
 
 class ShootingStar{
 
