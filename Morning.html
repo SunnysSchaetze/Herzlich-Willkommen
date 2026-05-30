@@ -744,44 +744,33 @@ h1{
 </h1>
 
 <script>
-
 function createDolphin(){
+  const dolphin = document.createElement("div");
+  dolphin.className = "dolphin";
+  dolphin.innerHTML = "🐬";
 
-    const dolphin =
-        document.createElement("div");
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = 10 + Math.random() * 8;
 
-    dolphin.className = "dolphin";
+  dolphin.style.left = x + "px";
+  dolphin.style.bottom = y + "vh";
 
-    dolphin.innerHTML = "🐬";
+  document.body.appendChild(dolphin);
 
-    const x =
-        Math.random() * (window.innerWidth - 100);
-
-    const y =
-        10 + Math.random() * 8;
-
-    dolphin.style.left = x + "px";
-    dolphin.style.bottom = y + "vh";
-
-    document.body.appendChild(dolphin);
-
-    setTimeout(() => {
-        dolphin.remove();
-    },2000);
+  setTimeout(() => {
+    dolphin.remove();
+  }, 3500); // länger sichtbar
 }
 
 function spawnLoop(){
+  createDolphin();
 
-    createDolphin();
-
-    const next =
-        700 + Math.random() * 1500;
-
-    setTimeout(spawnLoop,next);
+  // deutlich seltener + zufälliger
+  const next = 2500 + Math.random() * 3000; 
+  setTimeout(spawnLoop, next);
 }
 
 spawnLoop();
-
 </script>
 
 </body>
